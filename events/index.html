@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Events — Shreyaah's Bliss Trails</title>
+<meta name="description" content="Current, upcoming and past gatherings — Alaap, book circles, sound healing, art therapy and mindful parenting sessions.">
+<link rel="icon" href="../assets/img/logo-mark.png">
+<link rel="stylesheet" href="../assets/css/style.css">
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="../index.html">
+      <img src="../assets/img/logo.png" alt="" width="42" height="42">
+      <span class="brand-name">Shreyaah's Bliss Trails<small>Kolkata</small></span>
+    </a>
+
+    <nav class="nav" aria-label="Primary">
+      <ul>
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../about/index.html">About</a></li>
+        <li><a href="../services/index.html">Services</a></li>
+        <li><a href="../events/index.html" aria-current="page">Events</a></li>
+        <li><a href="../products/index.html">Products</a></li>
+        <li><a href="../notice-board/index.html">Notice Board</a></li>
+        <li><a href="../contact/index.html">Contact</a></li>
+      </ul>
+    </nav>
+
+    <div class="header-actions">
+      <button class="icon-btn" type="button" data-open-search aria-label="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+      <a class="icon-btn" href="../products/index.html" aria-label="Cart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span class="badge" data-count="cart" hidden>0</span></a>
+      <a class="icon-btn" href="../members/index.html#wishlist" aria-label="Wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg><span class="badge" data-count="wishlist" hidden>0</span></a>
+      <a class="icon-btn" href="../members/index.html" aria-label="Your account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></a>
+      <a class="btn btn--primary btn--sm" href="../services/index.html#book">Book a Session</a>
+      <button class="icon-btn menu-toggle" type="button" data-open-menu aria-label="Open menu" aria-controls="drawer" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<div class="search-panel" id="search-panel" aria-hidden="true">
+  <div class="wrap">
+    <form class="search-form" role="search" data-demo-form>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" style="color:var(--ochre)"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input type="search" name="q" placeholder="Search sessions, events, products…" aria-label="Search this site">
+      <button class="icon-btn" type="button" data-close-search aria-label="Close search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    </form>
+    <div class="search-hint">
+      <span class="tiny muted" style="letter-spacing:.14em;text-transform:uppercase;">Try</span>
+      <a class="chip" href="../services/index.html#oracle">Oracle Card Reading</a>
+      <a class="chip" href="../events/index.html#alaap">Alaap</a>
+      <a class="chip" href="../products/index.html#candles">Soy Wax Candles</a>
+      <a class="chip" href="../products/index.html#planters">Terracotta Planters</a>
+      <a class="chip" href="../artisoul-tribe/index.html">The Artisoul Tribe</a>
+    </div>
+  </div>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-hidden="true" aria-label="Menu">
+  <div class="drawer-head">
+    <span class="brand-name" style="font-size:1rem">Shreyaah's Bliss Trails</span>
+    <button class="icon-btn" type="button" data-close-menu aria-label="Close menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+  </div>
+  <nav aria-label="Mobile">
+    <ul>
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../about/index.html">About</a></li>
+      <li><a href="../services/index.html">Services</a></li>
+      <li><a href="../events/index.html">Events</a></li>
+      <li><a href="../products/index.html">Products</a></li>
+      <li><a href="../notice-board/index.html">Notice Board</a></li>
+      <li><a href="../contact/index.html">Contact</a></li>
+      <li><a href="../artisoul-tribe/index.html">The Artisoul Tribe</a></li>
+      <li><a href="../members/index.html">Members Space</a></li>
+      <li><a href="../gift-card/index.html">E-Bliss Gift Card</a></li>
+      <li><a href="../faq/index.html">FAQ</a></li>
+      <li><a href="../special-offer/index.html">Special Offer</a></li>
+    </ul>
+  </nav>
+  <div class="drawer-foot">
+    <a class="btn btn--primary btn--block" href="../services/index.html#book">Book a Session</a>
+    <div class="row">
+      <a class="btn btn--ghost btn--sm" href="../members/index.html">Account</a>
+      <a class="btn btn--ghost btn--sm" href="../members/index.html#wishlist">Wishlist</a>
+    </div>
+  </div>
+</aside>
+
+<main id="main">
+  <!-- PAGE HEAD -->
+  <section class="page-head">
+    <div class="wash wash--peach" style="width:min(500px,52vw);height:300px;right:2%;top:-8%"></div>
+    <div class="scenery scenery--r"><img src="../assets/img/illus-gathering-table.jpg" alt=""></div>
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="../index.html">Home</a><span>/</span><span>Events</span>
+      </nav>
+      <p class="eyebrow">Gatherings</p>
+      <h1>What's unfolding now, next, and what came before</h1>
+      <p class="lead">Circles, workshops and community evenings. Several dates are still being
+         confirmed — those are marked plainly rather than dressed up.</p>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <nav class="anchor-nav" aria-label="On this page">
+      <a href="#current">Current</a>
+      <a href="#upcoming">Upcoming</a>
+      <a href="#past">Past</a>
+    </nav>
+  </div>
+
+  <!-- ============ CURRENT ============ -->
+  <section class="section" id="current" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">Now</p>
+        <h2>Current</h2>
+        <p>Open for registration.</p>
+      </div>
+
+      <!-- ALAAP -->
+      <article class="card reveal" id="alaap" style="padding:0;overflow:hidden">
+        <div class="split" style="gap:0;align-items:stretch">
+          <div style="padding:clamp(1.75rem,4vw,3rem)">
+            <div class="pills" style="margin-top:0">
+              <span class="pill pill--terra">Open for registration</span>
+              <span class="pill pill--gold">Limited places</span>
+            </div>
+            <h2 style="font-size:clamp(1.7rem,1.3rem+1.7vw,2.4rem);margin-top:.75rem">Alaap 01 — An Introduction…</h2>
+            <p class="event-theme" style="font-size:1.3rem">রবিঠাকুরের গান অমৃতসমান</p>
+
+            <p class="muted">Alaap is a community-based musical initiative built around the
+               songs we grew up with and the memories attached to them — guided listening,
+               singing and shared conversation. There is no training or audition required.
+               The first edition centres on the timeless songs of Rabindranath Tagore.</p>
+
+            <dl class="detail-grid">
+              <div><dt>Date</dt><dd>Sunday, 30 August 2026</dd></div>
+              <div><dt>Time</dt><dd>6:30 – 8:30 PM</dd></div>
+              <div><dt>Duration</dt><dd>2 hours</dd></div>
+              <div><dt>Venue</dt><dd>Legend and Legacy Café</dd></div>
+              <div><dt>Facilitator</dt><dd>Psychologist Indira Bandopadhyay</dd></div>
+              <div><dt>Contribution</dt><dd>₹499 per participant</dd></div>
+              <div><dt>Booking</dt><dd>Prior registration required</dd></div>
+              <div><dt>Who it's for</dt><dd>Anyone who grew up with these songs, or would like to</dd></div>
+            </dl>
+
+            <h4 class="mt-3">What your contribution covers</h4>
+            <p class="small muted mt-1">The musical experience, food, and a curated participant
+               kit — and a contribution towards Rotary Calcutta Elevates' Mother &amp; Child
+               wellbeing initiative. You are not simply purchasing an event; you are enjoying
+               something meaningful while contributing to meaningful work.</p>
+
+            <div class="flex flex-wrap gap-1 mt-3">
+              <a class="btn btn--primary" href="#register">Register</a>
+              <a class="btn btn--ghost" href="#rotary">The Rotary connection</a>
+            </div>
+          </div>
+
+          <div style="background:linear-gradient(160deg,var(--paper-warm),#F0E2C9);display:grid;place-items:center;padding:clamp(1.5rem,3vw,2.5rem);border-left:1px solid var(--rule-soft)">
+            <div class="center">
+              <div class="event-date" style="display:inline-block;background:var(--paper);padding:1.25rem 1.75rem">
+                <span class="d" style="font-size:3rem">30</span>
+                <span class="m">August</span>
+                <span class="y">2026 · Sunday</span>
+              </div>
+              <p class="script mt-2" style="font-size:1.35rem;max-width:22ch;margin-inline:auto">
+                The songs we grew up with, and the memories attached to them
+              </p>
+              <img src="../assets/img/illus-moon-circle.jpg" alt="" loading="lazy" style="margin-top:1.5rem;border-radius:2px;opacity:.9;mix-blend-mode:multiply">
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- ROTARY -->
+      <div class="card card--soft mt-3 reveal" id="rotary" data-d="1">
+        <p class="eyebrow">Alaap × Rotary Calcutta Elevates</p>
+        <h3>Why this is a community initiative, not just an evening out</h3>
+        <p class="muted small mt-2">Alaap is developed as a community engagement initiative
+           aligned with Rotary's larger purpose of service and social impact, creating value
+           across three connected areas.</p>
+
+        <div class="grid grid-3 mt-3">
+          <div>
+            <p class="k" style="font-size:.68rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ochre);margin-bottom:.4rem">Health &amp; well-being</p>
+            <p class="small muted">Music-based community engagement provides a positive
+               environment for emotional expression, relaxation, social connection and mental
+               well-being — an accessible platform where people can pause, connect and
+               participate in a shared experience.</p>
+          </div>
+          <div>
+            <p class="k" style="font-size:.68rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ochre);margin-bottom:.4rem">Vocational promotion</p>
+            <p class="small muted">It creates opportunities for musicians, facilitators,
+               psychologists, artists, event professionals and other creative practitioners to
+               share their expertise meaningfully — and in the longer term can become a
+               platform for showcasing and supporting creative talent.</p>
+          </div>
+          <div>
+            <p class="k" style="font-size:.68rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ochre);margin-bottom:.4rem">Public image &amp; engagement</p>
+            <p class="small muted">It gives Rotary a warm, accessible and culturally relevant
+               point of contact — allowing people to experience Rotary's values through
+               participation and giving back, rather than through formal service activities
+               alone.</p>
+          </div>
+        </div>
+
+        <div class="callout mt-3" style="background:rgba(218,138,103,.09);border-color:rgba(218,138,103,.3)">
+          <h4>The #PayItForward model</h4>
+          <p class="small muted mt-1">This anchors the whole initiative: a direct bridge
+             between a community experience and a Rotary service project. Each participant's
+             contribution covers the musical experience, food and a curated participant kit,
+             while also contributing towards Rotary Calcutta Elevates' Mother &amp; Child
+             wellbeing initiative.</p>
+          <p class="small muted">Success is measured by the funds generated for service
+             initiatives, the visibility and engagement created for Rotary, and the sustainable
+             mechanism it establishes for ongoing community participation to support identified
+             Rotary service projects.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ UPCOMING ============ -->
+  <section class="section" id="upcoming" style="position:relative">
+    <div class="scenery scenery--bl"><img src="../assets/img/illus-many-ways.jpg" alt=""></div>
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">Next</p>
+        <h2>Upcoming</h2>
+        <p>Six sessions are being planned. Dates and fees are still being set — we would
+           rather show them as open than post a date we cannot keep.</p>
+      </div>
+
+      <div class="draft reveal" data-editable style="max-width:760px">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01"/><circle cx="12" cy="12" r="9"/></svg>
+        <div><strong>Dates to be confirmed</strong><br>
+        All six sessions below currently show <em>date and time TBD</em>, and the ₹0.00 shown
+        against them reflects that no fee has been set — not that they are free. Each should
+        move into Current once a firm date is agreed, and into Past once it concludes.</div>
+      </div>
+
+      <div class="grid grid-2 mt-3">
+        <article class="event event--upcoming reveal">
+          <div class="event-date tbd"><span class="d">Date<br>TBD</span></div>
+          <div>
+            <h3>Beyond the Pages with Geetu</h3>
+            <p>A guided online circle exploring a book on trauma, healing and the human mind —
+               weekly sessions, worksheets and reflection.</p>
+            <div class="pills">
+              <span class="pill pill--blue">Online · GMeet</span>
+              <span class="pill">Book Club Special (B.F.F.)</span>
+              <span class="pill pill--gold">Led by Geetu Thackur</span>
+            </div>
+            <p class="tiny muted">Fee to be confirmed.</p>
+          </div>
+        </article>
+
+        <article class="event event--upcoming reveal" data-d="1">
+          <div class="event-date tbd"><span class="d">Date<br>TBD</span></div>
+          <div>
+            <h3>B.F.F. — Books, Films &amp; Fandoms</h3>
+            <p>A warm, witty fandom meetup for books, series, film, music, trivia and board
+               games.</p>
+            <div class="pills">
+              <span class="pill">Kolkata</span>
+              <span class="pill pill--gold">Book Club read: Alice in Wonderland</span>
+            </div>
+            <p class="tiny muted">Fee to be confirmed.</p>
+          </div>
+        </article>
+
+        <article class="event event--upcoming reveal" data-d="2">
+          <div class="event-date tbd"><span class="d">Date<br>TBD</span></div>
+          <div>
+            <h3>Kalā Bhāva — Art Therapy</h3>
+            <p>An introductory art therapy workshop using colours, textures and guided themes
+               for emotional release and self-awareness.</p>
+            <div class="pills">
+              <span class="pill">Kolkata</span>
+              <span class="pill pill--sage">Introductory</span>
+            </div>
+            <p class="tiny muted">Fee to be confirmed.</p>
+          </div>
+        </article>
+
+        <article class="event event--upcoming reveal" data-d="3">
+          <div class="event-date tbd"><span class="d">Date<br>TBD</span></div>
+          <div>
+            <h3>Nāda Ananda — Sound Healing</h3>
+            <p>A restorative sound healing workshop using singing bowls, chimes and
+               vibrational instruments.</p>
+            <div class="pills">
+              <span class="pill">Kolkata</span>
+              <span class="pill pill--sage">Restorative</span>
+            </div>
+            <p class="tiny muted">Fee to be confirmed.</p>
+          </div>
+        </article>
+
+        <article class="event event--upcoming reveal" data-d="4">
+          <div class="event-date tbd"><span class="d">Date<br>TBD</span></div>
+          <div>
+            <h3>Curious about — Mindful Parenting?</h3>
+            <p>An interactive awareness session on mindful, emotionally present parenting.</p>
+            <div class="pills">
+              <span class="pill">Location TBD</span>
+              <span class="pill pill--gold">Led by Sourish Choudhury</span>
+            </div>
+            <p class="tiny muted">Fee to be confirmed.</p>
+          </div>
+        </article>
+
+        <article class="event event--upcoming reveal" data-d="5">
+          <div class="event-date tbd"><span class="d">Date<br>TBD</span></div>
+          <div>
+            <h3>Curious about — Yoga? An Honest Introduction</h3>
+            <p>A myth-busting yoga awareness meet for beginners, returners, and anyone who has
+               felt yoga “wasn't for them.”</p>
+            <div class="pills">
+              <span class="pill">Kolkata</span>
+              <span class="pill pill--sage">Beginners welcome</span>
+            </div>
+            <p class="tiny muted">Fee to be confirmed.</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="callout mt-3 reveal">
+        <div class="split" style="align-items:center;gap:2rem">
+          <div>
+            <h3>Want to hear when a date is set?</h3>
+            <p class="muted small mt-1">Members of The Artisoul Tribe get event
+               pre-registration windows through the members-only Bulletin.</p>
+          </div>
+          <div class="flex flex-wrap gap-1" style="justify-content:flex-end">
+            <a class="btn btn--ghost btn--sm" href="../artisoul-tribe/index.html">The Artisoul Tribe</a>
+            <a class="btn btn--primary btn--sm" href="../contact/index.html">Ask us</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PAST ============ -->
+  <section class="section" id="past">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">Before</p>
+        <h2>Past</h2>
+        <p>Where we have material, past events become short stories rather than archived
+           posters — what happened, who came, and what people said.</p>
+      </div>
+
+      <div class="empty reveal" data-d="1">
+        <span class="motif">
+          <svg width="38" height="38" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round">
+            <path d="M8 32c6-2 10-6 12-12M20 20c2-6 6-10 12-12"/>
+            <circle cx="8" cy="32" r="2"/><circle cx="32" cy="8" r="2"/>
+            <path d="M14 30h.01M24 14h.01"/>
+          </svg>
+        </span>
+        <h3>No past events to display yet</h3>
+        <p>No completed events are on record from the current site content. Once Alaap 01 and
+           the sessions above conclude, they will be moved here with a short recap,
+           photographs, participant feedback and the collaborators involved.</p>
+      </div>
+
+      <div class="draft reveal" data-editable style="max-width:760px;margin-inline:auto">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01"/><circle cx="12" cy="12" r="9"/></svg>
+        <div><strong>Editable placeholder</strong><br>
+        Each past event should carry: what the event was, when it was held, what happened, who
+        participated, photographs, feedback and collaborators. Nothing has been written on a
+        participant's behalf.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ REGISTER ============ -->
+  <section class="section" id="register" style="position:relative">
+    <div class="wash wash--gold" style="width:min(460px,48vw);height:280px;right:-4%;top:6%"></div>
+    <div class="wrap">
+      <div class="split" style="align-items:start;gap:clamp(2rem,5vw,4rem)">
+        <div class="reveal">
+          <p class="eyebrow">Reserve a Place</p>
+          <h2>Event registration</h2>
+          <p class="muted">Places at Alaap 01 are limited and prior registration is required.
+             For the sessions still marked TBD, register your interest and we will write to
+             you as soon as a date is set.</p>
+
+          <div class="info-row mt-3">
+            <div><p class="k">Cancellation</p><p class="v" style="font-size:.95rem">Event cancellation and refund terms follow the studio policy</p></div>
+            <div><p class="k">Accessibility</p><p class="v" style="font-size:.95rem">Tell us what you need and we will do our best</p></div>
+          </div>
+          <p class="tiny muted mt-2">Venue accessibility details for Legend and Legacy Café have
+             not been confirmed with us. If step-free access, seating or any other arrangement
+             matters to you, please ask before booking and we will check.</p>
+        </div>
+
+        <form class="card reveal" data-d="1" data-demo-form>
+          <h3 style="font-size:1.25rem">Register your interest</h3>
+
+          <div class="field mt-2">
+            <label for="e-event">Which event <span class="req">*</span></label>
+            <select id="e-event" name="event" required>
+              <option value="">Choose…</option>
+              <option>Alaap 01 — An Introduction… (30 Aug 2026, ₹499)</option>
+              <option>Beyond the Pages with Geetu — notify me</option>
+              <option>B.F.F. — Books, Films &amp; Fandoms — notify me</option>
+              <option>Kalā Bhāva — Art Therapy — notify me</option>
+              <option>Nāda Ananda — Sound Healing — notify me</option>
+              <option>Curious about — Mindful Parenting? — notify me</option>
+              <option>Curious about — Yoga? — notify me</option>
+            </select>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="e-name">Full name <span class="req">*</span></label>
+              <input id="e-name" name="name" type="text" required autocomplete="name">
+            </div>
+            <div class="field">
+              <label for="e-places">Places</label>
+              <input id="e-places" name="places" type="number" min="1" max="10" value="1">
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="e-phone">Phone / WhatsApp <span class="req">*</span></label>
+              <input id="e-phone" name="phone" type="tel" required autocomplete="tel" placeholder="+91">
+            </div>
+            <div class="field">
+              <label for="e-email">Email <span class="req">*</span></label>
+              <input id="e-email" name="email" type="email" required autocomplete="email">
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="e-access">Access or dietary needs</label>
+            <textarea id="e-access" name="access" style="min-height:90px" placeholder="Anything that would help us host you well."></textarea>
+          </div>
+
+          <button class="btn btn--primary btn--block" type="submit">Register</button>
+
+          <div class="draft mt-2" data-form-note hidden>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01"/><circle cx="12" cy="12" r="9"/></svg>
+            <div><strong>Not yet connected</strong><br>
+            No registration system is connected yet. Please send the same details on
+            <a class="a-inline" href="https://wa.me/919836783088">WhatsApp</a> or to
+            <a class="a-inline" href="mailto:connectwdls@gmail.com">connectwdls@gmail.com</a>
+            to confirm your place.</div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <svg class="footer-sprig footer-sprig--l" viewBox="0 0 120 160" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true">
+    <path d="M60 158V30"/><path d="M60 120c-16 0-26-10-28-24 14-2 26 6 28 24z"/>
+    <path d="M60 96c16 0 26-10 28-24-14-2-26 6-28 24z"/><path d="M60 70c-14 0-23-9-25-21 12-2 23 5 25 21z"/>
+    <path d="M60 46c13 0 21-8 23-19-11-2-21 5-23 19z"/><circle cx="60" cy="26" r="4"/>
+  </svg>
+  <svg class="footer-sprig footer-sprig--r" viewBox="0 0 120 160" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true">
+    <path d="M60 158V30"/><path d="M60 120c-16 0-26-10-28-24 14-2 26 6 28 24z"/>
+    <path d="M60 96c16 0 26-10 28-24-14-2-26 6-28 24z"/><path d="M60 70c-14 0-23-9-25-21 12-2 23 5 25 21z"/>
+    <path d="M60 46c13 0 21-8 23-19-11-2-21 5-23 19z"/><circle cx="60" cy="26" r="4"/>
+  </svg>
+
+  <div class="wrap wrap--wide">
+    <div class="footer-top">
+      <div class="footer-about">
+        <div class="footer-brand">
+          <img src="../assets/img/logo.png" alt="" width="46" height="46">
+          <span class="n">Shreyaah's<br>Bliss Trails</span>
+        </div>
+        <p>A soulful space of curated treasures, mindful living and holistic wellness —
+           timeless to trendy, handcrafted with care.</p>
+        <div class="socials">
+          <a href="https://www.instagram.com/designzlife8" aria-label="Instagram" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".8" fill="currentColor"/></svg></a>
+          <a href="https://www.facebook.com/DESIGNZLIFE8" aria-label="Facebook" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 9h3V6h-3c-2.2 0-4 1.8-4 4v2H8v3h2v7h3v-7h3l1-3h-4v-2c0-.6.4-1 1-1z"/></svg></a>
+          <a href="https://www.threads.net/@designzlife8" aria-label="Threads" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M16 8.5c-.8-2-2.4-3-4.4-3C8.4 5.5 6.5 8 6.5 12s1.9 6.5 5.1 6.5c2.6 0 4.4-1.5 4.4-3.4 0-1.7-1.4-2.8-3.6-2.8-1.6 0-2.7.7-2.7 1.7 0 .8.6 1.3 1.5 1.3 1.4 0 2.3-1.2 2.3-3.1"/></svg></a>
+          <a href="https://x.com/DesignzLife8" aria-label="X" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 4h2.6l-5.7 6.5L21 20h-5.2l-4.1-5.4L6.9 20H4.3l6.1-7L3.5 4h5.4l3.7 4.9zm-.9 14.4h1.4L8.4 5.5H6.9z"/></svg></a>
+          <a href="https://wa.me/919836783088" aria-label="WhatsApp Channel" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2m0 2a8 8 0 1 1-4.1 14.9l-.3-.2-2.6.7.7-2.5-.2-.3A8 8 0 0 1 12 4m-3 4c-.2 0-.5.1-.7.3-.3.3-.8.8-.8 1.8s.8 2 .9 2.2c.1.1 1.5 2.4 3.7 3.3 1.9.7 2.3.6 2.7.6.5 0 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1l-.6-.3-1.4-.7c-.2-.1-.4-.1-.5.1l-.7.9c-.1.2-.3.2-.5.1a6 6 0 0 1-1.8-1.1 7 7 0 0 1-1.2-1.6c-.1-.2 0-.3.1-.4l.4-.5.2-.4v-.4L9.6 8.4C9.4 8 9.2 8 9 8"/></svg></a>
+        </div>
+      </div>
+
+      <div>
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="../about/index.html">About</a></li>
+          <li><a href="../services/index.html">Services</a></li>
+          <li><a href="../events/index.html">Events</a></li>
+          <li><a href="../products/index.html">Products</a></li>
+          <li><a href="../notice-board/index.html">Notice Board</a></li>
+          <li><a href="../artisoul-tribe/index.html">The Artisoul Tribe</a></li>
+          <li><a href="../members/index.html">Members Space</a></li>
+          <li><a href="../gift-card/index.html">E-Bliss Gift Card</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Services</h4>
+        <ul>
+          <li><a href="../services/index.html#personal">Personal Journeys</a></li>
+          <li><a href="../services/index.html#collective">Collective Circles</a></li>
+          <li><a href="../services/index.html#custom">Custom Collaborations</a></li>
+          <li><a href="../services/index.html#book">Book a Session</a></li>
+          <li><a href="../faq/index.html">FAQ</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="tel:+919830859755">+91 98308 59755</a></li>
+          <li><a href="tel:+919836783088">+91 98367 83088</a></li>
+          <li><a href="mailto:connectwdls@gmail.com">connectwdls@gmail.com</a></li>
+          <li><a href="../contact/index.html">Individual enquiries</a></li>
+          <li><a href="../contact/index.html#corporate">Corporate &amp; collaboration</a></li>
+        </ul>
+        <p class="tiny" style="color:rgba(232,223,207,.42);margin-top:1rem;max-width:30ch">
+          Designz Life Studio, Santoshpur Avenue, opposite Modern View Apartments,
+          Rani Rashmoni Bagan, Santoshpur, Kolkata, West Bengal.
+        </p>
+      </div>
+    </div>
+
+    <div class="footer-legal">
+      <a href="../legal/index.html#privacy">Privacy</a>
+      <a href="../legal/index.html#terms">Terms</a>
+      <a href="../legal/index.html#refund">Refund &amp; Cancellation</a>
+      <a href="../legal/index.html#shipping">Shipping</a>
+      <a href="../legal/index.html#booking">Booking Policy</a>
+      <a href="../legal/index.html#membership">Membership Terms</a>
+      <a href="../legal/index.html#giftcard">Gift Card Terms</a>
+      <a href="../legal/index.html#cookies">Cookies</a>
+      <span class="copy">© <span data-year>2026</span> Shreyaah's Bliss Trails · Made with love in India</span>
+    </div>
+
+    <p class="footer-disclaimer">
+      <strong style="color:rgba(232,223,207,.6)">Please note:</strong>
+      Oracle card reading and our other sessions are guidance-oriented services intended to
+      support self-reflection, inner growth and general well-being. They do not replace
+      medical, legal, financial or professional advice. Clients remain responsible for their
+      own decisions and actions following a session. Product descriptions reflect traditional
+      and aromatherapy associations and are not medical claims.
+    </p>
+  </div>
+</footer>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>
