@@ -352,26 +352,17 @@ p:last-child { margin-bottom: 0; }
    Illustration treatments — washed edges, never overpowering text
    ========================================================================== */
 
-/* Illustration with soft feathered edge, as if painted onto the page */
+/* Illustration, painted directly onto the page: each source image has its own
+   paper tone stretched to pure white and its edge dissolved into an irregular
+   watercolour bleed at the pixel level (see scratchpad/pdftools/paint.mjs),
+   so mix-blend-mode: multiply makes the white vanish and only pigment remains. */
 .illus {
   position: relative;
   display: block;
 }
 .illus img {
   width: 100%;
-  border-radius: 2px;
-  -webkit-mask-image: radial-gradient(ellipse 88% 86% at 50% 50%, #000 52%, transparent 96%);
-          mask-image: radial-gradient(ellipse 88% 86% at 50% 50%, #000 52%, transparent 96%);
   mix-blend-mode: multiply;
-}
-.illus--framed img {
-  -webkit-mask-image: none;
-          mask-image: none;
-  mix-blend-mode: normal;
-  border: 1px solid var(--rule-soft);
-  box-shadow: var(--shadow-paper);
-  background: var(--paper);
-  padding: clamp(.5rem, 1.4vw, 1rem);
 }
 
 /* Faint scenery layer sitting behind a section */
@@ -384,8 +375,6 @@ p:last-child { margin-bottom: 0; }
 }
 .scenery img {
   width: 100%;
-  -webkit-mask-image: radial-gradient(ellipse 78% 76% at 50% 50%, #000 30%, transparent 88%);
-          mask-image: radial-gradient(ellipse 78% 76% at 50% 50%, #000 30%, transparent 88%);
 }
 .scenery--r  { right: -6%;  top: 6%;   width: min(430px, 42vw); opacity: .13; }
 .scenery--l  { left: -7%;   top: 12%;  width: min(400px, 40vw); opacity: .12; }
