@@ -80,17 +80,18 @@ html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
    (plain white) instead of the paper. A background on the root element is
    the document canvas per spec, and every blend-mode element composites
    against it correctly regardless of intervening stacking contexts. */
-html,
-/* .wrap gets z-index inside .section / .page-head to sit above the decorative
-   scenery/wash layers — but position + z-index makes .wrap its own stacking
-   context, and a mix-blend-mode descendant can only blend against paint that
-   happens inside its OWN nearest stacking context, not an ancestor's. So the
-   paper background has to be repeated here too, or illustrations inside .wrap
-   blend against nothing and show up as plain white boxes. background-attachment:
-   fixed keeps every copy pinned to the viewport, so they align perfectly with
-   each other and with html's copy — no seams between sections. */
-.section > .wrap,
-.page-head .wrap {
+/* Handmade paper ground — painted exactly ONCE, here on the root element.
+   Nothing else in the page repaints it. Two separately painted copies of the
+   same background (previously on .wrap as well) meet at a boundary, and even
+   with identical CSS those two paints don't land identically — which showed
+   as a faint but hard-edged box wherever a decorative illustration bled
+   across .wrap's edge. One paint for the whole page = no boundary to see.
+
+   For this to work, nothing between an illustration and <html> may create a
+   stacking context, or mix-blend-mode:multiply gets walled off from this
+   background and the illustration renders as a white block instead. That's
+   why .wrap / .scenery / .wash below deliberately carry no z-index. */
+html {
   background-color: var(--cream);
   background-image:
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.16'/%3E%3C/svg%3E"),
@@ -386,27 +387,15 @@ p:last-child { margin-bottom: 0; }
   mix-blend-mode: multiply;
 }
 
-/* Faint scenery layer sitting behind a section. z-index:0 + position:absolute
-   makes .scenery its own stacking context too (same trap as .wrap and
-   .split--sticky .illus above), so its own mix-blend-mode needs the same
-   local paper background or it blends against nothing. */
+/* Faint scenery layer sitting behind a section. No z-index on purpose — see
+   the note on html's background above: an explicit z-index here would make
+   this its own stacking context and wall its mix-blend-mode off from the
+   page background. Document order already puts it behind .wrap's content. */
 .scenery {
   position: absolute;
   pointer-events: none;
   user-select: none;
-  z-index: 0;
   mix-blend-mode: multiply;
-  background-color: var(--cream);
-  background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.16'/%3E%3C/svg%3E"),
-    radial-gradient(ellipse 70% 50% at 15% 0%,   rgba(253,222,192,.55), transparent 60%),
-    radial-gradient(ellipse 60% 45% at 88% 12%,  rgba(118,158,176,.13), transparent 62%),
-    radial-gradient(ellipse 55% 40% at 50% 100%, rgba(218,138,103,.10), transparent 65%),
-    url('../img/paper-texture.jpg');
-  background-repeat: repeat, no-repeat, no-repeat, no-repeat, repeat;
-  background-size: 220px 220px, auto, auto, auto, 700px 700px;
-  background-attachment: fixed, fixed, fixed, fixed, fixed;
-  background-blend-mode: normal, multiply, multiply, multiply, normal;
 }
 .scenery img {
   width: 100%;
@@ -418,12 +407,15 @@ p:last-child { margin-bottom: 0; }
 .scenery--c  { left: 50%; top: 50%; transform: translate(-50%,-50%); width: min(760px, 78vw); opacity: .07; }
 @media (max-width: 760px) { .scenery { opacity: .07 !important; } }
 
-.section > .wrap { position: relative; z-index: 1; }
+/* No z-index: .scenery/.wash are written before .wrap in the markup, and
+   positioned elements without a z-index paint in document order, so .wrap
+   still sits above them — without becoming a stacking context that would
+   cut its illustrations off from the page background. */
+.section > .wrap { position: relative; }
 
 /* Watercolour wash blob behind a block */
 .wash {
   position: absolute;
-  z-index: 0;
   pointer-events: none;
   filter: blur(38px);
   opacity: .5;
@@ -669,7 +661,7 @@ body.no-scroll { overflow: hidden; }
      cutting across it. body already has overflow-x:hidden globally, so this
      isn't needed to prevent a horizontal scrollbar. */
 }
-.page-head .wrap { position: relative; z-index: 2; }
+.page-head .wrap { position: relative; }
 .page-head h1 { margin-bottom: .35em; }
 .page-head .lead { max-width: 640px; }
 
