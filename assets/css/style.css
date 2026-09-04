@@ -387,6 +387,27 @@ p:last-child { margin-bottom: 0; }
   mix-blend-mode: multiply;
 }
 
+/* Homepage hero illustration. Deliberately wider than its own column and
+   pulled left, so it bleeds into the gap and reads at full presence without
+   running off the right edge of the window. The percentages ease back on
+   narrower windows, where there is less room either side to bleed into, and
+   reset entirely once the hero stacks to a single column.
+
+   Must sit after .illus img — same specificity, so source order decides.
+   Kept as a class rather than an inline style so the breakpoints below can
+   actually take effect; an inline width would outrank a media query. */
+.hero-illus img {
+  width: 125%;
+  max-width: none;
+  margin-left: -8%;
+}
+@media (max-width: 1100px) {
+  .hero-illus img { width: 118%; margin-left: -6%; }
+}
+@media (max-width: 860px) {
+  .hero-illus img { width: 100%; margin-left: 0; }
+}
+
 /* Faint scenery layer sitting behind a section. No z-index on purpose — see
    the note on html's background above: an explicit z-index here would make
    this its own stacking context and wall its mix-blend-mode off from the
