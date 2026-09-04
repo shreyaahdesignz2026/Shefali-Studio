@@ -72,6 +72,37 @@ html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
+/* Handmade paper ground: warm wash + fibre texture + fine grain.
+   This lives on <html> as a real background (not a position:fixed
+   pseudo-element) — a fixed pseudo-element paints in its own layer that
+   sticky/positioned descendants can wall off from, so mix-blend-mode:multiply
+   on illustrations further down the tree ends up blending against nothing
+   (plain white) instead of the paper. A background on the root element is
+   the document canvas per spec, and every blend-mode element composites
+   against it correctly regardless of intervening stacking contexts. */
+html,
+/* .wrap gets z-index inside .section / .page-head to sit above the decorative
+   scenery/wash layers — but position + z-index makes .wrap its own stacking
+   context, and a mix-blend-mode descendant can only blend against paint that
+   happens inside its OWN nearest stacking context, not an ancestor's. So the
+   paper background has to be repeated here too, or illustrations inside .wrap
+   blend against nothing and show up as plain white boxes. background-attachment:
+   fixed keeps every copy pinned to the viewport, so they align perfectly with
+   each other and with html's copy — no seams between sections. */
+.section > .wrap,
+.page-head .wrap {
+  background-color: var(--cream);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.16'/%3E%3C/svg%3E"),
+    radial-gradient(ellipse 70% 50% at 15% 0%,   rgba(253,222,192,.55), transparent 60%),
+    radial-gradient(ellipse 60% 45% at 88% 12%,  rgba(118,158,176,.13), transparent 62%),
+    radial-gradient(ellipse 55% 40% at 50% 100%, rgba(218,138,103,.10), transparent 65%),
+    url('../img/paper-texture.jpg');
+  background-repeat: repeat, no-repeat, no-repeat, no-repeat, repeat;
+  background-size: 220px 220px, auto, auto, auto, 700px 700px;
+  background-attachment: fixed, fixed, fixed, fixed, fixed;
+  background-blend-mode: normal, multiply, multiply, multiply, normal;
+}
 body {
   margin: 0;
   font-family: var(--sans);
@@ -79,36 +110,9 @@ body {
   font-size: clamp(1rem, .96rem + .18vw, 1.075rem);
   line-height: 1.72;
   color: var(--text);
-  background-color: var(--cream);
+  background: transparent;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
-}
-
-/* Handmade paper ground: warm wash + fibre texture + fine grain */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: -2;
-  background-color: var(--cream);
-  background-image:
-    radial-gradient(ellipse 70% 50% at 15% 0%,   rgba(253,222,192,.55), transparent 60%),
-    radial-gradient(ellipse 60% 45% at 88% 12%,  rgba(118,158,176,.13), transparent 62%),
-    radial-gradient(ellipse 55% 40% at 50% 100%, rgba(218,138,103,.10), transparent 65%),
-    url('../img/paper-texture.jpg');
-  background-size: auto, auto, auto, 700px 700px;
-  background-repeat: no-repeat, no-repeat, no-repeat, repeat;
-  background-blend-mode: multiply, multiply, multiply, normal;
-}
-/* fine paper grain */
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  opacity: .5;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.32'/%3E%3C/svg%3E");
 }
 
 img { max-width: 100%; height: auto; display: block; }
@@ -343,9 +347,26 @@ p:last-child { margin-bottom: 0; }
 @media (max-width: 860px) { .split, .split--narrow-img { grid-template-columns: 1fr; } }
 
 /* Where an illustration sits beside a long text column, let it ride along
-   rather than float in the middle of its own empty half. */
+   rather than float in the middle of its own empty half. position:sticky
+   always creates its own stacking context (same issue as .wrap's z-index
+   above), so this needs its own copy of the paper background too, or the
+   blend-mode image inside loses sight of the page and shows as a white box. */
 @media (min-width: 861px) {
-  .split--sticky > .illus { position: sticky; top: 108px; }
+  .split--sticky > .illus {
+    position: sticky;
+    top: 108px;
+    background-color: var(--cream);
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.16'/%3E%3C/svg%3E"),
+      radial-gradient(ellipse 70% 50% at 15% 0%,   rgba(253,222,192,.55), transparent 60%),
+      radial-gradient(ellipse 60% 45% at 88% 12%,  rgba(118,158,176,.13), transparent 62%),
+      radial-gradient(ellipse 55% 40% at 50% 100%, rgba(218,138,103,.10), transparent 65%),
+      url('../img/paper-texture.jpg');
+    background-repeat: repeat, no-repeat, no-repeat, no-repeat, repeat;
+    background-size: 220px 220px, auto, auto, auto, 700px 700px;
+    background-attachment: fixed, fixed, fixed, fixed, fixed;
+    background-blend-mode: normal, multiply, multiply, multiply, normal;
+  }
 }
 
 /* ==========================================================================
