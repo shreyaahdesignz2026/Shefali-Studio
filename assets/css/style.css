@@ -1553,6 +1553,115 @@ body.no-scroll { overflow: hidden; }
   text-transform: uppercase;
 }
 
+/* ==========================================================================
+   Cart & wishlist lines
+   ========================================================================== */
+.line {
+  display: grid;
+  grid-template-columns: 92px 1fr auto auto auto;
+  gap: clamp(.9rem, 2vw, 1.5rem);
+  align-items: center;
+  padding: 1.15rem 0;
+  border-bottom: 1px solid var(--rule-soft);
+}
+.line:first-child { border-top: 1px solid var(--rule-soft); }
+/* Wishlist rows have no quantity or line total, so they don't need those columns. */
+.line--simple { grid-template-columns: 92px 1fr auto; }
+.line-media {
+  width: 92px;
+  aspect-ratio: 1;
+  border: 1px solid var(--rule-soft);
+  border-radius: 2px;
+  background:
+    radial-gradient(ellipse 58% 52% at 32% 28%, rgba(218,138,103,.17), transparent 68%),
+    radial-gradient(ellipse 52% 48% at 74% 70%, rgba(118,158,176,.16), transparent 66%),
+    linear-gradient(160deg, var(--paper-warm), #F1E4CE);
+  position: relative;
+}
+.line-media::after {
+  content: '';
+  position: absolute;
+  inset: 22%;
+  opacity: .3;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 160' fill='none' stroke='%232B3A44' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M60 158V34'/%3E%3Cpath d='M60 124c-18 0-29-11-31-27 16-2 29 7 31 27z'/%3E%3Cpath d='M60 96c18 0 29-11 31-27-16-2-29 7-31 27z'/%3E%3Ccircle cx='60' cy='28' r='5'/%3E%3C/svg%3E");
+}
+.line-body .product-name { margin-bottom: .3rem; }
+.line-body .product-cat { margin-bottom: .3rem; }
+
+.qty { display: flex; align-items: center; gap: .2rem; }
+.qty-btn {
+  width: 30px; height: 30px;
+  display: grid; place-items: center;
+  border: 1px solid var(--rule);
+  background: rgba(255,255,255,.6);
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 1rem;
+  color: var(--slate);
+  transition: border-color .25s, color .25s, background-color .25s;
+}
+.qty-btn:hover { border-color: var(--terracotta); color: var(--brown); background: #fff; }
+.qty-n { min-width: 2ch; text-align: center; font-family: var(--serif2); font-size: 1.05rem; }
+
+.line-total { font-family: var(--serif2); font-size: 1.1rem; font-weight: 600; color: var(--slate); min-width: 5ch; text-align: right; }
+
+.line-remove {
+  width: 32px; height: 32px;
+  display: grid; place-items: center;
+  border: 0; background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-radius: 50%;
+  transition: color .25s, background-color .25s;
+}
+.line-remove:hover { color: var(--brown); background: rgba(218,138,103,.1); }
+.line-remove svg { width: 16px; height: 16px; }
+
+@media (max-width: 700px) {
+  .line { grid-template-columns: 68px 1fr auto; row-gap: .75rem; }
+  .line-media { width: 68px; }
+  .line-remove { grid-row: 1; grid-column: 3; align-self: start; }
+  .qty { grid-column: 2; }
+  .line-total { grid-column: 3; text-align: right; }
+}
+
+/* Cart lines beside the summary. Defined here rather than as an inline style
+   so the .split stacking breakpoint can still override it on narrow screens —
+   an inline grid-template-columns would win over the media query and leave
+   the summary jammed alongside the lines on mobile. */
+.split--cart {
+  grid-template-columns: 1.6fr .9fr;
+  align-items: start;
+  gap: clamp(2rem, 4vw, 3.5rem);
+}
+@media (max-width: 860px) {
+  .split--cart { grid-template-columns: 1fr; }
+  .cart-summary { position: static; }
+}
+
+.cart-summary {
+  background: var(--paper);
+  border: 1px solid var(--rule-soft);
+  border-radius: 2px;
+  padding: clamp(1.35rem, 3vw, 2rem);
+  box-shadow: var(--shadow-paper);
+  position: sticky;
+  top: 100px;
+}
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  padding-block: .55rem;
+}
+.summary-row + .summary-row { border-top: 1px dashed var(--rule); }
+.summary-row .k { color: var(--text-soft); font-size: .9rem; }
+.summary-row .v { font-family: var(--serif2); font-size: 1.3rem; font-weight: 600; color: var(--slate); }
+
 /* Toast */
 .toast {
   position: fixed;

@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>E-Bliss Gift Card — Shreyaah's Bliss Trails</title>
-<meta name="description" content="Give the gift of choice. E-Bliss Cards from ₹250 to ₹2,500, or any amount you decide.">
+<title>Your Cart — Shreyaah's Bliss Trails</title>
+<meta name="description" content="Everything you have set aside from the collection, in one place.">
 <link rel="icon" href="../assets/img/logo-mark.png">
 <link rel="stylesheet" href="../assets/css/style.css">
 <script>document.documentElement.classList.add('js');</script>
@@ -95,144 +95,72 @@
 <main id="main">
   <!-- PAGE HEAD -->
   <section class="page-head">
-    <div class="wash wash--gold" style="width:min(500px,52vw);height:300px;right:2%;top:-8%"></div>
+    <div class="wash wash--terra" style="width:min(480px,50vw);height:280px;right:2%;top:-8%"></div>
+    <div class="scenery scenery--r"><img src="../assets/img/illus-little-treasures.jpg" alt=""></div>
     <div class="wrap">
       <nav class="crumbs" aria-label="Breadcrumb">
-        <a href="../index.html">Home</a><span>/</span><span>E-Bliss Card</span>
+        <a href="../index.html">Home</a><span>/</span><span>Your Cart</span>
       </nav>
-      <p class="eyebrow">Gift Card</p>
-      <h1>The E-Bliss Card</h1>
-      <p class="lead">When you know someone would love something from here, but not which
-         thing. Put towards any product, or any session.</p>
+      <p class="eyebrow">Gathered So Far</p>
+      <h1>Your cart</h1>
+      <p class="lead">Everything you've set aside, in one place.</p>
     </div>
   </section>
 
-  <section class="section" style="padding-top:0">
+  <section class="section" style="padding-top:clamp(1.5rem,3vw,2.5rem)">
     <div class="wrap">
-      <div class="split" style="align-items:start;gap:clamp(2rem,5vw,4rem)">
 
-        <!-- LEFT: card + info -->
-        <div class="reveal">
-          <div class="giftcard">
-            <div class="gc-brand">
-              <img src="../assets/img/logo.png" alt="" width="34" height="34">
-              <span>Shreyaah's<br>Bliss Trails</span>
-            </div>
-            <div>
-              <p class="gc-label">E-Bliss Card</p>
-              <p class="gc-amt" data-gc-amount>₹500</p>
-            </div>
-          </div>
+      <!-- EMPTY STATE -->
+      <div class="empty" data-cart-empty hidden>
+        <span class="motif">
+          <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 4h2l2.4 11.2a1.6 1.6 0 0 0 1.6 1.3h8.2a1.6 1.6 0 0 0 1.6-1.2L21 8.5H6"/><circle cx="10" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/>
+          </svg>
+        </span>
+        <h3>Your cart is empty</h3>
+        <p>Nothing set aside yet. When you add something from the collection,
+           it will be waiting for you here.</p>
+        <div class="flex flex-wrap gap-1 mt-2" style="justify-content:center">
+          <a class="btn btn--primary btn--sm" href="../products/index.html">Browse the collection</a>
+          <a class="btn btn--ghost btn--sm" href="../wishlist/index.html">See your wishlist</a>
+        </div>
+      </div>
 
-          <div class="card mt-3">
-            <h4>How it works</h4>
-            <ol style="margin:1rem 0 0;padding-left:1.15rem;display:grid;gap:.7rem">
-              <li class="small muted">Choose an amount, or enter your own.</li>
-              <li class="small muted">Tell us who it's for and add a message if you'd like one.</li>
-              <li class="small muted">We send the card by email, on the date you choose.</li>
-              <li class="small muted">They put it towards any product or any session.</li>
-            </ol>
-          </div>
-
-          <div class="card card--soft mt-2">
-            <h4>Good to know</h4>
-            <ul class="mt-1" style="list-style:none;padding:0;display:grid;gap:.6rem">
-              <li class="small muted" style="display:flex;gap:.7rem"><span style="color:var(--ochre)">—</span> Usable against products and sessions alike.</li>
-              <li class="small muted" style="display:flex;gap:.7rem"><span style="color:var(--ochre)">—</span> Can be used across more than one order until the balance runs out.</li>
-              <li class="small muted" style="display:flex;gap:.7rem"><span style="color:var(--ochre)">—</span> Not exchangeable for cash.</li>
-              <li class="small muted" style="display:flex;gap:.7rem"><span style="color:var(--ochre)">—</span> Sessions booked with a card follow the standard <a class="a-inline" href="../services/index.html#policy">cancellation policy</a>.</li>
-            </ul>
-            <p class="mt-2"><a class="link" href="../legal/index.html#giftcard">Full gift card terms <span class="arw">→</span></a></p>
-          </div>
+      <!-- LINES + SUMMARY -->
+      <div class="split split--cart">
+        <div>
+          <div data-cart-page></div>
         </div>
 
-        <!-- RIGHT: form -->
-        <form class="card reveal" data-d="1" data-demo-form>
-          <h3 style="font-size:1.25rem">Choose an amount</h3>
-
-          <div class="amount-grid mt-2">
-            <label><input type="radio" name="gift-amount" value="250"> ₹250</label>
-            <label><input type="radio" name="gift-amount" value="500" checked> ₹500</label>
-            <label><input type="radio" name="gift-amount" value="1000"> ₹1,000</label>
-            <label><input type="radio" name="gift-amount" value="1500"> ₹1,500</label>
-            <label><input type="radio" name="gift-amount" value="2000"> ₹2,000</label>
-            <label><input type="radio" name="gift-amount" value="2500"> ₹2,500</label>
-            <label style="grid-column:span 2"><input type="radio" name="gift-amount" value="other"> Other amount</label>
+        <aside class="cart-summary" data-cart-summary hidden>
+          <h3 style="font-size:1.2rem;margin-bottom:.75rem">Summary</h3>
+          <div class="summary-row">
+            <span class="k">Subtotal</span>
+            <span class="v" data-subtotal>₹0</span>
           </div>
+          <p class="tiny muted mt-1" data-subtotal-note hidden></p>
 
-          <div class="field mt-2" id="gift-other" hidden>
-            <label for="g-custom">Your amount (₹)</label>
-            <input id="g-custom" name="customAmount" type="number" min="250" step="50" placeholder="e.g. 750">
-            <span class="hint">Minimum ₹250.</span>
-          </div>
-
-          <hr class="tear" style="margin:1.75rem 0">
-
-          <h3 style="font-size:1.25rem">Who is it for?</h3>
-          <div class="field-row mt-2">
-            <div class="field">
-              <label for="g-to">Recipient's name <span class="req">*</span></label>
-              <input id="g-to" name="to" type="text" required>
-            </div>
-            <div class="field">
-              <label for="g-to-email">Recipient's email <span class="req">*</span></label>
-              <input id="g-to-email" name="toEmail" type="email" required>
-            </div>
-          </div>
-
-          <div class="field-row">
-            <div class="field">
-              <label for="g-from">Your name <span class="req">*</span></label>
-              <input id="g-from" name="from" type="text" required autocomplete="name">
-            </div>
-            <div class="field">
-              <label for="g-send">Send on</label>
-              <input id="g-send" name="sendOn" type="date">
-            </div>
-          </div>
-
-          <div class="field">
-            <label for="g-msg">A message</label>
-            <textarea id="g-msg" name="message" maxlength="300" style="min-height:100px" placeholder="Written in your words, printed on the card."></textarea>
-            <span class="hint">Optional, up to 300 characters.</span>
-          </div>
-
-          <button class="btn btn--primary btn--block" type="submit">Continue</button>
-
-          <div class="draft mt-2" data-form-note hidden>
+          <div class="draft" data-editable>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01"/><circle cx="12" cy="12" r="9"/></svg>
-            <div><strong>Not yet connected</strong><br>
-            No payment system is connected yet, so no card can be issued from this page.
-            Please send the amount, recipient and message on
-            <a class="a-inline" href="https://wa.me/919836783088">WhatsApp</a> or to
-            <a class="a-inline" href="mailto:connectwdls@gmail.com">connectwdls@gmail.com</a>
-            and we will arrange it directly.</div>
+            <div><strong>Checkout not connected</strong><br>
+            No payment system is set up yet, so this cart can't be checked out from
+            the site. Shipping charges and taxes are therefore not calculated here
+            either. Send your list on WhatsApp or by email and we'll confirm
+            availability, the final total and delivery from there.</div>
           </div>
-        </form>
+
+          <a class="btn btn--primary btn--block" href="https://wa.me/919836783088">Send this list on WhatsApp</a>
+          <a class="btn btn--ghost btn--block mt-1" href="mailto:connectwdls@gmail.com">Email us instead</a>
+          <p class="mt-2"><a class="link" href="../products/index.html">Keep browsing <span class="arw">→</span></a></p>
+        </aside>
       </div>
+
+      <p class="tiny muted mt-3">Your cart is stored in this browser only — it isn't
+         sent to us, and it won't follow you to another device. Accounts aren't
+         open yet; once they are, this will move into your
+         <a class="a-inline" href="../members/index.html">Members Space</a>.</p>
     </div>
   </section>
-
-  <script>
-  (function () {
-    var out = document.querySelector('[data-gc-amount]');
-    var custom = document.getElementById('g-custom');
-    function fmt(v) { return '₹' + Number(v).toLocaleString('en-IN'); }
-    function paint() {
-      var sel = document.querySelector('input[name="gift-amount"]:checked');
-      if (!sel) return;
-      if (sel.value === 'other') {
-        out.textContent = custom && custom.value ? fmt(custom.value) : '₹—';
-      } else {
-        out.textContent = fmt(sel.value);
-      }
-    }
-    document.querySelectorAll('input[name="gift-amount"]').forEach(function (r) {
-      r.addEventListener('change', paint);
-    });
-    if (custom) custom.addEventListener('input', paint);
-  })();
-  </script>
 
 </main>
 

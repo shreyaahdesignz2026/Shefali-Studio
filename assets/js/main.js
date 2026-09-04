@@ -152,8 +152,40 @@
   function write(key, val) {
     try { localStorage.setItem(key, JSON.stringify(val)); } catch (e) {}
   }
+  /* Entries are {name, price, label, qty}. Anything saved by an older version
+     was a bare name string, so normalise on read rather than discarding it. */
+  function normalise(list) {
+    return (list || []).map(function (it) {
+      if (typeof it === 'string') return { name: it, price: null, label: '', qty: 1 };
+      it.qty = it.qty || 1;
+      return it;
+    });
+  }
+  function readCart() { return normalise(read(KEY_CART)); }
+  function readWish() { return normalise(read(KEY_WISH)); }
+
+  function itemOf(btn, attr) {
+    var price = btn.getAttribute('data-price');
+    return {
+      name: btn.getAttribute(attr),
+      price: price ? parseFloat(price.replace(/,/g, '')) : null,
+      label: btn.getAttribute('data-label') || '',
+      provisional: btn.getAttribute('data-provisional') === '1',
+      qty: 1
+    };
+  }
+  function indexOfName(list, name) {
+    for (var i = 0; i < list.length; i++) if (list[i].name === name) return i;
+    return -1;
+  }
+  function money(n) {
+    return '₹' + n.toLocaleString('en-IN', { minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 });
+  }
+
   function paintCounts() {
-    var c = read(KEY_CART).length, w = read(KEY_WISH).length;
+    var cart = readCart(), wish = readWish();
+    var c = cart.reduce(function (s, i) { return s + (i.qty || 1); }, 0);
+    var w = wish.length;
     $$('[data-count="cart"]').forEach(function (b) { b.textContent = c; b.hidden = c === 0; });
     $$('[data-count="wishlist"]').forEach(function (b) { b.textContent = w; b.hidden = w === 0; });
   }
@@ -175,30 +207,170 @@
 
   $$('[data-add-cart]').forEach(function (btn) {
     btn.addEventListener('click', function () {
-      var name = btn.getAttribute('data-add-cart');
-      var cart = read(KEY_CART);
-      cart.push(name);
+      var item = itemOf(btn, 'data-add-cart');
+      var cart = readCart();
+      var i = indexOfName(cart, item.name);
+      if (i > -1) cart[i].qty = (cart[i].qty || 1) + 1;
+      else cart.push(item);
       write(KEY_CART, cart);
       paintCounts();
-      toast(name + ' added to your cart');
+      renderCart();
+      toast(item.name + ' added to your cart');
     });
   });
 
   $$('.wish').forEach(function (btn) {
     var name = btn.getAttribute('data-wish');
-    var list = read(KEY_WISH);
-    if (name && list.indexOf(name) > -1) btn.setAttribute('aria-pressed', 'true');
+    if (name && indexOfName(readWish(), name) > -1) btn.setAttribute('aria-pressed', 'true');
     btn.addEventListener('click', function () {
-      var l = read(KEY_WISH);
-      var i = l.indexOf(name);
+      var l = readWish();
+      var i = indexOfName(l, name);
       if (i > -1) { l.splice(i, 1); btn.setAttribute('aria-pressed', 'false'); toast('Removed from wishlist'); }
-      else { l.push(name); btn.setAttribute('aria-pressed', 'true'); toast('Saved to your wishlist'); }
+      else { l.push(itemOf(btn, 'data-wish')); btn.setAttribute('aria-pressed', 'true'); toast('Saved to your wishlist'); }
       write(KEY_WISH, l);
       paintCounts();
+      renderWishlist();
     });
   });
 
+  /* ==========================================================
+     Cart and wishlist pages. Both render from the same
+     localStorage the header badges count, so they always agree.
+     ========================================================== */
+  function lineRow(it, idx, kind) {
+    var priceTxt = it.price == null
+      ? '<span class="muted small">Price on request</span>'
+      : money(it.price) + (it.provisional ? ' <em class="tiny" style="color:var(--brown);font-style:normal">to confirm</em>' : '');
+    var qtyCell = kind === 'cart'
+      ? '<div class="qty">' +
+          '<button type="button" class="qty-btn" data-qty="-1" data-i="' + idx + '" aria-label="Decrease quantity">&minus;</button>' +
+          '<span class="qty-n">' + (it.qty || 1) + '</span>' +
+          '<button type="button" class="qty-btn" data-qty="1" data-i="' + idx + '" aria-label="Increase quantity">+</button>' +
+        '</div>'
+      : '';
+    var lineTotal = kind === 'cart'
+      ? '<div class="line-total">' + (it.price != null ? money(it.price * (it.qty || 1)) : '') + '</div>'
+      : '';
+
+    return '<div class="line' + (kind === 'cart' ? '' : ' line--simple') + '">' +
+      '<div class="line-media" aria-hidden="true"></div>' +
+      '<div class="line-body">' +
+        (it.label ? '<p class="product-cat">' + it.label + '</p>' : '') +
+        '<h3 class="product-name">' + it.name + '</h3>' +
+        '<p class="price" style="font-size:1rem">' + priceTxt + '</p>' +
+      '</div>' +
+      qtyCell + lineTotal +
+      '<button type="button" class="line-remove" data-remove="' + idx + '" data-kind="' + kind + '" aria-label="Remove ' + it.name + '">' +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>' +
+      '</button>' +
+    '</div>';
+  }
+
+  function bindLineActions(root, kind) {
+    $$('[data-remove]', root).forEach(function (b) {
+      b.addEventListener('click', function () {
+        var key = kind === 'cart' ? KEY_CART : KEY_WISH;
+        var list = kind === 'cart' ? readCart() : readWish();
+        var removed = list.splice(parseInt(b.getAttribute('data-remove'), 10), 1)[0];
+        write(key, list);
+        paintCounts();
+        kind === 'cart' ? renderCart() : renderWishlist();
+        toast((removed ? removed.name : 'Item') + ' removed');
+      });
+    });
+    $$('[data-qty]', root).forEach(function (b) {
+      b.addEventListener('click', function () {
+        var cart = readCart();
+        var i = parseInt(b.getAttribute('data-i'), 10);
+        if (!cart[i]) return;
+        cart[i].qty = (cart[i].qty || 1) + parseInt(b.getAttribute('data-qty'), 10);
+        if (cart[i].qty < 1) cart.splice(i, 1);
+        write(KEY_CART, cart);
+        paintCounts();
+        renderCart();
+      });
+    });
+  }
+
+  function renderCart() {
+    var root = $('[data-cart-page]');
+    if (!root) return;
+    var cart = readCart();
+    var empty = $('[data-cart-empty]');
+    var summary = $('[data-cart-summary]');
+
+    if (!cart.length) {
+      root.innerHTML = '';
+      if (empty) empty.hidden = false;
+      if (summary) summary.hidden = true;
+      return;
+    }
+    if (empty) empty.hidden = true;
+    if (summary) summary.hidden = false;
+
+    root.innerHTML = cart.map(function (it, i) { return lineRow(it, i, 'cart'); }).join('');
+    bindLineActions(root, 'cart');
+
+    var priced = cart.filter(function (i) { return i.price != null; });
+    var subtotal = priced.reduce(function (s, i) { return s + i.price * (i.qty || 1); }, 0);
+    var unpriced = cart.length - priced.length;
+    var provisional = cart.filter(function (i) { return i.provisional; }).length;
+
+    var sub = $('[data-subtotal]');
+    if (sub) sub.textContent = money(subtotal);
+
+    // ₹555 is a placeholder for lines with no price on record — never let it
+    // read as a confirmed figure just because it lands in a subtotal.
+    var note = $('[data-subtotal-note]');
+    if (note) {
+      var msgs = [];
+      if (provisional) {
+        msgs.push(provisional + (provisional === 1 ? ' item uses' : ' items use') +
+          ' a provisional placeholder price, so this total is not final.');
+      }
+      if (unpriced) {
+        msgs.push(unpriced + (unpriced === 1 ? ' item has' : ' items have') +
+          ' no price on record and is not included.');
+      }
+      note.hidden = msgs.length === 0;
+      note.textContent = msgs.join(' ');
+    }
+  }
+
+  function renderWishlist() {
+    var root = $('[data-wishlist-page]');
+    if (!root) return;
+    var list = readWish();
+    var empty = $('[data-wishlist-empty]');
+
+    if (!list.length) {
+      root.innerHTML = '';
+      if (empty) empty.hidden = false;
+      return;
+    }
+    if (empty) empty.hidden = true;
+    root.innerHTML = list.map(function (it, i) { return lineRow(it, i, 'wish'); }).join('');
+    bindLineActions(root, 'wish');
+
+    // "move to cart" on the wishlist page
+    $$('[data-move-cart]', root.parentNode).forEach(function (b) {
+      b.addEventListener('click', function () {
+        var wish = readWish(), cart = readCart();
+        wish.forEach(function (it) {
+          var i = indexOfName(cart, it.name);
+          if (i > -1) cart[i].qty = (cart[i].qty || 1) + 1;
+          else cart.push(Object.assign({}, it, { qty: 1 }));
+        });
+        write(KEY_CART, cart);
+        paintCounts();
+        toast('Moved ' + wish.length + ' item' + (wish.length === 1 ? '' : 's') + ' to your cart');
+      });
+    });
+  }
+
   paintCounts();
+  renderCart();
+  renderWishlist();
 
   /* ---------- product filtering ---------- */
   $$('[data-filter-group]').forEach(function (group) {

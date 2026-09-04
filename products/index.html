@@ -33,8 +33,8 @@
 
     <div class="header-actions">
       <button class="icon-btn" type="button" data-open-search aria-label="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
-      <a class="icon-btn" href="../products/index.html" aria-label="Cart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span class="badge" data-count="cart" hidden>0</span></a>
-      <a class="icon-btn" href="../members/index.html#wishlist" aria-label="Wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg><span class="badge" data-count="wishlist" hidden>0</span></a>
+      <a class="icon-btn" href="../cart/index.html" aria-label="Cart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2l2.4 11.2a1.6 1.6 0 0 0 1.6 1.3h8.2a1.6 1.6 0 0 0 1.6-1.2L21 8.5H6"/><circle cx="10" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/></svg><span class="badge" data-count="cart" hidden>0</span></a>
+      <a class="icon-btn" href="../wishlist/index.html" aria-label="Wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg><span class="badge" data-count="wishlist" hidden>0</span></a>
       <a class="icon-btn" href="../members/index.html" aria-label="Your account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></a>
       <a class="btn btn--primary btn--sm" href="../services/index.html#book">Book a Session</a>
       <button class="icon-btn menu-toggle" type="button" data-open-menu aria-label="Open menu" aria-controls="drawer" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
@@ -86,7 +86,8 @@
     <a class="btn btn--primary btn--block" href="../services/index.html#book">Book a Session</a>
     <div class="row">
       <a class="btn btn--ghost btn--sm" href="../members/index.html">Account</a>
-      <a class="btn btn--ghost btn--sm" href="../members/index.html#wishlist">Wishlist</a>
+      <a class="btn btn--ghost btn--sm" href="../cart/index.html">Cart</a>
+      <a class="btn btn--ghost btn--sm" href="../wishlist/index.html">Wishlist</a>
     </div>
   </div>
 </aside>
@@ -165,7 +166,7 @@
         <article class="product" data-cat="candles">
           <div class="product-media">
             <span class="product-tag">Ambrosial</span>
-            <button class="wish" type="button" data-wish="Cranberry Orange Fresh" aria-label="Save Cranberry Orange Fresh to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Cranberry Orange Fresh" data-price="175" data-label="Soy Wax Candle · Ambrosial" aria-label="Save Cranberry Orange Fresh to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Soy Wax Candle · Ambrosial</p>
@@ -173,14 +174,14 @@
             <p class="product-desc">Sweet cranberries and vibrant citrus — a cheerful burst of warmth and energy.</p>
             <div class="product-foot">
               <span class="price"><s>₹199</s>₹175<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Cranberry Orange Fresh">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Cranberry Orange Fresh" data-price="175" data-label="Soy Wax Candle · Ambrosial">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="candles">
           <div class="product-media">
             <span class="product-tag">Ambrosial</span>
-            <button class="wish" type="button" data-wish="Earthy Cinnamon" aria-label="Save Earthy Cinnamon to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Earthy Cinnamon" data-price="175" data-label="Soy Wax Candle · Ambrosial" aria-label="Save Earthy Cinnamon to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Soy Wax Candle · Ambrosial</p>
@@ -188,14 +189,14 @@
             <p class="product-desc">Rich, spicy warmth — cosy, inviting, and quietly festive.</p>
             <div class="product-foot">
               <span class="price"><s>₹199</s>₹175<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Earthy Cinnamon">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Earthy Cinnamon" data-price="175" data-label="Soy Wax Candle · Ambrosial">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="candles">
           <div class="product-media">
             <span class="product-tag">Ambrosial</span>
-            <button class="wish" type="button" data-wish="Lavender Haze" aria-label="Save Lavender Haze to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Lavender Haze" data-price="175" data-label="Soy Wax Candle · Ambrosial" aria-label="Save Lavender Haze to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Soy Wax Candle · Ambrosial</p>
@@ -203,14 +204,14 @@
             <p class="product-desc">Soft and calming, with a gentle floral embrace for rest and quiet.</p>
             <div class="product-foot">
               <span class="price"><s>₹199</s>₹175<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Lavender Haze">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Lavender Haze" data-price="175" data-label="Soy Wax Candle · Ambrosial">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="candles">
           <div class="product-media">
             <span class="product-tag">Ambrosial</span>
-            <button class="wish" type="button" data-wish="Lotus Grace" aria-label="Save Lotus Grace to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Lotus Grace" data-price="175" data-label="Soy Wax Candle · Ambrosial" aria-label="Save Lotus Grace to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Soy Wax Candle · Ambrosial</p>
@@ -218,14 +219,14 @@
             <p class="product-desc">Serene and uplifting — a delicate floral calm for reflection.</p>
             <div class="product-foot">
               <span class="price"><s>₹199</s>₹175<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Lotus Grace">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Lotus Grace" data-price="175" data-label="Soy Wax Candle · Ambrosial">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="candles">
           <div class="product-media">
             <span class="product-tag">Ambrosial</span>
-            <button class="wish" type="button" data-wish="Sweet Desire (Choco)" aria-label="Save Sweet Desire (Choco) to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Sweet Desire (Choco)" data-price="175" data-label="Soy Wax Candle · Ambrosial" aria-label="Save Sweet Desire (Choco) to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Soy Wax Candle · Ambrosial</p>
@@ -233,14 +234,14 @@
             <p class="product-desc">Rich chocolate warmth — comforting, cosy, unhurried.</p>
             <div class="product-foot">
               <span class="price"><s>₹199</s>₹175<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Sweet Desire (Choco)">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Sweet Desire (Choco)" data-price="175" data-label="Soy Wax Candle · Ambrosial">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="candles">
           <div class="product-media">
             <span class="product-tag">Ambrosial</span>
-            <button class="wish" type="button" data-wish="Rose Enchante" aria-label="Save Rose Enchante to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Rose Enchante" data-price="175" data-label="Soy Wax Candle · Ambrosial" aria-label="Save Rose Enchante to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Soy Wax Candle · Ambrosial</p>
@@ -248,14 +249,14 @@
             <p class="product-desc">The timeless rose — soft, romantic, quietly elegant.</p>
             <div class="product-foot">
               <span class="price"><s>₹199</s>₹175<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Rose Enchante">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Rose Enchante" data-price="175" data-label="Soy Wax Candle · Ambrosial">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="candles">
           <div class="product-media">
             <span class="product-tag">Ambrosial</span>
-            <button class="wish" type="button" data-wish="Smoky Oudh" aria-label="Save Smoky Oudh to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Smoky Oudh" data-price="175" data-label="Soy Wax Candle · Ambrosial" aria-label="Save Smoky Oudh to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Soy Wax Candle · Ambrosial</p>
@@ -263,14 +264,14 @@
             <p class="product-desc">Rich, smoky and deeply warm — for unwinding and reflection.</p>
             <div class="product-foot">
               <span class="price"><s>₹199</s>₹175<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Smoky Oudh">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Smoky Oudh" data-price="175" data-label="Soy Wax Candle · Ambrosial">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="candles">
           <div class="product-media">
             <span class="product-tag">Ambrosial</span>
-            <button class="wish" type="button" data-wish="Mocha Love" aria-label="Save Mocha Love to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Mocha Love" data-price="175" data-label="Soy Wax Candle · Ambrosial" aria-label="Save Mocha Love to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Soy Wax Candle · Ambrosial</p>
@@ -278,14 +279,14 @@
             <p class="product-desc">Freshly brewed coffee — bold, comforting, and awake.</p>
             <div class="product-foot">
               <span class="price"><s>₹199</s>₹175<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Mocha Love">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Mocha Love" data-price="175" data-label="Soy Wax Candle · Ambrosial">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="candles">
           <div class="product-media">
             <span class="product-tag">Ambrosial</span>
-            <button class="wish" type="button" data-wish="Lemon Verve" aria-label="Save Lemon Verve to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Lemon Verve" data-price="175" data-label="Soy Wax Candle · Ambrosial" aria-label="Save Lemon Verve to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Soy Wax Candle · Ambrosial</p>
@@ -293,14 +294,14 @@
             <p class="product-desc">Bright, crisp citrus — an immediate lift for any room.</p>
             <div class="product-foot">
               <span class="price"><s>₹199</s>₹175<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Lemon Verve">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Lemon Verve" data-price="175" data-label="Soy Wax Candle · Ambrosial">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="candles">
           <div class="product-media">
             <span class="product-tag">Ambrosial</span>
-            <button class="wish" type="button" data-wish="Sweet Jasmine" aria-label="Save Sweet Jasmine to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Sweet Jasmine" data-price="175" data-label="Soy Wax Candle · Ambrosial" aria-label="Save Sweet Jasmine to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Soy Wax Candle · Ambrosial</p>
@@ -308,14 +309,14 @@
             <p class="product-desc">Lush and exotic — romance and joy in equal measure.</p>
             <div class="product-foot">
               <span class="price"><s>₹199</s>₹175<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Sweet Jasmine">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Sweet Jasmine" data-price="175" data-label="Soy Wax Candle · Ambrosial">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="candles">
           <div class="product-media">
             <span class="product-tag">Ambrosial</span>
-            <button class="wish" type="button" data-wish="Frankincense Mystique" aria-label="Save Frankincense Mystique to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Frankincense Mystique" data-price="175" data-label="Soy Wax Candle · Ambrosial" aria-label="Save Frankincense Mystique to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Soy Wax Candle · Ambrosial</p>
@@ -323,14 +324,14 @@
             <p class="product-desc">Deeply calming and earthy — grounding, for stillness.</p>
             <div class="product-foot">
               <span class="price"><s>₹199</s>₹175<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Frankincense Mystique">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Frankincense Mystique" data-price="175" data-label="Soy Wax Candle · Ambrosial">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="candles">
           <div class="product-media">
             <span class="product-tag">Collection</span>
-            <button class="wish" type="button" data-wish="Massage Candle" aria-label="Save Massage Candle to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Massage Candle" data-price="555" data-label="Massage Candles" data-provisional="1" aria-label="Save Massage Candle to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Massage Candles</p>
@@ -338,14 +339,14 @@
             <p class="product-desc">Part of the candle range named in the studio catalogue. Scents, sizes and materials are still being finalised.</p>
             <div class="product-foot">
               <span class="price">₹555<em style="color:var(--brown)">price to confirm</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Massage Candle">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Massage Candle" data-price="555" data-label="Massage Candles" data-provisional="1">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="notebooks">
           <div class="product-media">
             <span class="product-tag">SNB9</span>
-            <button class="wish" type="button" data-wish="Solitude" aria-label="Save Solitude to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Solitude" data-price="128.65" data-label="Spiral Notebook · SNB9" aria-label="Save Solitude to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Spiral Notebook · SNB9</p>
@@ -353,14 +354,14 @@
             <p class="product-desc">&ldquo;Crowded yet Empty.&rdquo; Spiral bound, 14 × 21 cm, blank, ~100 pages.</p>
             <div class="product-foot">
               <span class="price"><s>₹155</s>₹128.65<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Solitude">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Solitude" data-price="128.65" data-label="Spiral Notebook · SNB9">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="notebooks">
           <div class="product-media">
             <span class="product-tag">SNB8</span>
-            <button class="wish" type="button" data-wish="Friendship Goals" aria-label="Save Friendship Goals to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Friendship Goals" data-price="128.65" data-label="Spiral Notebook · SNB8" aria-label="Save Friendship Goals to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Spiral Notebook · SNB8</p>
@@ -368,14 +369,14 @@
             <p class="product-desc">&ldquo;I’ll be there.&rdquo; Spiral bound, 14 × 21 cm, blank, ~100 pages.</p>
             <div class="product-foot">
               <span class="price"><s>₹155</s>₹128.65<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Friendship Goals">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Friendship Goals" data-price="128.65" data-label="Spiral Notebook · SNB8">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="notebooks">
           <div class="product-media">
             <span class="product-tag">SNB7</span>
-            <button class="wish" type="button" data-wish="Childhood Classics" aria-label="Save Childhood Classics to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Childhood Classics" data-price="128.65" data-label="Spiral Notebook · SNB7" aria-label="Save Childhood Classics to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Spiral Notebook · SNB7</p>
@@ -383,14 +384,14 @@
             <p class="product-desc">&ldquo;Be more than just a Reporter.&rdquo; Spiral bound, 14 × 21 cm, blank, ~100 pages.</p>
             <div class="product-foot">
               <span class="price"><s>₹155</s>₹128.65<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Childhood Classics">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Childhood Classics" data-price="128.65" data-label="Spiral Notebook · SNB7">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="notebooks">
           <div class="product-media">
             <span class="product-tag">SNB6</span>
-            <button class="wish" type="button" data-wish="Reporter’s Diary" aria-label="Save Reporter’s Diary to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Reporter’s Diary" data-price="128.65" data-label="Spiral Notebook · SNB6" aria-label="Save Reporter’s Diary to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Spiral Notebook · SNB6</p>
@@ -398,14 +399,14 @@
             <p class="product-desc">&ldquo;Be more than just a Reporter.&rdquo; Spiral bound, 14 × 21 cm, blank, ~100 pages.</p>
             <div class="product-foot">
               <span class="price"><s>₹155</s>₹128.65<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Reporter’s Diary">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Reporter’s Diary" data-price="128.65" data-label="Spiral Notebook · SNB6">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="notebooks">
           <div class="product-media">
             <span class="product-tag">SNB5</span>
-            <button class="wish" type="button" data-wish="Mogojastro" aria-label="Save Mogojastro to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Mogojastro" data-price="128.65" data-label="Spiral Notebook · SNB5" aria-label="Save Mogojastro to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Spiral Notebook · SNB5</p>
@@ -413,14 +414,14 @@
             <p class="product-desc">&ldquo;Nothing can surpass his eyes.&rdquo; Spiral bound, 14 × 21 cm, blank, ~100 pages.</p>
             <div class="product-foot">
               <span class="price"><s>₹155</s>₹128.65<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Mogojastro">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Mogojastro" data-price="128.65" data-label="Spiral Notebook · SNB5">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="notebooks">
           <div class="product-media">
             <span class="product-tag">SNB4</span>
-            <button class="wish" type="button" data-wish="Wild-e" aria-label="Save Wild-e to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Wild-e" data-price="128.65" data-label="Spiral Notebook · SNB4" aria-label="Save Wild-e to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Spiral Notebook · SNB4</p>
@@ -428,14 +429,14 @@
             <p class="product-desc">&ldquo;Be You. Be Wild-e.&rdquo; Spiral bound, 14 × 21 cm, blank, ~100 pages.</p>
             <div class="product-foot">
               <span class="price"><s>₹155</s>₹128.65<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Wild-e">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Wild-e" data-price="128.65" data-label="Spiral Notebook · SNB4">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="notebooks">
           <div class="product-media">
             <span class="product-tag">SNB3</span>
-            <button class="wish" type="button" data-wish="Elementary" aria-label="Save Elementary to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Elementary" data-price="128.65" data-label="Spiral Notebook · SNB3" aria-label="Save Elementary to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Spiral Notebook · SNB3</p>
@@ -443,14 +444,14 @@
             <p class="product-desc">&ldquo;After all it’s elementary.&rdquo; Spiral bound, 14 × 21 cm, blank, ~100 pages.</p>
             <div class="product-foot">
               <span class="price"><s>₹155</s>₹128.65<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Elementary">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Elementary" data-price="128.65" data-label="Spiral Notebook · SNB3">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="notebooks">
           <div class="product-media">
             <span class="product-tag">SNB2</span>
-            <button class="wish" type="button" data-wish="Lights On" aria-label="Save Lights On to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Lights On" data-price="128.65" data-label="Spiral Notebook · SNB2" aria-label="Save Lights On to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Spiral Notebook · SNB2</p>
@@ -458,14 +459,14 @@
             <p class="product-desc">&ldquo;Remember the light.&rdquo; Spiral bound, 14 × 21 cm, blank, ~100 pages.</p>
             <div class="product-foot">
               <span class="price"><s>₹155</s>₹128.65<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Lights On">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Lights On" data-price="128.65" data-label="Spiral Notebook · SNB2">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="notebooks">
           <div class="product-media">
             <span class="product-tag">SNB1</span>
-            <button class="wish" type="button" data-wish="Wanderthirst" aria-label="Save Wanderthirst to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Wanderthirst" data-price="128.65" data-label="Spiral Notebook · SNB1" aria-label="Save Wanderthirst to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Spiral Notebook · SNB1</p>
@@ -473,14 +474,14 @@
             <p class="product-desc">&ldquo;Your travel journal.&rdquo; Spiral bound, 14 × 21 cm, blank, ~100 pages.</p>
             <div class="product-foot">
               <span class="price"><s>₹155</s>₹128.65<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Wanderthirst">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Wanderthirst" data-price="128.65" data-label="Spiral Notebook · SNB1">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="journals">
           <div class="product-media">
             <span class="product-tag">Journals</span>
-            <button class="wish" type="button" data-wish="Journal" aria-label="Save Journal to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Journal" data-price="555" data-label="Journals" data-provisional="1" aria-label="Save Journal to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Journals</p>
@@ -488,14 +489,14 @@
             <p class="product-desc">A journal line named in the studio catalogue, distinct from the spiral notebooks. Materials, sizes and finishes are being finalised.</p>
             <div class="product-foot">
               <span class="price">₹555<em style="color:var(--brown)">price to confirm</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Journal">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Journal" data-price="555" data-label="Journals" data-provisional="1">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="journals">
           <div class="product-media">
             <span class="product-tag">Journalling Kit</span>
-            <button class="wish" type="button" data-wish="Journalling Kit" aria-label="Save Journalling Kit to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Journalling Kit" data-price="555" data-label="Journalling Kit" data-provisional="1" aria-label="Save Journalling Kit to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Journalling Kit</p>
@@ -503,14 +504,14 @@
             <p class="product-desc">A curated kit for a journalling practice. Contents are being finalised.</p>
             <div class="product-foot">
               <span class="price">₹555<em style="color:var(--brown)">price to confirm</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Journalling Kit">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Journalling Kit" data-price="555" data-label="Journalling Kit" data-provisional="1">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="stationery">
           <div class="product-media">
             <span class="product-tag">Affirmative Stationery</span>
-            <button class="wish" type="button" data-wish="Affirmative Stationery" aria-label="Save Affirmative Stationery to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Affirmative Stationery" data-price="555" data-label="Affirmative Stationery" data-provisional="1" aria-label="Save Affirmative Stationery to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Affirmative Stationery</p>
@@ -518,14 +519,14 @@
             <p class="product-desc">A stationery range built around affirmations. Formats and contents are being finalised.</p>
             <div class="product-foot">
               <span class="price">₹555<em style="color:var(--brown)">price to confirm</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Affirmative Stationery">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Affirmative Stationery" data-price="555" data-label="Affirmative Stationery" data-provisional="1">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="stationery">
           <div class="product-media">
             <span class="product-tag">Message Jar</span>
-            <button class="wish" type="button" data-wish="Message Jar" aria-label="Save Message Jar to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Message Jar" data-price="555" data-label="Message Jar" data-provisional="1" aria-label="Save Message Jar to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Message Jar</p>
@@ -533,14 +534,14 @@
             <p class="product-desc">A jar of written messages, to be drawn one at a time. Contents and jar size are being finalised.</p>
             <div class="product-foot">
               <span class="price">₹555<em style="color:var(--brown)">price to confirm</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Message Jar">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Message Jar" data-price="555" data-label="Message Jar" data-provisional="1">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="diy">
           <div class="product-media">
             <span class="product-tag">DIY Kits</span>
-            <button class="wish" type="button" data-wish="DIY Kit" aria-label="Save DIY Kit to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="DIY Kit" data-price="555" data-label="DIY Kits" data-provisional="1" aria-label="Save DIY Kit to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">DIY Kits</p>
@@ -548,14 +549,14 @@
             <p class="product-desc">Make-it-yourself kits drawn from the studio’s craft work. Contents are being finalised.</p>
             <div class="product-foot">
               <span class="price">₹555<em style="color:var(--brown)">price to confirm</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="DIY Kit">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="DIY Kit" data-price="555" data-label="DIY Kits" data-provisional="1">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="badges">
           <div class="product-media">
             <span class="product-tag">BDG41</span>
-            <button class="wish" type="button" data-wish="Dont Worry!" aria-label="Save Dont Worry! to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Dont Worry!" data-price="57" data-label="Round Badge · BDG41" aria-label="Save Dont Worry! to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Round Badge · BDG41</p>
@@ -563,14 +564,14 @@
             <p class="product-desc">Statement round badge for purses, t-shirts and scarves. 55&nbsp;mm, metal base with pin.</p>
             <div class="product-foot">
               <span class="price"><s>₹75</s>₹57<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Dont Worry!">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Dont Worry!" data-price="57" data-label="Round Badge · BDG41">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="badges">
           <div class="product-media">
             <span class="product-tag">BDG40</span>
-            <button class="wish" type="button" data-wish="Steps" aria-label="Save Steps to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Steps" data-price="57" data-label="Round Badge · BDG40" aria-label="Save Steps to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Round Badge · BDG40</p>
@@ -578,14 +579,14 @@
             <p class="product-desc">Statement round badge for purses, t-shirts and scarves. 55&nbsp;mm, metal base with pin.</p>
             <div class="product-foot">
               <span class="price"><s>₹75</s>₹57<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Steps">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Steps" data-price="57" data-label="Round Badge · BDG40">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="badges">
           <div class="product-media">
             <span class="product-tag">BDG39</span>
-            <button class="wish" type="button" data-wish="How’s Life?" aria-label="Save How’s Life? to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="How’s Life?" data-price="57" data-label="Round Badge · BDG39" aria-label="Save How’s Life? to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Round Badge · BDG39</p>
@@ -593,14 +594,14 @@
             <p class="product-desc">Statement round badge for purses, t-shirts and scarves. 55&nbsp;mm, metal base with pin.</p>
             <div class="product-foot">
               <span class="price"><s>₹75</s>₹57<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="How’s Life?">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="How’s Life?" data-price="57" data-label="Round Badge · BDG39">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="badges">
           <div class="product-media">
             <span class="product-tag">BDG38</span>
-            <button class="wish" type="button" data-wish="FCB" aria-label="Save FCB to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="FCB" data-price="57" data-label="Round Badge · BDG38" aria-label="Save FCB to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Round Badge · BDG38</p>
@@ -608,14 +609,14 @@
             <p class="product-desc">Statement round badge for purses, t-shirts and scarves. 55&nbsp;mm, metal base with pin.</p>
             <div class="product-foot">
               <span class="price"><s>₹75</s>₹57<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="FCB">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="FCB" data-price="57" data-label="Round Badge · BDG38">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="badges">
           <div class="product-media">
             <span class="product-tag">BDG37</span>
-            <button class="wish" type="button" data-wish="Paws &amp; Claws" aria-label="Save Paws &amp; Claws to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Paws &amp; Claws" data-price="57" data-label="Round Badge · BDG37" aria-label="Save Paws &amp; Claws to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Round Badge · BDG37</p>
@@ -623,14 +624,14 @@
             <p class="product-desc">Statement round badge for purses, t-shirts and scarves. 55&nbsp;mm, metal base with pin.</p>
             <div class="product-foot">
               <span class="price"><s>₹75</s>₹57<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Paws &amp; Claws">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Paws &amp; Claws" data-price="57" data-label="Round Badge · BDG37">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="badges">
           <div class="product-media">
             <span class="product-tag">BDG36</span>
-            <button class="wish" type="button" data-wish="PSG" aria-label="Save PSG to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="PSG" data-price="57" data-label="Round Badge · BDG36" aria-label="Save PSG to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Round Badge · BDG36</p>
@@ -638,14 +639,14 @@
             <p class="product-desc">Statement round badge for purses, t-shirts and scarves. 55&nbsp;mm, metal base with pin.</p>
             <div class="product-foot">
               <span class="price"><s>₹75</s>₹57<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="PSG">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="PSG" data-price="57" data-label="Round Badge · BDG36">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="badges">
           <div class="product-media">
             <span class="product-tag">BDG35</span>
-            <button class="wish" type="button" data-wish="Strange Madness" aria-label="Save Strange Madness to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Strange Madness" data-price="57" data-label="Round Badge · BDG35" aria-label="Save Strange Madness to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Round Badge · BDG35</p>
@@ -653,14 +654,14 @@
             <p class="product-desc">Statement round badge for purses, t-shirts and scarves. 55&nbsp;mm, metal base with pin.</p>
             <div class="product-foot">
               <span class="price"><s>₹75</s>₹57<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Strange Madness">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Strange Madness" data-price="57" data-label="Round Badge · BDG35">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="badges">
           <div class="product-media">
             <span class="product-tag">BDG34</span>
-            <button class="wish" type="button" data-wish="MU" aria-label="Save MU to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="MU" data-price="57" data-label="Round Badge · BDG34" aria-label="Save MU to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Round Badge · BDG34</p>
@@ -668,14 +669,14 @@
             <p class="product-desc">Statement round badge for purses, t-shirts and scarves. 55&nbsp;mm, metal base with pin.</p>
             <div class="product-foot">
               <span class="price"><s>₹75</s>₹57<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="MU">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="MU" data-price="57" data-label="Round Badge · BDG34">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="badges" hidden data-more="badges">
           <div class="product-media">
             <span class="product-tag">BDG33</span>
-            <button class="wish" type="button" data-wish="Read Time" aria-label="Save Read Time to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Read Time" data-price="57" data-label="Round Badge · BDG33" aria-label="Save Read Time to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Round Badge · BDG33</p>
@@ -683,14 +684,14 @@
             <p class="product-desc">Statement round badge for purses, t-shirts and scarves. 55&nbsp;mm, metal base with pin.</p>
             <div class="product-foot">
               <span class="price"><s>₹75</s>₹57<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Read Time">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Read Time" data-price="57" data-label="Round Badge · BDG33">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="badges" hidden data-more="badges">
           <div class="product-media">
             <span class="product-tag">BDG32</span>
-            <button class="wish" type="button" data-wish="Always" aria-label="Save Always to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Always" data-price="57" data-label="Round Badge · BDG32" aria-label="Save Always to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Round Badge · BDG32</p>
@@ -698,14 +699,14 @@
             <p class="product-desc">Statement round badge for purses, t-shirts and scarves. 55&nbsp;mm, metal base with pin.</p>
             <div class="product-foot">
               <span class="price"><s>₹75</s>₹57<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Always">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Always" data-price="57" data-label="Round Badge · BDG32">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="badges" hidden data-more="badges">
           <div class="product-media">
             <span class="product-tag">BDG31</span>
-            <button class="wish" type="button" data-wish="Library Knows" aria-label="Save Library Knows to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Library Knows" data-price="57" data-label="Round Badge · BDG31" aria-label="Save Library Knows to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Round Badge · BDG31</p>
@@ -713,14 +714,14 @@
             <p class="product-desc">Statement round badge for purses, t-shirts and scarves. 55&nbsp;mm, metal base with pin.</p>
             <div class="product-foot">
               <span class="price"><s>₹75</s>₹57<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Library Knows">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Library Knows" data-price="57" data-label="Round Badge · BDG31">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="badges" hidden data-more="badges">
           <div class="product-media">
             <span class="product-tag">BDG30</span>
-            <button class="wish" type="button" data-wish="Snow Globe" aria-label="Save Snow Globe to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Snow Globe" data-price="57" data-label="Round Badge · BDG30" aria-label="Save Snow Globe to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Round Badge · BDG30</p>
@@ -728,14 +729,14 @@
             <p class="product-desc">Statement round badge for purses, t-shirts and scarves. 55&nbsp;mm, metal base with pin.</p>
             <div class="product-foot">
               <span class="price"><s>₹75</s>₹57<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Snow Globe">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Snow Globe" data-price="57" data-label="Round Badge · BDG30">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="badges" hidden data-more="badges">
           <div class="product-media">
             <span class="product-tag">BDG29</span>
-            <button class="wish" type="button" data-wish="Limited Edition" aria-label="Save Limited Edition to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Limited Edition" data-price="57" data-label="Round Badge · BDG29" aria-label="Save Limited Edition to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Round Badge · BDG29</p>
@@ -743,14 +744,14 @@
             <p class="product-desc">Statement round badge for purses, t-shirts and scarves. 55&nbsp;mm, metal base with pin.</p>
             <div class="product-foot">
               <span class="price"><s>₹75</s>₹57<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Limited Edition">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Limited Edition" data-price="57" data-label="Round Badge · BDG29">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="badges" hidden data-more="badges">
           <div class="product-media">
             <span class="product-tag">BDG28</span>
-            <button class="wish" type="button" data-wish="Colourful Earth" aria-label="Save Colourful Earth to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Colourful Earth" data-price="57" data-label="Round Badge · BDG28" aria-label="Save Colourful Earth to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Round Badge · BDG28</p>
@@ -758,14 +759,14 @@
             <p class="product-desc">Statement round badge for purses, t-shirts and scarves. 55&nbsp;mm, metal base with pin.</p>
             <div class="product-foot">
               <span class="price"><s>₹75</s>₹57<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Colourful Earth">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Colourful Earth" data-price="57" data-label="Round Badge · BDG28">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="badges" hidden data-more="badges">
           <div class="product-media">
             <span class="product-tag">BDG27</span>
-            <button class="wish" type="button" data-wish="Sweet Yellow" aria-label="Save Sweet Yellow to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Sweet Yellow" data-price="57" data-label="Round Badge · BDG27" aria-label="Save Sweet Yellow to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Round Badge · BDG27</p>
@@ -773,14 +774,14 @@
             <p class="product-desc">Statement round badge for purses, t-shirts and scarves. 55&nbsp;mm, metal base with pin.</p>
             <div class="product-foot">
               <span class="price"><s>₹75</s>₹57<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Sweet Yellow">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Sweet Yellow" data-price="57" data-label="Round Badge · BDG27">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="badges" hidden data-more="badges">
           <div class="product-media">
             <span class="product-tag">BDG26</span>
-            <button class="wish" type="button" data-wish="Unique" aria-label="Save Unique to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Unique" data-price="57" data-label="Round Badge · BDG26" aria-label="Save Unique to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Round Badge · BDG26</p>
@@ -788,14 +789,14 @@
             <p class="product-desc">Statement round badge for purses, t-shirts and scarves. 55&nbsp;mm, metal base with pin.</p>
             <div class="product-foot">
               <span class="price"><s>₹75</s>₹57<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Unique">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Unique" data-price="57" data-label="Round Badge · BDG26">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="badges" hidden data-more="badges">
           <div class="product-media">
             <span class="product-tag">BDG25</span>
-            <button class="wish" type="button" data-wish="Sweet Blue" aria-label="Save Sweet Blue to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Sweet Blue" data-price="57" data-label="Round Badge · BDG25" aria-label="Save Sweet Blue to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Round Badge · BDG25</p>
@@ -803,14 +804,14 @@
             <p class="product-desc">Statement round badge for purses, t-shirts and scarves. 55&nbsp;mm, metal base with pin.</p>
             <div class="product-foot">
               <span class="price"><s>₹75</s>₹57<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Sweet Blue">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Sweet Blue" data-price="57" data-label="Round Badge · BDG25">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="badges" hidden data-more="badges">
           <div class="product-media">
             <span class="product-tag">BDG24</span>
-            <button class="wish" type="button" data-wish="Family" aria-label="Save Family to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Family" data-price="57" data-label="Round Badge · BDG24" aria-label="Save Family to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Round Badge · BDG24</p>
@@ -818,14 +819,14 @@
             <p class="product-desc">Statement round badge for purses, t-shirts and scarves. 55&nbsp;mm, metal base with pin.</p>
             <div class="product-foot">
               <span class="price"><s>₹75</s>₹57<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Family">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Family" data-price="57" data-label="Round Badge · BDG24">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="badges" hidden data-more="badges">
           <div class="product-media">
             <span class="product-tag">BDG23</span>
-            <button class="wish" type="button" data-wish="Shrewd Green" aria-label="Save Shrewd Green to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Shrewd Green" data-price="57" data-label="Round Badge · BDG23" aria-label="Save Shrewd Green to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Round Badge · BDG23</p>
@@ -833,14 +834,14 @@
             <p class="product-desc">Statement round badge for purses, t-shirts and scarves. 55&nbsp;mm, metal base with pin.</p>
             <div class="product-foot">
               <span class="price"><s>₹75</s>₹57<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Shrewd Green">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Shrewd Green" data-price="57" data-label="Round Badge · BDG23">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="badges" hidden data-more="badges">
           <div class="product-media">
             <span class="product-tag">BDG22</span>
-            <button class="wish" type="button" data-wish="On/Off" aria-label="Save On/Off to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="On/Off" data-price="57" data-label="Round Badge · BDG22" aria-label="Save On/Off to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Round Badge · BDG22</p>
@@ -848,14 +849,14 @@
             <p class="product-desc">Statement round badge for purses, t-shirts and scarves. 55&nbsp;mm, metal base with pin.</p>
             <div class="product-foot">
               <span class="price"><s>₹75</s>₹57<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="On/Off">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="On/Off" data-price="57" data-label="Round Badge · BDG22">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="badges" hidden data-more="badges">
           <div class="product-media">
             <span class="product-tag">BDG21</span>
-            <button class="wish" type="button" data-wish="Bold Red" aria-label="Save Bold Red to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Bold Red" data-price="57" data-label="Round Badge · BDG21" aria-label="Save Bold Red to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Round Badge · BDG21</p>
@@ -863,14 +864,14 @@
             <p class="product-desc">Statement round badge for purses, t-shirts and scarves. 55&nbsp;mm, metal base with pin.</p>
             <div class="product-foot">
               <span class="price"><s>₹75</s>₹57<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Bold Red">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Bold Red" data-price="57" data-label="Round Badge · BDG21">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="badges" hidden data-more="badges">
           <div class="product-media">
             <span class="product-tag">BDG20</span>
-            <button class="wish" type="button" data-wish="3 brothers" aria-label="Save 3 brothers to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="3 brothers" data-price="57" data-label="Round Badge · BDG20" aria-label="Save 3 brothers to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Round Badge · BDG20</p>
@@ -878,14 +879,14 @@
             <p class="product-desc">Statement round badge for purses, t-shirts and scarves. 55&nbsp;mm, metal base with pin.</p>
             <div class="product-foot">
               <span class="price"><s>₹75</s>₹57<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="3 brothers">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="3 brothers" data-price="57" data-label="Round Badge · BDG20">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="badges" hidden data-more="badges">
           <div class="product-media">
             <span class="product-tag">BDG19</span>
-            <button class="wish" type="button" data-wish="Strength of the Mind" aria-label="Save Strength of the Mind to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Strength of the Mind" data-price="57" data-label="Round Badge · BDG19" aria-label="Save Strength of the Mind to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Round Badge · BDG19</p>
@@ -893,14 +894,14 @@
             <p class="product-desc">Statement round badge for purses, t-shirts and scarves. 55&nbsp;mm, metal base with pin.</p>
             <div class="product-foot">
               <span class="price"><s>₹75</s>₹57<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Strength of the Mind">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Strength of the Mind" data-price="57" data-label="Round Badge · BDG19">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="badges" hidden data-more="badges">
           <div class="product-media">
             <span class="product-tag">BDG18</span>
-            <button class="wish" type="button" data-wish="Brainy is Sexy" aria-label="Save Brainy is Sexy to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Brainy is Sexy" data-price="57" data-label="Round Badge · BDG18" aria-label="Save Brainy is Sexy to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Round Badge · BDG18</p>
@@ -908,14 +909,14 @@
             <p class="product-desc">Statement round badge for purses, t-shirts and scarves. 55&nbsp;mm, metal base with pin.</p>
             <div class="product-foot">
               <span class="price"><s>₹75</s>₹57<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Brainy is Sexy">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Brainy is Sexy" data-price="57" data-label="Round Badge · BDG18">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="badges" hidden data-more="badges">
           <div class="product-media">
             <span class="product-tag">BDG17</span>
-            <button class="wish" type="button" data-wish="Okay!" aria-label="Save Okay! to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Okay!" data-price="57" data-label="Round Badge · BDG17" aria-label="Save Okay! to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Round Badge · BDG17</p>
@@ -923,14 +924,14 @@
             <p class="product-desc">Statement round badge for purses, t-shirts and scarves. 55&nbsp;mm, metal base with pin.</p>
             <div class="product-foot">
               <span class="price"><s>₹75</s>₹57<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Okay!">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Okay!" data-price="57" data-label="Round Badge · BDG17">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="badges" hidden data-more="badges">
           <div class="product-media">
             <span class="product-tag">BDG16</span>
-            <button class="wish" type="button" data-wish="Hope" aria-label="Save Hope to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Hope" data-price="57" data-label="Round Badge · BDG16" aria-label="Save Hope to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Round Badge · BDG16</p>
@@ -938,14 +939,14 @@
             <p class="product-desc">Statement round badge for purses, t-shirts and scarves. 55&nbsp;mm, metal base with pin.</p>
             <div class="product-foot">
               <span class="price"><s>₹75</s>₹57<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Hope">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Hope" data-price="57" data-label="Round Badge · BDG16">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="badges" hidden data-more="badges">
           <div class="product-media">
             <span class="product-tag">BDG15</span>
-            <button class="wish" type="button" data-wish="Pay heed!" aria-label="Save Pay heed! to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Pay heed!" data-price="57" data-label="Round Badge · BDG15" aria-label="Save Pay heed! to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Round Badge · BDG15</p>
@@ -953,14 +954,14 @@
             <p class="product-desc">Statement round badge for purses, t-shirts and scarves. 55&nbsp;mm, metal base with pin.</p>
             <div class="product-foot">
               <span class="price"><s>₹75</s>₹57<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Pay heed!">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Pay heed!" data-price="57" data-label="Round Badge · BDG15">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="badges" hidden data-more="badges">
           <div class="product-media">
             <span class="product-tag">BDG14</span>
-            <button class="wish" type="button" data-wish="Heist Face" aria-label="Save Heist Face to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Heist Face" data-price="57" data-label="Round Badge · BDG14" aria-label="Save Heist Face to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Round Badge · BDG14</p>
@@ -968,14 +969,14 @@
             <p class="product-desc">Statement round badge for purses, t-shirts and scarves. 55&nbsp;mm, metal base with pin.</p>
             <div class="product-foot">
               <span class="price"><s>₹75</s>₹57<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Heist Face">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Heist Face" data-price="57" data-label="Round Badge · BDG14">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="badges" hidden data-more="badges">
           <div class="product-media">
             <span class="product-tag">BDG13</span>
-            <button class="wish" type="button" data-wish="Roar" aria-label="Save Roar to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Roar" data-price="57" data-label="Round Badge · BDG13" aria-label="Save Roar to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Round Badge · BDG13</p>
@@ -983,14 +984,14 @@
             <p class="product-desc">Statement round badge for purses, t-shirts and scarves. 55&nbsp;mm, metal base with pin.</p>
             <div class="product-foot">
               <span class="price"><s>₹75</s>₹57<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Roar">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Roar" data-price="57" data-label="Round Badge · BDG13">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="badges" hidden data-more="badges">
           <div class="product-media">
             <span class="product-tag">BDG12</span>
-            <button class="wish" type="button" data-wish="Adventure Awaits" aria-label="Save Adventure Awaits to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Adventure Awaits" data-price="57" data-label="Round Badge · BDG12" aria-label="Save Adventure Awaits to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Round Badge · BDG12</p>
@@ -998,14 +999,14 @@
             <p class="product-desc">Statement round badge for purses, t-shirts and scarves. 55&nbsp;mm, metal base with pin.</p>
             <div class="product-foot">
               <span class="price"><s>₹75</s>₹57<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Adventure Awaits">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Adventure Awaits" data-price="57" data-label="Round Badge · BDG12">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="badges" hidden data-more="badges">
           <div class="product-media">
             <span class="product-tag">BDG11</span>
-            <button class="wish" type="button" data-wish="Friendship Goals" aria-label="Save Friendship Goals to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Friendship Goals" data-price="57" data-label="Round Badge · BDG11" aria-label="Save Friendship Goals to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Round Badge · BDG11</p>
@@ -1013,14 +1014,14 @@
             <p class="product-desc">Statement round badge for purses, t-shirts and scarves. 55&nbsp;mm, metal base with pin.</p>
             <div class="product-foot">
               <span class="price"><s>₹75</s>₹57<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Friendship Goals">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Friendship Goals" data-price="57" data-label="Round Badge · BDG11">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="badges" hidden data-more="badges">
           <div class="product-media">
             <span class="product-tag">BDG10</span>
-            <button class="wish" type="button" data-wish="Carry On" aria-label="Save Carry On to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Carry On" data-price="57" data-label="Round Badge · BDG10" aria-label="Save Carry On to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Round Badge · BDG10</p>
@@ -1028,14 +1029,14 @@
             <p class="product-desc">Statement round badge for purses, t-shirts and scarves. 55&nbsp;mm, metal base with pin.</p>
             <div class="product-foot">
               <span class="price"><s>₹75</s>₹57<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Carry On">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Carry On" data-price="57" data-label="Round Badge · BDG10">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="badges" hidden data-more="badges">
           <div class="product-media">
             <span class="product-tag">BDG9</span>
-            <button class="wish" type="button" data-wish="Fiery Dragon" aria-label="Save Fiery Dragon to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Fiery Dragon" data-price="57" data-label="Round Badge · BDG9" aria-label="Save Fiery Dragon to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Round Badge · BDG9</p>
@@ -1043,14 +1044,14 @@
             <p class="product-desc">Statement round badge for purses, t-shirts and scarves. 55&nbsp;mm, metal base with pin.</p>
             <div class="product-foot">
               <span class="price"><s>₹75</s>₹57<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Fiery Dragon">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Fiery Dragon" data-price="57" data-label="Round Badge · BDG9">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="badges" hidden data-more="badges">
           <div class="product-media">
             <span class="product-tag">BDG8</span>
-            <button class="wish" type="button" data-wish="Happy Day" aria-label="Save Happy Day to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Happy Day" data-price="57" data-label="Round Badge · BDG8" aria-label="Save Happy Day to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Round Badge · BDG8</p>
@@ -1058,14 +1059,14 @@
             <p class="product-desc">Statement round badge for purses, t-shirts and scarves. 55&nbsp;mm, metal base with pin.</p>
             <div class="product-foot">
               <span class="price"><s>₹75</s>₹57<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Happy Day">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Happy Day" data-price="57" data-label="Round Badge · BDG8">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="badges" hidden data-more="badges">
           <div class="product-media">
             <span class="product-tag">BDG7</span>
-            <button class="wish" type="button" data-wish="3000" aria-label="Save 3000 to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="3000" data-price="57" data-label="Round Badge · BDG7" aria-label="Save 3000 to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Round Badge · BDG7</p>
@@ -1073,14 +1074,14 @@
             <p class="product-desc">Statement round badge for purses, t-shirts and scarves. 55&nbsp;mm, metal base with pin.</p>
             <div class="product-foot">
               <span class="price"><s>₹75</s>₹57<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="3000">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="3000" data-price="57" data-label="Round Badge · BDG7">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="badges" hidden data-more="badges">
           <div class="product-media">
             <span class="product-tag">BDG6</span>
-            <button class="wish" type="button" data-wish="Night Vigilant" aria-label="Save Night Vigilant to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Night Vigilant" data-price="57" data-label="Round Badge · BDG6" aria-label="Save Night Vigilant to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Round Badge · BDG6</p>
@@ -1088,14 +1089,14 @@
             <p class="product-desc">Statement round badge for purses, t-shirts and scarves. 55&nbsp;mm, metal base with pin.</p>
             <div class="product-foot">
               <span class="price"><s>₹75</s>₹57<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Night Vigilant">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Night Vigilant" data-price="57" data-label="Round Badge · BDG6">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="badges" hidden data-more="badges">
           <div class="product-media">
             <span class="product-tag">BDG5</span>
-            <button class="wish" type="button" data-wish="Compass" aria-label="Save Compass to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Compass" data-price="57" data-label="Round Badge · BDG5" aria-label="Save Compass to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Round Badge · BDG5</p>
@@ -1103,14 +1104,14 @@
             <p class="product-desc">Statement round badge for purses, t-shirts and scarves. 55&nbsp;mm, metal base with pin.</p>
             <div class="product-foot">
               <span class="price"><s>₹75</s>₹57<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Compass">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Compass" data-price="57" data-label="Round Badge · BDG5">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="badges" hidden data-more="badges">
           <div class="product-media">
             <span class="product-tag">BDG4</span>
-            <button class="wish" type="button" data-wish="Scared Much?" aria-label="Save Scared Much? to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Scared Much?" data-price="57" data-label="Round Badge · BDG4" aria-label="Save Scared Much? to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Round Badge · BDG4</p>
@@ -1118,14 +1119,14 @@
             <p class="product-desc">Statement round badge for purses, t-shirts and scarves. 55&nbsp;mm, metal base with pin.</p>
             <div class="product-foot">
               <span class="price"><s>₹75</s>₹57<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Scared Much?">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Scared Much?" data-price="57" data-label="Round Badge · BDG4">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="badges" hidden data-more="badges">
           <div class="product-media">
             <span class="product-tag">BDG3</span>
-            <button class="wish" type="button" data-wish="Vibrant Earth" aria-label="Save Vibrant Earth to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Vibrant Earth" data-price="57" data-label="Round Badge · BDG3" aria-label="Save Vibrant Earth to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Round Badge · BDG3</p>
@@ -1133,14 +1134,14 @@
             <p class="product-desc">Statement round badge for purses, t-shirts and scarves. 55&nbsp;mm, metal base with pin.</p>
             <div class="product-foot">
               <span class="price"><s>₹75</s>₹57<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Vibrant Earth">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Vibrant Earth" data-price="57" data-label="Round Badge · BDG3">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="badges" hidden data-more="badges">
           <div class="product-media">
             <span class="product-tag">BDG2</span>
-            <button class="wish" type="button" data-wish="A Solemn Swear" aria-label="Save A Solemn Swear to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="A Solemn Swear" data-price="57" data-label="Round Badge · BDG2" aria-label="Save A Solemn Swear to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Round Badge · BDG2</p>
@@ -1148,14 +1149,14 @@
             <p class="product-desc">Statement round badge for purses, t-shirts and scarves. 55&nbsp;mm, metal base with pin.</p>
             <div class="product-foot">
               <span class="price"><s>₹75</s>₹57<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="A Solemn Swear">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="A Solemn Swear" data-price="57" data-label="Round Badge · BDG2">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="badges" hidden data-more="badges">
           <div class="product-media">
             <span class="product-tag">BDG1</span>
-            <button class="wish" type="button" data-wish="Bizarre Souls" aria-label="Save Bizarre Souls to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Bizarre Souls" data-price="57" data-label="Round Badge · BDG1" aria-label="Save Bizarre Souls to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Round Badge · BDG1</p>
@@ -1163,14 +1164,14 @@
             <p class="product-desc">Statement round badge for purses, t-shirts and scarves. 55&nbsp;mm, metal base with pin.</p>
             <div class="product-foot">
               <span class="price"><s>₹75</s>₹57<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Bizarre Souls">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Bizarre Souls" data-price="57" data-label="Round Badge · BDG1">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="bookmarks">
           <div class="product-media">
             <span class="product-tag">BKM9</span>
-            <button class="wish" type="button" data-wish="Book-ed" aria-label="Save Book-ed to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Book-ed" data-price="83.60" data-label="Metal Bookmark · BKM9" aria-label="Save Book-ed to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Metal Bookmark · BKM9</p>
@@ -1178,14 +1179,14 @@
             <p class="product-desc">One-of-a-kind steel bookmark with a charm attached — tear and spill proof.</p>
             <div class="product-foot">
               <span class="price"><s>₹110</s>₹83.60<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Book-ed">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Book-ed" data-price="83.60" data-label="Metal Bookmark · BKM9">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="bookmarks">
           <div class="product-media">
             <span class="product-tag">BKM8</span>
-            <button class="wish" type="button" data-wish="Extra-Ordinary Life" aria-label="Save Extra-Ordinary Life to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Extra-Ordinary Life" data-price="83.60" data-label="Metal Bookmark · BKM8" aria-label="Save Extra-Ordinary Life to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Metal Bookmark · BKM8</p>
@@ -1193,14 +1194,14 @@
             <p class="product-desc">One-of-a-kind steel bookmark with a charm attached — tear and spill proof.</p>
             <div class="product-foot">
               <span class="price"><s>₹110</s>₹83.60<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Extra-Ordinary Life">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Extra-Ordinary Life" data-price="83.60" data-label="Metal Bookmark · BKM8">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="bookmarks">
           <div class="product-media">
             <span class="product-tag">BKM7</span>
-            <button class="wish" type="button" data-wish="Always" aria-label="Save Always to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Always" data-price="83.60" data-label="Metal Bookmark · BKM7" aria-label="Save Always to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Metal Bookmark · BKM7</p>
@@ -1208,14 +1209,14 @@
             <p class="product-desc">One-of-a-kind steel bookmark with a charm attached — tear and spill proof.</p>
             <div class="product-foot">
               <span class="price"><s>₹110</s>₹83.60<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Always">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Always" data-price="83.60" data-label="Metal Bookmark · BKM7">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="bookmarks">
           <div class="product-media">
             <span class="product-tag">BKM6</span>
-            <button class="wish" type="button" data-wish="Step in Step Out" aria-label="Save Step in Step Out to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Step in Step Out" data-price="83.60" data-label="Metal Bookmark · BKM6" aria-label="Save Step in Step Out to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Metal Bookmark · BKM6</p>
@@ -1223,14 +1224,14 @@
             <p class="product-desc">One-of-a-kind steel bookmark with a charm attached — tear and spill proof.</p>
             <div class="product-foot">
               <span class="price"><s>₹110</s>₹83.60<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Step in Step Out">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Step in Step Out" data-price="83.60" data-label="Metal Bookmark · BKM6">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="bookmarks">
           <div class="product-media">
             <span class="product-tag">BKM5</span>
-            <button class="wish" type="button" data-wish="Read Days" aria-label="Save Read Days to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Read Days" data-price="83.60" data-label="Metal Bookmark · BKM5" aria-label="Save Read Days to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Metal Bookmark · BKM5</p>
@@ -1238,14 +1239,14 @@
             <p class="product-desc">One-of-a-kind steel bookmark with a charm attached — tear and spill proof.</p>
             <div class="product-foot">
               <span class="price"><s>₹110</s>₹83.60<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Read Days">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Read Days" data-price="83.60" data-label="Metal Bookmark · BKM5">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="bookmarks">
           <div class="product-media">
             <span class="product-tag">BKM4</span>
-            <button class="wish" type="button" data-wish="Rain &amp; Tales" aria-label="Save Rain &amp; Tales to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Rain &amp; Tales" data-price="83.60" data-label="Metal Bookmark · BKM4" aria-label="Save Rain &amp; Tales to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Metal Bookmark · BKM4</p>
@@ -1253,14 +1254,14 @@
             <p class="product-desc">One-of-a-kind steel bookmark with a charm attached — tear and spill proof.</p>
             <div class="product-foot">
               <span class="price"><s>₹110</s>₹83.60<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Rain &amp; Tales">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Rain &amp; Tales" data-price="83.60" data-label="Metal Bookmark · BKM4">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="bookmarks">
           <div class="product-media">
             <span class="product-tag">BKM3</span>
-            <button class="wish" type="button" data-wish="Dragon Slayer" aria-label="Save Dragon Slayer to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Dragon Slayer" data-price="83.60" data-label="Metal Bookmark · BKM3" aria-label="Save Dragon Slayer to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Metal Bookmark · BKM3</p>
@@ -1268,14 +1269,14 @@
             <p class="product-desc">One-of-a-kind steel bookmark with a charm attached — tear and spill proof.</p>
             <div class="product-foot">
               <span class="price"><s>₹110</s>₹83.60<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Dragon Slayer">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Dragon Slayer" data-price="83.60" data-label="Metal Bookmark · BKM3">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="bookmarks">
           <div class="product-media">
             <span class="product-tag">BKM2</span>
-            <button class="wish" type="button" data-wish="Land of Books" aria-label="Save Land of Books to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Land of Books" data-price="83.60" data-label="Metal Bookmark · BKM2" aria-label="Save Land of Books to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Metal Bookmark · BKM2</p>
@@ -1283,14 +1284,14 @@
             <p class="product-desc">One-of-a-kind steel bookmark with a charm attached — tear and spill proof.</p>
             <div class="product-foot">
               <span class="price"><s>₹110</s>₹83.60<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Land of Books">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Land of Books" data-price="83.60" data-label="Metal Bookmark · BKM2">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="bookmarks">
           <div class="product-media">
             <span class="product-tag">BKM1</span>
-            <button class="wish" type="button" data-wish="Magic" aria-label="Save Magic to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Magic" data-price="83.60" data-label="Metal Bookmark · BKM1" aria-label="Save Magic to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Metal Bookmark · BKM1</p>
@@ -1298,14 +1299,14 @@
             <p class="product-desc">One-of-a-kind steel bookmark with a charm attached — tear and spill proof.</p>
             <div class="product-foot">
               <span class="price"><s>₹110</s>₹83.60<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Magic">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Magic" data-price="83.60" data-label="Metal Bookmark · BKM1">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="desk">
           <div class="product-media">
             <span class="product-tag">MPD4</span>
-            <button class="wish" type="button" data-wish="Work Mode" aria-label="Save Work Mode to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Work Mode" data-price="159.60" data-label="Mouse Pad · MPD4" aria-label="Save Work Mode to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Mouse Pad · MPD4</p>
@@ -1313,14 +1314,14 @@
             <p class="product-desc">Sleek high-density rubber mouse pad with a non-slip base and smooth cloth surface.</p>
             <div class="product-foot">
               <span class="price"><s>₹210</s>₹159.60<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Work Mode">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Work Mode" data-price="159.60" data-label="Mouse Pad · MPD4">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="desk">
           <div class="product-media">
             <span class="product-tag">MPD3</span>
-            <button class="wish" type="button" data-wish="Pursuing or Pursued?" aria-label="Save Pursuing or Pursued? to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Pursuing or Pursued?" data-price="159.60" data-label="Mouse Pad · MPD3" aria-label="Save Pursuing or Pursued? to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Mouse Pad · MPD3</p>
@@ -1328,14 +1329,14 @@
             <p class="product-desc">Sleek high-density rubber mouse pad with a non-slip base and smooth cloth surface.</p>
             <div class="product-foot">
               <span class="price"><s>₹210</s>₹159.60<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Pursuing or Pursued?">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Pursuing or Pursued?" data-price="159.60" data-label="Mouse Pad · MPD3">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="desk">
           <div class="product-media">
             <span class="product-tag">MPD2</span>
-            <button class="wish" type="button" data-wish="Starry Magic" aria-label="Save Starry Magic to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Starry Magic" data-price="159.60" data-label="Mouse Pad · MPD2" aria-label="Save Starry Magic to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Mouse Pad · MPD2</p>
@@ -1343,14 +1344,14 @@
             <p class="product-desc">Sleek high-density rubber mouse pad with a non-slip base and smooth cloth surface.</p>
             <div class="product-foot">
               <span class="price"><s>₹210</s>₹159.60<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Starry Magic">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Starry Magic" data-price="159.60" data-label="Mouse Pad · MPD2">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="desk">
           <div class="product-media">
             <span class="product-tag">MPD1</span>
-            <button class="wish" type="button" data-wish="Work To Do" aria-label="Save Work To Do to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Work To Do" data-price="159.60" data-label="Mouse Pad · MPD1" aria-label="Save Work To Do to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Mouse Pad · MPD1</p>
@@ -1358,14 +1359,14 @@
             <p class="product-desc">Sleek high-density rubber mouse pad with a non-slip base and smooth cloth surface.</p>
             <div class="product-foot">
               <span class="price"><s>₹210</s>₹159.60<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Work To Do">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Work To Do" data-price="159.60" data-label="Mouse Pad · MPD1">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="planters">
           <div class="product-media">
             <span class="product-tag">Terracotta</span>
-            <button class="wish" type="button" data-wish="Triago Planter" aria-label="Save Triago Planter to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Triago Planter" data-price="2,000" data-label="The Green Alchemy" aria-label="Save Triago Planter to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">The Green Alchemy</p>
@@ -1373,14 +1374,14 @@
             <p class="product-desc">Handcrafted terracotta planter in a unique triangular form, softened with lace — eco-friendly, stylish, and made for modern homes.</p>
             <div class="product-foot">
               <span class="price">₹2,000</span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Triago Planter">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Triago Planter" data-price="2,000" data-label="The Green Alchemy">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="planters">
           <div class="product-media">
             <span class="product-tag">Terracotta</span>
-            <button class="wish" type="button" data-wish="Striped Planter with Lace" aria-label="Save Striped Planter with Lace to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Striped Planter with Lace" data-price="2,000" data-label="The Green Alchemy" aria-label="Save Striped Planter with Lace to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">The Green Alchemy</p>
@@ -1388,14 +1389,14 @@
             <p class="product-desc">Handcrafted terracotta planter with lace, bringing earthy charm and a boho touch to your home, balcony or office.</p>
             <div class="product-foot">
               <span class="price">₹2,000</span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Striped Planter with Lace">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Striped Planter with Lace" data-price="2,000" data-label="The Green Alchemy">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="planters">
           <div class="product-media">
             <span class="product-tag">Terracotta</span>
-            <button class="wish" type="button" data-wish="Hexa Planter" aria-label="Save Hexa Planter to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Hexa Planter" data-price="2,000" data-label="The Green Alchemy" aria-label="Save Hexa Planter to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">The Green Alchemy</p>
@@ -1403,14 +1404,14 @@
             <p class="product-desc">Handcrafted hexagonal terracotta planter wrapped in lace — where natural elegance meets artistry.</p>
             <div class="product-foot">
               <span class="price">₹2,000</span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Hexa Planter">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Hexa Planter" data-price="2,000" data-label="The Green Alchemy">Add</button>
             </div>
           </div>
         </article>
         <article class="product" data-cat="planters">
           <div class="product-media">
             <span class="product-tag">PTR1</span>
-            <button class="wish" type="button" data-wish="Macramé Planter" aria-label="Save Macramé Planter to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+            <button class="wish" type="button" data-wish="Macramé Planter" data-price="228" data-label="Planter · PTR1" aria-label="Save Macramé Planter to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
           </div>
           <div class="product-body">
             <p class="product-cat">Planter · PTR1</p>
@@ -1418,7 +1419,7 @@
             <p class="product-desc">A handcrafted macramé planter in natural materials, blending bohemian style with timeless minimalism.</p>
             <div class="product-foot">
               <span class="price"><s>₹300</s>₹228<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Macramé Planter">Add</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Macramé Planter" data-price="228" data-label="Planter · PTR1">Add</button>
             </div>
           </div>
         </article>

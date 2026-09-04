@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>E-Bliss Gift Card — Shreyaah's Bliss Trails</title>
-<meta name="description" content="Give the gift of choice. E-Bliss Cards from ₹250 to ₹2,500, or any amount you decide.">
+<title>Your Wishlist — Shreyaah's Bliss Trails</title>
+<meta name="description" content="The pieces you have saved for later from the Shreyaah's Bliss Trails collection.">
 <link rel="icon" href="../assets/img/logo-mark.png">
 <link rel="stylesheet" href="../assets/css/style.css">
 <script>document.documentElement.classList.add('js');</script>
@@ -95,144 +95,51 @@
 <main id="main">
   <!-- PAGE HEAD -->
   <section class="page-head">
-    <div class="wash wash--gold" style="width:min(500px,52vw);height:300px;right:2%;top:-8%"></div>
+    <div class="wash wash--peach" style="width:min(480px,50vw);height:280px;right:2%;top:-8%"></div>
+    <div class="scenery scenery--r"><img src="../assets/img/illus-little-treasures.jpg" alt=""></div>
     <div class="wrap">
       <nav class="crumbs" aria-label="Breadcrumb">
-        <a href="../index.html">Home</a><span>/</span><span>E-Bliss Card</span>
+        <a href="../index.html">Home</a><span>/</span><span>Wishlist</span>
       </nav>
-      <p class="eyebrow">Gift Card</p>
-      <h1>The E-Bliss Card</h1>
-      <p class="lead">When you know someone would love something from here, but not which
-         thing. Put towards any product, or any session.</p>
+      <p class="eyebrow">Kept For Later</p>
+      <h1>Your wishlist</h1>
+      <p class="lead">A gentle place to hold what caught your eye but isn't quite
+         ready to come home yet.</p>
     </div>
   </section>
 
-  <section class="section" style="padding-top:0">
-    <div class="wrap">
-      <div class="split" style="align-items:start;gap:clamp(2rem,5vw,4rem)">
+  <section class="section" style="padding-top:clamp(1.5rem,3vw,2.5rem)">
+    <div class="wrap wrap--narrow">
 
-        <!-- LEFT: card + info -->
-        <div class="reveal">
-          <div class="giftcard">
-            <div class="gc-brand">
-              <img src="../assets/img/logo.png" alt="" width="34" height="34">
-              <span>Shreyaah's<br>Bliss Trails</span>
-            </div>
-            <div>
-              <p class="gc-label">E-Bliss Card</p>
-              <p class="gc-amt" data-gc-amount>₹500</p>
-            </div>
-          </div>
-
-          <div class="card mt-3">
-            <h4>How it works</h4>
-            <ol style="margin:1rem 0 0;padding-left:1.15rem;display:grid;gap:.7rem">
-              <li class="small muted">Choose an amount, or enter your own.</li>
-              <li class="small muted">Tell us who it's for and add a message if you'd like one.</li>
-              <li class="small muted">We send the card by email, on the date you choose.</li>
-              <li class="small muted">They put it towards any product or any session.</li>
-            </ol>
-          </div>
-
-          <div class="card card--soft mt-2">
-            <h4>Good to know</h4>
-            <ul class="mt-1" style="list-style:none;padding:0;display:grid;gap:.6rem">
-              <li class="small muted" style="display:flex;gap:.7rem"><span style="color:var(--ochre)">—</span> Usable against products and sessions alike.</li>
-              <li class="small muted" style="display:flex;gap:.7rem"><span style="color:var(--ochre)">—</span> Can be used across more than one order until the balance runs out.</li>
-              <li class="small muted" style="display:flex;gap:.7rem"><span style="color:var(--ochre)">—</span> Not exchangeable for cash.</li>
-              <li class="small muted" style="display:flex;gap:.7rem"><span style="color:var(--ochre)">—</span> Sessions booked with a card follow the standard <a class="a-inline" href="../services/index.html#policy">cancellation policy</a>.</li>
-            </ul>
-            <p class="mt-2"><a class="link" href="../legal/index.html#giftcard">Full gift card terms <span class="arw">→</span></a></p>
-          </div>
+      <!-- EMPTY STATE -->
+      <div class="empty" data-wishlist-empty hidden>
+        <span class="motif">
+          <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/>
+          </svg>
+        </span>
+        <h3>Your wishlist is empty</h3>
+        <p>Tap the heart on any piece in the collection and it will be kept
+           here for you.</p>
+        <div class="flex flex-wrap gap-1 mt-2" style="justify-content:center">
+          <a class="btn btn--primary btn--sm" href="../products/index.html">Browse the collection</a>
+          <a class="btn btn--ghost btn--sm" href="../cart/index.html">See your cart</a>
         </div>
-
-        <!-- RIGHT: form -->
-        <form class="card reveal" data-d="1" data-demo-form>
-          <h3 style="font-size:1.25rem">Choose an amount</h3>
-
-          <div class="amount-grid mt-2">
-            <label><input type="radio" name="gift-amount" value="250"> ₹250</label>
-            <label><input type="radio" name="gift-amount" value="500" checked> ₹500</label>
-            <label><input type="radio" name="gift-amount" value="1000"> ₹1,000</label>
-            <label><input type="radio" name="gift-amount" value="1500"> ₹1,500</label>
-            <label><input type="radio" name="gift-amount" value="2000"> ₹2,000</label>
-            <label><input type="radio" name="gift-amount" value="2500"> ₹2,500</label>
-            <label style="grid-column:span 2"><input type="radio" name="gift-amount" value="other"> Other amount</label>
-          </div>
-
-          <div class="field mt-2" id="gift-other" hidden>
-            <label for="g-custom">Your amount (₹)</label>
-            <input id="g-custom" name="customAmount" type="number" min="250" step="50" placeholder="e.g. 750">
-            <span class="hint">Minimum ₹250.</span>
-          </div>
-
-          <hr class="tear" style="margin:1.75rem 0">
-
-          <h3 style="font-size:1.25rem">Who is it for?</h3>
-          <div class="field-row mt-2">
-            <div class="field">
-              <label for="g-to">Recipient's name <span class="req">*</span></label>
-              <input id="g-to" name="to" type="text" required>
-            </div>
-            <div class="field">
-              <label for="g-to-email">Recipient's email <span class="req">*</span></label>
-              <input id="g-to-email" name="toEmail" type="email" required>
-            </div>
-          </div>
-
-          <div class="field-row">
-            <div class="field">
-              <label for="g-from">Your name <span class="req">*</span></label>
-              <input id="g-from" name="from" type="text" required autocomplete="name">
-            </div>
-            <div class="field">
-              <label for="g-send">Send on</label>
-              <input id="g-send" name="sendOn" type="date">
-            </div>
-          </div>
-
-          <div class="field">
-            <label for="g-msg">A message</label>
-            <textarea id="g-msg" name="message" maxlength="300" style="min-height:100px" placeholder="Written in your words, printed on the card."></textarea>
-            <span class="hint">Optional, up to 300 characters.</span>
-          </div>
-
-          <button class="btn btn--primary btn--block" type="submit">Continue</button>
-
-          <div class="draft mt-2" data-form-note hidden>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01"/><circle cx="12" cy="12" r="9"/></svg>
-            <div><strong>Not yet connected</strong><br>
-            No payment system is connected yet, so no card can be issued from this page.
-            Please send the amount, recipient and message on
-            <a class="a-inline" href="https://wa.me/919836783088">WhatsApp</a> or to
-            <a class="a-inline" href="mailto:connectwdls@gmail.com">connectwdls@gmail.com</a>
-            and we will arrange it directly.</div>
-          </div>
-        </form>
       </div>
+
+      <div data-wishlist-page></div>
+
+      <div class="flex flex-wrap gap-1 mt-3">
+        <button class="btn btn--primary btn--sm" type="button" data-move-cart>Add everything to cart</button>
+        <a class="btn btn--ghost btn--sm" href="../products/index.html">Keep browsing</a>
+      </div>
+
+      <p class="tiny muted mt-3">Your wishlist is stored in this browser only — it isn't
+         sent to us, and it won't follow you to another device. Accounts aren't open
+         yet; once they are, this will move into your
+         <a class="a-inline" href="../members/index.html">Members Space</a>.</p>
     </div>
   </section>
-
-  <script>
-  (function () {
-    var out = document.querySelector('[data-gc-amount]');
-    var custom = document.getElementById('g-custom');
-    function fmt(v) { return '₹' + Number(v).toLocaleString('en-IN'); }
-    function paint() {
-      var sel = document.querySelector('input[name="gift-amount"]:checked');
-      if (!sel) return;
-      if (sel.value === 'other') {
-        out.textContent = custom && custom.value ? fmt(custom.value) : '₹—';
-      } else {
-        out.textContent = fmt(sel.value);
-      }
-    }
-    document.querySelectorAll('input[name="gift-amount"]').forEach(function (r) {
-      r.addEventListener('change', paint);
-    });
-    if (custom) custom.addEventListener('input', paint);
-  })();
-  </script>
 
 </main>
 
