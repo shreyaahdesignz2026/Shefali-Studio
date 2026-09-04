@@ -650,7 +650,10 @@ body.no-scroll { overflow: hidden; }
 .page-head {
   position: relative;
   padding-block: clamp(3.25rem, 8vw, 6rem) clamp(2.5rem, 5vw, 4rem);
-  overflow: hidden;
+  /* No overflow:hidden here — it was hard-clipping the scenery illustration's
+     own organic fade at this container's edge, showing as a straight corner
+     cutting across it. body already has overflow-x:hidden globally, so this
+     isn't needed to prevent a horizontal scrollbar. */
 }
 .page-head .wrap { position: relative; z-index: 2; }
 .page-head h1 { margin-bottom: .35em; }
