@@ -25,7 +25,7 @@ function slideMarkup(slug, product, supabaseUrl, isActive) {
     `<picture class="slide${isActive ? ' is-active' : ''}">` +
     `<source srcset="${base}.avif" type="image/avif">` +
     `<source srcset="${base}.webp" type="image/webp">` +
-    `<img src="${base}.jpg" alt="${escapeHtml(product.name)}" loading="lazy" width="400" height="400">` +
+    `<img src="${base}.jpg" alt="${escapeHtml(product.name)}" loading="lazy" width="300" height="400">` +
     '</picture>'
   );
 }
