@@ -1,0 +1,73 @@
+/* Admin panel — plain and functional, not a re-theme of the storefront. */
+.admin-body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: #F5F3EF;
+  color: #2B3A44;
+  margin: 0;
+  min-height: 100vh;
+}
+.admin-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  background: #2B3A44;
+  color: #fff;
+}
+.admin-header nav a {
+  color: #E8DFCF;
+  text-decoration: none;
+  margin-right: 1.25rem;
+  font-size: 0.9rem;
+}
+.admin-header nav a.is-active { color: #fff; font-weight: 600; }
+.admin-main { max-width: 1000px; margin: 0 auto; padding: 1.5rem; }
+.admin-card {
+  background: #fff;
+  border: 1px solid #DDD5C7;
+  border-radius: 8px;
+  padding: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+.admin-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.admin-table th, .admin-table td {
+  text-align: left;
+  padding: 0.6rem 0.5rem;
+  border-bottom: 1px solid #EEE8DC;
+  vertical-align: top;
+}
+.admin-form-row { display: grid; gap: 0.4rem; margin-bottom: 0.9rem; }
+.admin-form-row label { font-size: 0.82rem; font-weight: 600; }
+.admin-form-row input, .admin-form-row select, .admin-form-row textarea {
+  padding: 0.55rem 0.7rem;
+  border: 1px solid #C9C0AF;
+  border-radius: 6px;
+  font-size: 0.92rem;
+  font-family: inherit;
+}
+.admin-btn {
+  display: inline-block;
+  padding: 0.55rem 1.1rem;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  background: #2B3A44;
+  color: #fff;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+.admin-btn--ghost { background: transparent; border-color: #2B3A44; color: #2B3A44; }
+.admin-btn--danger { background: #A33; }
+.admin-btn[disabled] { opacity: 0.5; cursor: not-allowed; }
+.admin-error { color: #A33; font-size: 0.85rem; margin-top: 0.4rem; }
+.admin-note { color: #6B6455; font-size: 0.82rem; }
+.admin-status-badge {
+  display: inline-block;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+.admin-status-badge--placed { background: #E4EFE0; color: #2E6B2E; }
+.admin-status-badge--cancelled { background: #F3DEDE; color: #A33; }
+.admin-status-badge--delivered { background: #DDE7F3; color: #2B4E8C; }
+.admin-status-badge--test { background: #F3EEDA; color: #8F6213; }

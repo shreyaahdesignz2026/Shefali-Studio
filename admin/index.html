@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin Login — Shreyaah's Bliss Trails</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="../assets/img/logo-mark.png">
+<link rel="stylesheet" href="../assets/css/admin.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+</head>
+<body class="admin-body">
+  <div class="admin-main" style="max-width:380px;margin-top:4rem">
+    <div class="admin-card">
+      <h1 style="font-size:1.2rem;margin-top:0">Admin Login</h1>
+      <form id="login-form">
+        <div class="admin-form-row">
+          <label for="email">Email</label>
+          <input id="email" type="email" required autocomplete="username">
+        </div>
+        <div class="admin-form-row">
+          <label for="password">Password</label>
+          <input id="password" type="password" required autocomplete="current-password">
+        </div>
+        <button class="admin-btn" type="submit" style="width:100%">Log in</button>
+        <p class="admin-error" id="login-error" hidden></p>
+      </form>
+    </div>
+  </div>
+
+  <script src="../assets/js/admin-common.js"></script>
+  <script>
+    (function () {
+      var form = document.getElementById('login-form');
+      var errorEl = document.getElementById('login-error');
+
+      // If already logged in, skip straight to the products page.
+      window.SBTAdmin.client.auth.getSession().then(function (res) {
+        if (res.data && res.data.session) window.location.href = '/admin/products/';
+      });
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        errorEl.hidden = true;
+        var email = document.getElementById('email').value;
+        var password = document.getElementById('password').value;
+        window.SBTAdmin.client.auth
+          .signInWithPassword({ email: email, password: password })
+          .then(function (res) {
+            if (res.error) {
+              errorEl.textContent = res.error.message;
+              errorEl.hidden = false;
+              return;
+            }
+            window.location.href = '/admin/products/';
+          });
+      });
+    })();
+  </script>
+</body>
+</html>
