@@ -6,7 +6,7 @@
     "api/admin/upload-image.js": { "memory": 1024, "maxDuration": 30 },
     "api/admin/publish.js": {
       "maxDuration": 60,
-      "includeFiles": "{index.html,about/**,admin/**,api/**,artisoul-tribe/**,assets/**,cart/**,checkout/**,contact/**,events/**,faq/**,gift-card/**,legal/**,members/**,notice-board/**,package.json,package-lock.json,products/**,services/**,special-offer/**,vercel.json,wishlist/**}"
+      "includeFiles": "**"
     }
   }
 }
