@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Products — Admin</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="../../assets/img/logo-mark.png">
+<link rel="stylesheet" href="../../assets/css/admin.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+</head>
+<body class="admin-body">
+  <header class="admin-header">
+    <strong>Shreyaah's Bliss Trails — Admin</strong>
+    <nav>
+      <a href="../products/" class="is-active">Products</a>
+      <a href="../orders/">Orders</a>
+      <a href="#" id="logout-link">Log out</a>
+    </nav>
+  </header>
+
+  <main class="admin-main">
+    <!-- PUBLISH-BUTTON-SLOT: Task 10 adds a Publish button + status area here -->
+
+    <div class="admin-card">
+      <h2 id="form-heading" style="margin-top:0">Add a product</h2>
+      <form id="product-form">
+        <input type="hidden" id="product-id" value="">
+        <div class="admin-form-row">
+          <label for="name">Name</label>
+          <input id="name" required>
+        </div>
+        <div class="admin-form-row">
+          <label for="category">Category (matches a filter tab, e.g. "candles")</label>
+          <input id="category" required>
+        </div>
+        <div class="admin-form-row">
+          <label for="subcategory">Subcategory / tag label (e.g. "Soy Wax Candle · Ambrosial")</label>
+          <input id="subcategory">
+        </div>
+        <div class="admin-form-row">
+          <label for="description">Description</label>
+          <textarea id="description" rows="2"></textarea>
+        </div>
+        <div class="admin-form-row">
+          <label for="price">Price (₹)</label>
+          <input id="price" type="number" step="0.01" min="0" required>
+        </div>
+        <div class="admin-form-row">
+          <label for="original_price">Original price (₹, optional — set only for a sale item)</label>
+          <input id="original_price" type="number" step="0.01" min="0">
+        </div>
+        <div class="admin-form-row">
+          <label><input type="checkbox" id="is_provisional"> Price is provisional ("price to confirm")</label>
+        </div>
+        <!-- IMAGE-UPLOAD-SLOT: Task 9 adds a file input + upload button here -->
+        <button class="admin-btn" type="submit">Save product</button>
+        <button class="admin-btn admin-btn--ghost" type="button" id="cancel-edit" hidden>Cancel edit</button>
+        <p class="admin-error" id="form-error" hidden></p>
+      </form>
+    </div>
+
+    <div class="admin-card">
+      <h2 style="margin-top:0">Catalog</h2>
+      <table class="admin-table">
+        <thead>
+          <tr><th>Name</th><th>Category</th><th>Price</th><th>Status</th><th>Image</th><th></th></tr>
+        </thead>
+        <tbody id="product-rows"></tbody>
+      </table>
+    </div>
+  </main>
+
+  <script src="../../assets/js/admin-common.js"></script>
+  <script src="../../assets/js/admin-products.js"></script>
+</body>
+</html>
