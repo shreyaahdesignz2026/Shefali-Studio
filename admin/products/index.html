@@ -27,16 +27,20 @@
     </div>
 
     <div class="admin-card">
-      <h2 id="form-heading" style="margin-top:0">Add a product</h2>
-      <form id="product-form">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <h2 style="margin:0">Products</h2>
+        <button class="admin-btn" type="button" id="toggle-form-btn">Add a product</button>
+      </div>
+      <form id="product-form" hidden style="margin-top:1.25rem">
+        <h3 id="form-heading" style="margin-top:0">Add a product</h3>
         <input type="hidden" id="product-id" value="">
         <div class="admin-form-row">
           <label for="name">Name</label>
           <input id="name" required>
         </div>
         <div class="admin-form-row">
-          <label for="category">Category (matches a filter tab, e.g. "candles")</label>
-          <input id="category" required>
+          <label for="category">Category</label>
+          <select id="category" required></select>
         </div>
         <div class="admin-form-row">
           <label for="subcategory">Subcategory / tag label (e.g. "Soy Wax Candle · Ambrosial")</label>

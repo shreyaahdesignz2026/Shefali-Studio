@@ -412,15 +412,6 @@
     window.addEventListener('hashchange', applyHash);
   })();
 
-  /* ---------- "load more" reveal for long product grids ---------- */
-  $$('[data-load-more]').forEach(function (btn) {
-    var sel = btn.getAttribute('data-load-more');
-    btn.addEventListener('click', function () {
-      $$(sel).forEach(function (el) { el.hidden = false; });
-      btn.hidden = true;
-    });
-  });
-
   /* ---------- enquiry / booking forms ----------
      No backend is connected yet, so forms confirm locally and
      point the visitor at WhatsApp or email instead of silently failing. */

@@ -9,6 +9,8 @@
     var formHeading = document.getElementById('form-heading');
     var cancelBtn = document.getElementById('cancel-edit');
     var rowsBody = document.getElementById('product-rows');
+    var categorySelect = document.getElementById('category');
+    var toggleFormBtn = document.getElementById('toggle-form-btn');
 
     document.getElementById('logout-link').addEventListener('click', function (e) {
       e.preventDefault();
@@ -32,7 +34,7 @@
     function fillForm(p) {
       idField.value = p.id;
       document.getElementById('name').value = p.name;
-      document.getElementById('category').value = p.category;
+      categorySelect.value = p.category;
       document.getElementById('subcategory').value = p.subcategory || '';
       document.getElementById('description').value = p.description || '';
       document.getElementById('price').value = p.price;
@@ -41,7 +43,17 @@
       formHeading.textContent = 'Edit product';
       cancelBtn.hidden = false;
       document.getElementById('upload-image-btn').disabled = false;
+      form.hidden = false;
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function updateCategoryOptions(products) {
+      var current = categorySelect.value;
+      var categories = Array.from(new Set(products.map(function (p) { return p.category; }))).sort();
+      categorySelect.innerHTML = categories
+        .map(function (c) { return '<option value="' + c + '">' + c + '</option>'; })
+        .join('');
+      if (categories.indexOf(current) > -1) categorySelect.value = current;
     }
 
     function renderRows(products) {
@@ -107,6 +119,7 @@
         .order('created_at', { ascending: false })
         .then(function (res) {
           if (res.error) { alert(res.error.message); return; }
+          updateCategoryOptions(res.data);
           renderRows(res.data);
         });
     }
@@ -117,7 +130,7 @@
 
       var payload = {
         name: document.getElementById('name').value.trim(),
-        category: document.getElementById('category').value.trim(),
+        category: categorySelect.value,
         subcategory: document.getElementById('subcategory').value.trim() || null,
         description: document.getElementById('description').value.trim() || null,
         price: parseFloat(document.getElementById('price').value),
@@ -140,11 +153,24 @@
           return;
         }
         resetForm();
+        form.hidden = true;
         loadProducts();
       });
     });
 
-    cancelBtn.addEventListener('click', resetForm);
+    cancelBtn.addEventListener('click', function () {
+      resetForm();
+      form.hidden = true;
+    });
+
+    toggleFormBtn.addEventListener('click', function () {
+      if (form.hidden) {
+        resetForm();
+        form.hidden = false;
+      } else {
+        form.hidden = true;
+      }
+    });
 
     document.getElementById('upload-image-btn').addEventListener('click', function () {
       var id = idField.value;
