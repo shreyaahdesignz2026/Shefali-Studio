@@ -1127,6 +1127,22 @@ body.no-scroll { overflow: hidden; }
 .draft strong { font-weight: 700; letter-spacing: .06em; text-transform: uppercase; font-size: .7rem; }
 .draft[data-editable] { cursor: text; }
 
+.form-success {
+  display: flex;
+  align-items: flex-start;
+  gap: .7rem;
+  padding: .8rem 1rem;
+  margin: 1.1rem 0;
+  background: rgba(167,210,159,.18);
+  border: 1px solid rgba(107,143,99,.4);
+  border-radius: 2px;
+  font-size: .795rem;
+  line-height: 1.62;
+  color: var(--sage-deep);
+}
+.form-success svg { width: 15px; height: 15px; flex-shrink: 0; margin-top: .22rem; }
+.form-success strong { font-weight: 700; letter-spacing: .06em; text-transform: uppercase; font-size: .7rem; }
+
 /* Quote / testimonial */
 .quote {
   position: relative;

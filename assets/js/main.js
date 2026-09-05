@@ -429,10 +429,11 @@
     window.addEventListener('hashchange', applyHash);
   })();
 
-  /* ---------- enquiry / booking forms ----------
-     No backend is connected yet, so forms confirm locally and
-     point the visitor at WhatsApp or email instead of silently failing. */
-  $$('form[data-demo-form]').forEach(function (form) {
+  /* ---------- enquiry / booking forms with no backend ----------
+     These still just confirm locally and point the visitor at WhatsApp
+     or email. Forms with data-capture-form (below) are handled instead
+     by their own handler, since those actually reach a backend now. */
+  $$('form[data-demo-form]:not([data-capture-form])').forEach(function (form) {
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       var note = form.querySelector('[data-form-note]');
@@ -444,9 +445,10 @@
     });
   });
 
-  /* ---------- capture booking/enquiry/registration forms for the admin panel ---------- */
+  /* ---------- booking/enquiry/registration forms — sent to the admin panel ---------- */
   $$('form[data-capture-form]').forEach(function (form) {
-    form.addEventListener('submit', function () {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
       var formType = form.getAttribute('data-capture-form');
       var fields = {};
       Array.prototype.forEach.call(form.elements, function (el) {
@@ -454,11 +456,30 @@
         if ((el.type === 'radio' || el.type === 'checkbox') && !el.checked) return;
         fields[el.name] = el.value;
       });
+
+      var note = form.querySelector('[data-form-note]');
+
       fetch('/api/enquiries', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ form_type: formType, fields: fields }),
-      }).catch(function () {});
+      })
+        .then(function (r) { return r.json(); })
+        .then(function (json) {
+          if (json.error) {
+            toast("Something went wrong — please send your details on WhatsApp or email instead");
+            return;
+          }
+          form.reset();
+          if (note) {
+            note.hidden = false;
+            note.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+          toast("Thank you — we've received your details");
+        })
+        .catch(function () {
+          toast("Something went wrong — please send your details on WhatsApp or email instead");
+        });
     });
   });
 
