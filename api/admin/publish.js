@@ -11,6 +11,7 @@ const INCLUDED_TOP_LEVEL = [
   'index.html',
   'about',
   'admin',
+  'api',
   'artisoul-tribe',
   'assets',
   'cart',
@@ -22,9 +23,12 @@ const INCLUDED_TOP_LEVEL = [
   'legal',
   'members',
   'notice-board',
+  'package.json',
+  'package-lock.json',
   'products',
   'services',
   'special-offer',
+  'vercel.json',
   'wishlist',
 ];
 
