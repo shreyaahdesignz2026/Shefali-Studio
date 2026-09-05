@@ -444,6 +444,24 @@
     });
   });
 
+  /* ---------- capture booking/enquiry/registration forms for the admin panel ---------- */
+  $$('form[data-capture-form]').forEach(function (form) {
+    form.addEventListener('submit', function () {
+      var formType = form.getAttribute('data-capture-form');
+      var fields = {};
+      Array.prototype.forEach.call(form.elements, function (el) {
+        if (!el.name) return;
+        if ((el.type === 'radio' || el.type === 'checkbox') && !el.checked) return;
+        fields[el.name] = el.value;
+      });
+      fetch('/api/enquiries', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ form_type: formType, fields: fields }),
+      }).catch(function () {});
+    });
+  });
+
   /* ---------- gift card amount picker ---------- */
   var giftOther = $('#gift-other');
   if (giftOther) {

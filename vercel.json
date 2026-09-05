@@ -1,5 +1,6 @@
 {
   "functions": {
+    "api/enquiries.js": { "maxDuration": 30 },
     "api/checkout/create-order.js": { "maxDuration": 30 },
     "api/checkout/verify-payment.js": { "maxDuration": 30 },
     "api/admin/admin-users.js": { "maxDuration": 30 },

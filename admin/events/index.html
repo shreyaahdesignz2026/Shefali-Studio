@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Orders — Admin</title>
+<title>Events — Admin</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="icon" href="../../assets/img/logo-mark.png">
 <link rel="stylesheet" href="../../assets/css/admin.css">
@@ -14,10 +14,10 @@
     <strong>Shreyaah's Bliss Trails — Admin</strong>
     <nav>
       <a href="../products/">Products</a>
-      <a href="../orders/" class="is-active">Orders</a>
+      <a href="../orders/">Orders</a>
       <a href="../services/">Services</a>
       <a href="../enquiries/">Enquiries</a>
-      <a href="../events/">Events</a>
+      <a href="../events/" class="is-active">Events</a>
       <a href="../admins/">Admins</a>
       <a href="#" id="logout-link">Log out</a>
     </nav>
@@ -25,20 +25,21 @@
 
   <main class="admin-main">
     <div class="admin-card">
-      <h2 style="margin-top:0">Orders</h2>
-      <p class="admin-note">Click a row to see the full order — address, items and status.</p>
+      <h2 style="margin-top:0">Event Registrations</h2>
+      <p class="admin-note">Click a row to see which event, how many places, and any access/dietary notes.</p>
       <div style="overflow-x:auto">
         <table class="admin-table">
           <thead>
-            <tr><th>#</th><th>Order ID</th><th>Customer Name</th><th>Contact Number</th><th>Total Paid</th><th></th></tr>
+            <tr><th>#</th><th>Name</th><th>Phone</th><th>Submitted</th><th></th></tr>
           </thead>
-          <tbody id="orders-rows"></tbody>
+          <tbody id="submission-rows"></tbody>
         </table>
       </div>
     </div>
   </main>
 
+  <script>window.SBT_FORM_TYPES = ['event_registration'];</script>
   <script src="../../assets/js/admin-common.js"></script>
-  <script src="../../assets/js/admin-orders.js"></script>
+  <script src="../../assets/js/admin-submissions.js"></script>
 </body>
 </html>
