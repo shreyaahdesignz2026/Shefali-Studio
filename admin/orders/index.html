@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orders — Admin</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="../../assets/img/logo-mark.png">
+<link rel="stylesheet" href="../../assets/css/admin.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+</head>
+<body class="admin-body">
+  <header class="admin-header">
+    <strong>Shreyaah's Bliss Trails — Admin</strong>
+    <nav>
+      <a href="../products/">Products</a>
+      <a href="../orders/" class="is-active">Orders</a>
+      <a href="#" id="logout-link">Log out</a>
+    </nav>
+  </header>
+
+  <main class="admin-main">
+    <div class="admin-card">
+      <h2 style="margin-top:0">Orders</h2>
+      <div id="orders-list"></div>
+    </div>
+  </main>
+
+  <script src="../../assets/js/admin-common.js"></script>
+  <script src="../../assets/js/admin-orders.js"></script>
+</body>
+</html>
