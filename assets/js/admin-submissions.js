@@ -18,6 +18,16 @@
       window.SBTAdmin.logout();
     });
 
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+      });
+    }
+
+    function withLineBreaks(s) {
+      return escapeHtml(s).replace(/\n/g, '<br>');
+    }
+
     function humanize(key) {
       return key.replace(/_/g, ' ').replace(/\b\w/g, function (c) { return c.toUpperCase(); });
     }
@@ -25,15 +35,15 @@
     function renderDetail(row) {
       var detailLines = Object.keys(row.details || {})
         .map(function (k) {
-          return '<p class="admin-note"><strong>' + humanize(k) + ':</strong> ' + row.details[k] + '</p>';
+          return '<p class="admin-note"><strong>' + humanize(k) + ':</strong> ' + withLineBreaks(row.details[k]) + '</p>';
         })
         .join('');
 
       return (
-        (formTypes.length > 1 ? '<p class="admin-note"><strong>Type:</strong> ' + (TYPE_LABELS[row.form_type] || row.form_type) + '</p>' : '') +
-        (row.email ? '<p class="admin-note"><strong>Email:</strong> ' + row.email + '</p>' : '') +
+        (formTypes.length > 1 ? '<p class="admin-note"><strong>Type:</strong> ' + escapeHtml(TYPE_LABELS[row.form_type] || row.form_type) + '</p>' : '') +
+        (row.email ? '<p class="admin-note"><strong>Email:</strong> ' + escapeHtml(row.email) + '</p>' : '') +
         detailLines +
-        (row.message ? '<p class="admin-note"><strong>Message:</strong> ' + row.message + '</p>' : '') +
+        (row.message ? '<p class="admin-note"><strong>Message:</strong><br>' + withLineBreaks(row.message) + '</p>' : '') +
         '<p class="admin-note">Submitted ' + new Date(row.created_at).toLocaleString('en-IN') + '</p>'
       );
     }
@@ -44,8 +54,8 @@
           return (
             '<tr class="admin-order-row" data-toggle-row="' + row.id + '">' +
             '<td>' + (i + 1) + '</td>' +
-            '<td>' + row.name + '</td>' +
-            '<td>' + (row.phone || '') + '</td>' +
+            '<td>' + escapeHtml(row.name) + '</td>' +
+            '<td>' + escapeHtml(row.phone || '') + '</td>' +
             '<td>' + new Date(row.created_at).toLocaleDateString('en-IN') + '</td>' +
             '<td><button class="admin-btn admin-btn--danger" data-delete-row="' + row.id + '">Delete</button></td>' +
             '</tr>' +
