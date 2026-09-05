@@ -1,10 +1,11 @@
+const crypto = require('node:crypto');
 const sharp = require('sharp');
 const { requireAdmin } = require('../_lib/auth');
 const { getSupabaseAdmin } = require('../_lib/supabaseAdmin');
 
 const MAX_WIDTH = 1200;
 const BUCKET = 'product-images';
-const CACHE_MAX_AGE_SECONDS = String(60 * 60 * 24 * 365); // 1 year — filenames are stable per product, so it's safe to cache this long
+const CACHE_MAX_AGE_SECONDS = String(60 * 60 * 24 * 365); // 1 year — each slug is unique and immutable, so this is safe
 
 function readRawBody(req) {
   return new Promise((resolve, reject) => {
@@ -16,66 +17,100 @@ function readRawBody(req) {
 }
 
 module.exports = async (req, res) => {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
-
-  const productId = req.query.productId;
-  if (!productId) {
-    return res.status(400).json({ error: 'Missing productId query param' });
-  }
-
   try {
     await requireAdmin(req.headers.authorization);
   } catch (e) {
     return res.status(e.status || 401).json({ error: e.message });
   }
 
-  let original;
-  try {
-    original = await readRawBody(req);
-    if (!original.length) throw new Error('Empty request body');
-  } catch (e) {
-    return res.status(400).json({ error: `Could not read uploaded image: ${e.message}` });
-  }
-
-  let avifBuffer, webpBuffer, jpgBuffer;
-  try {
-    const pipeline = sharp(original).resize({ width: MAX_WIDTH, withoutEnlargement: true });
-    [avifBuffer, webpBuffer, jpgBuffer] = await Promise.all([
-      pipeline.clone().avif({ quality: 60 }).toBuffer(),
-      pipeline.clone().webp({ quality: 80 }).toBuffer(),
-      pipeline.clone().jpeg({ quality: 82 }).toBuffer(),
-    ]);
-  } catch (e) {
-    return res.status(400).json({ error: `Could not process image: ${e.message}` });
-  }
-
   const supabase = getSupabaseAdmin();
-  const uploads = [
-    { path: `${productId}/image.avif`, buffer: avifBuffer, contentType: 'image/avif' },
-    { path: `${productId}/image.webp`, buffer: webpBuffer, contentType: 'image/webp' },
-    { path: `${productId}/image.jpg`, buffer: jpgBuffer, contentType: 'image/jpeg' },
-  ];
 
-  for (const u of uploads) {
-    const { error } = await supabase.storage.from(BUCKET).upload(u.path, u.buffer, {
-      contentType: u.contentType,
-      cacheControl: CACHE_MAX_AGE_SECONDS,
-      upsert: true,
-    });
-    if (error) {
-      return res.status(500).json({ error: `Storage upload failed for ${u.path}: ${error.message}` });
+  if (req.method === 'POST') {
+    const productId = req.query.productId;
+    if (!productId) {
+      return res.status(400).json({ error: 'Missing productId query param' });
     }
+
+    let original;
+    try {
+      original = await readRawBody(req);
+      if (!original.length) throw new Error('Empty request body');
+    } catch (e) {
+      return res.status(400).json({ error: `Could not read uploaded image: ${e.message}` });
+    }
+
+    let avifBuffer, webpBuffer, jpgBuffer;
+    try {
+      const pipeline = sharp(original).resize({ width: MAX_WIDTH, withoutEnlargement: true });
+      [avifBuffer, webpBuffer, jpgBuffer] = await Promise.all([
+        pipeline.clone().avif({ quality: 60 }).toBuffer(),
+        pipeline.clone().webp({ quality: 80 }).toBuffer(),
+        pipeline.clone().jpeg({ quality: 82 }).toBuffer(),
+      ]);
+    } catch (e) {
+      return res.status(400).json({ error: `Could not process image: ${e.message}` });
+    }
+
+    const slug = crypto.randomUUID();
+    const uploads = [
+      { path: `${productId}/${slug}.avif`, buffer: avifBuffer, contentType: 'image/avif' },
+      { path: `${productId}/${slug}.webp`, buffer: webpBuffer, contentType: 'image/webp' },
+      { path: `${productId}/${slug}.jpg`, buffer: jpgBuffer, contentType: 'image/jpeg' },
+    ];
+
+    for (const u of uploads) {
+      const { error } = await supabase.storage.from(BUCKET).upload(u.path, u.buffer, {
+        contentType: u.contentType,
+        cacheControl: CACHE_MAX_AGE_SECONDS,
+        upsert: true,
+      });
+      if (error) {
+        return res.status(500).json({ error: `Storage upload failed for ${u.path}: ${error.message}` });
+      }
+    }
+
+    const { data: existing, error: existingError } = await supabase
+      .from('product_images')
+      .select('position')
+      .eq('product_id', productId)
+      .order('position', { ascending: false })
+      .limit(1);
+    if (existingError) return res.status(500).json({ error: existingError.message });
+    const nextPosition = existing.length ? existing[0].position + 1 : 0;
+
+    const { data: row, error: insertError } = await supabase
+      .from('product_images')
+      .insert({ product_id: productId, slug, position: nextPosition })
+      .select()
+      .single();
+    if (insertError) return res.status(500).json({ error: insertError.message });
+
+    return res.status(200).json({ ok: true, image: row });
   }
 
-  const { error: updateError } = await supabase
-    .from('products')
-    .update({ image_path: productId, updated_at: new Date().toISOString() })
-    .eq('id', productId);
-  if (updateError) {
-    return res.status(500).json({ error: `Product update failed: ${updateError.message}` });
+  if (req.method === 'DELETE') {
+    const imageId = req.query.imageId;
+    if (!imageId) {
+      return res.status(400).json({ error: 'Missing imageId query param' });
+    }
+
+    const { data: row, error: rowError } = await supabase
+      .from('product_images')
+      .select('product_id, slug')
+      .eq('id', imageId)
+      .maybeSingle();
+    if (rowError) return res.status(500).json({ error: rowError.message });
+    if (!row) return res.status(404).json({ error: 'Image not found' });
+
+    const paths = ['avif', 'webp', 'jpg'].map((ext) => `${row.product_id}/${row.slug}.${ext}`);
+    const { error: removeError } = await supabase.storage.from(BUCKET).remove(paths);
+    if (removeError) return res.status(500).json({ error: removeError.message });
+
+    const { error: deleteError } = await supabase.from('product_images').delete().eq('id', imageId);
+    if (deleteError) return res.status(500).json({ error: deleteError.message });
+
+    return res.status(200).json({ ok: true });
   }
 
-  return res.status(200).json({ ok: true, image_path: productId });
+  return res.status(405).json({ error: 'Method not allowed' });
 };

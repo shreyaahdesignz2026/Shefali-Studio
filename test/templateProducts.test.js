@@ -33,13 +33,41 @@ test('renders a provisional price note', () => {
   assert.match(html, /data-provisional="1"/);
 });
 
-test('renders a picture element when image_path is set', () => {
+test('renders a single picture with no slider nav when there is one image', () => {
   const html = productCard(
-    { id: '4', name: 'Photographed Thing', category: 'candles', price: 100, image_path: '4', status: 'active' },
+    {
+      id: '4',
+      name: 'Photographed Thing',
+      category: 'candles',
+      price: 100,
+      status: 'active',
+      images: [{ slug: 'abc' }],
+    },
     SUPABASE_URL
   );
-  assert.match(html, /<picture>/);
-  assert.match(html, new RegExp(`${SUPABASE_URL}/storage/v1/object/public/product-images/4/image\\.avif`));
+  assert.match(html, /class="product-media has-photo"/);
+  assert.match(html, /<picture class="slide is-active">/);
+  assert.match(html, new RegExp(`${SUPABASE_URL}/storage/v1/object/public/product-images/4/abc\\.avif`));
+  assert.doesNotMatch(html, /data-slide-nav/);
+});
+
+test('renders slider nav and dots when there are multiple images', () => {
+  const html = productCard(
+    {
+      id: '5',
+      name: 'Gallery Thing',
+      category: 'candles',
+      price: 100,
+      status: 'active',
+      images: [{ slug: 'one' }, { slug: 'two' }, { slug: 'three' }],
+    },
+    SUPABASE_URL
+  );
+  assert.equal((html.match(/<picture class="slide/g) || []).length, 3);
+  assert.match(html, /data-slide-nav="prev"/);
+  assert.match(html, /data-slide-nav="next"/);
+  const dotsBlock = html.match(/<div class="slider-dots">(.*?)<\/div>/)[1];
+  assert.equal((dotsBlock.match(/<span/g) || []).length, 3);
 });
 
 test('escapes HTML in product name', () => {

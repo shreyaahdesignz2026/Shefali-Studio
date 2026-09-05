@@ -7,6 +7,7 @@ const fs = require('fs');
 const path = require('path');
 const { getSupabaseAdmin } = require('../api/_lib/supabaseAdmin');
 const { renderCatalogueHtml } = require('../api/_lib/templateProducts');
+const { attachImages } = require('../api/_lib/productImages');
 
 async function main() {
   const targetDir = process.argv[2];
@@ -26,6 +27,8 @@ async function main() {
     console.error('Failed to load products:', error.message);
     process.exit(1);
   }
+
+  await attachImages(supabase, products);
 
   const catalogueHtml = renderCatalogueHtml(products, process.env.SUPABASE_URL);
 

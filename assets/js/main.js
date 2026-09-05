@@ -240,6 +240,23 @@
     });
   });
 
+  /* ---------- product photo slider ---------- */
+  $$('[data-slide-nav]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var slider = btn.closest('[data-slider]');
+      if (!slider) return;
+      var slides = $$('.slide', slider);
+      var dots = $$('.slider-dots span', slider);
+      var current = slides.findIndex(function (s) { return s.classList.contains('is-active'); });
+      var dir = btn.getAttribute('data-slide-nav') === 'next' ? 1 : -1;
+      var next = (current + dir + slides.length) % slides.length;
+      slides[current].classList.remove('is-active');
+      slides[next].classList.add('is-active');
+      if (dots[current]) dots[current].classList.remove('is-active');
+      if (dots[next]) dots[next].classList.add('is-active');
+    });
+  });
+
   /* ==========================================================
      Cart and wishlist pages. Both render from the same
      localStorage the header badges count, so they always agree.

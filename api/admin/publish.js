@@ -4,6 +4,7 @@ const os = require('os');
 const { requireAdmin } = require('../_lib/auth');
 const { getSupabaseAdmin } = require('../_lib/supabaseAdmin');
 const { renderCatalogueHtml } = require('../_lib/templateProducts');
+const { attachImages } = require('../_lib/productImages');
 const { deployDirectory } = require('../_lib/vercelDeploy');
 
 const INCLUDED_TOP_LEVEL = [
@@ -55,6 +56,12 @@ module.exports = async (req, res) => {
     .order('category')
     .order('name');
   if (error) return res.status(500).json({ error: error.message });
+
+  try {
+    await attachImages(supabase, products);
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
 
   const catalogueHtml = renderCatalogueHtml(products, process.env.SUPABASE_URL);
 
