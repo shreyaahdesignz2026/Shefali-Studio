@@ -61,9 +61,10 @@
             '<td>' + o.customer_name + '</td>' +
             '<td>' + o.customer_phone + '</td>' +
             '<td>' + money(o.grand_total) + ' ' + statusBadge(o.status) + '</td>' +
+            '<td><button class="admin-btn admin-btn--danger" data-delete-order="' + o.id + '">Delete</button></td>' +
             '</tr>' +
             '<tr class="admin-order-detail" id="order-detail-' + o.id + '" hidden>' +
-            '<td colspan="5">' + renderDetail(o, itemsByOrder[o.id] || []) + '</td>' +
+            '<td colspan="6">' + renderDetail(o, itemsByOrder[o.id] || []) + '</td>' +
             '</tr>'
           );
         })
@@ -73,6 +74,21 @@
         row.addEventListener('click', function () {
           var detail = document.getElementById('order-detail-' + row.getAttribute('data-toggle-order'));
           detail.hidden = !detail.hidden;
+        });
+      });
+
+      Array.prototype.forEach.call(tbody.querySelectorAll('[data-delete-order]'), function (btn) {
+        btn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          if (!confirm('Delete this order permanently? This cannot be undone.')) return;
+          client
+            .from('orders')
+            .delete()
+            .eq('id', btn.getAttribute('data-delete-order'))
+            .then(function (res) {
+              if (res.error) { alert(res.error.message); return; }
+              loadOrders();
+            });
         });
       });
 
@@ -100,7 +116,7 @@
           var orders = ordersRes.data;
           if (!orders.length) {
             document.getElementById('orders-rows').innerHTML =
-              '<tr><td colspan="5" class="admin-note">No orders yet.</td></tr>';
+              '<tr><td colspan="6" class="admin-note">No orders yet.</td></tr>';
             return;
           }
           client
