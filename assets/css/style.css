@@ -72,6 +72,38 @@ html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
+/* Handmade paper ground: warm wash + fibre texture + fine grain.
+   This lives on <html> as a real background (not a position:fixed
+   pseudo-element) — a fixed pseudo-element paints in its own layer that
+   sticky/positioned descendants can wall off from, so mix-blend-mode:multiply
+   on illustrations further down the tree ends up blending against nothing
+   (plain white) instead of the paper. A background on the root element is
+   the document canvas per spec, and every blend-mode element composites
+   against it correctly regardless of intervening stacking contexts. */
+/* Handmade paper ground — painted exactly ONCE, here on the root element.
+   Nothing else in the page repaints it. Two separately painted copies of the
+   same background (previously on .wrap as well) meet at a boundary, and even
+   with identical CSS those two paints don't land identically — which showed
+   as a faint but hard-edged box wherever a decorative illustration bled
+   across .wrap's edge. One paint for the whole page = no boundary to see.
+
+   For this to work, nothing between an illustration and <html> may create a
+   stacking context, or mix-blend-mode:multiply gets walled off from this
+   background and the illustration renders as a white block instead. That's
+   why .wrap / .scenery / .wash below deliberately carry no z-index. */
+html {
+  background-color: var(--cream);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.16'/%3E%3C/svg%3E"),
+    radial-gradient(ellipse 70% 50% at 15% 0%,   rgba(253,222,192,.55), transparent 60%),
+    radial-gradient(ellipse 60% 45% at 88% 12%,  rgba(118,158,176,.13), transparent 62%),
+    radial-gradient(ellipse 55% 40% at 50% 100%, rgba(218,138,103,.10), transparent 65%),
+    url('../img/paper-texture.jpg');
+  background-repeat: repeat, no-repeat, no-repeat, no-repeat, repeat;
+  background-size: 220px 220px, auto, auto, auto, 700px 700px;
+  background-attachment: fixed, fixed, fixed, fixed, fixed;
+  background-blend-mode: normal, multiply, multiply, multiply, normal;
+}
 body {
   margin: 0;
   font-family: var(--sans);
@@ -79,36 +111,9 @@ body {
   font-size: clamp(1rem, .96rem + .18vw, 1.075rem);
   line-height: 1.72;
   color: var(--text);
-  background-color: var(--cream);
+  background: transparent;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
-}
-
-/* Handmade paper ground: warm wash + fibre texture + fine grain */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: -2;
-  background-color: var(--cream);
-  background-image:
-    radial-gradient(ellipse 70% 50% at 15% 0%,   rgba(253,222,192,.55), transparent 60%),
-    radial-gradient(ellipse 60% 45% at 88% 12%,  rgba(118,158,176,.13), transparent 62%),
-    radial-gradient(ellipse 55% 40% at 50% 100%, rgba(218,138,103,.10), transparent 65%),
-    url('../img/paper-texture.jpg');
-  background-size: auto, auto, auto, 700px 700px;
-  background-repeat: no-repeat, no-repeat, no-repeat, repeat;
-  background-blend-mode: multiply, multiply, multiply, normal;
-}
-/* fine paper grain */
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  opacity: .5;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.32'/%3E%3C/svg%3E");
 }
 
 img { max-width: 100%; height: auto; display: block; }
@@ -343,49 +348,78 @@ p:last-child { margin-bottom: 0; }
 @media (max-width: 860px) { .split, .split--narrow-img { grid-template-columns: 1fr; } }
 
 /* Where an illustration sits beside a long text column, let it ride along
-   rather than float in the middle of its own empty half. */
+   rather than float in the middle of its own empty half. position:sticky
+   always creates its own stacking context (same issue as .wrap's z-index
+   above), so this needs its own copy of the paper background too, or the
+   blend-mode image inside loses sight of the page and shows as a white box. */
 @media (min-width: 861px) {
-  .split--sticky > .illus { position: sticky; top: 108px; }
+  .split--sticky > .illus {
+    position: sticky;
+    top: 108px;
+    background-color: var(--cream);
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.16'/%3E%3C/svg%3E"),
+      radial-gradient(ellipse 70% 50% at 15% 0%,   rgba(253,222,192,.55), transparent 60%),
+      radial-gradient(ellipse 60% 45% at 88% 12%,  rgba(118,158,176,.13), transparent 62%),
+      radial-gradient(ellipse 55% 40% at 50% 100%, rgba(218,138,103,.10), transparent 65%),
+      url('../img/paper-texture.jpg');
+    background-repeat: repeat, no-repeat, no-repeat, no-repeat, repeat;
+    background-size: 220px 220px, auto, auto, auto, 700px 700px;
+    background-attachment: fixed, fixed, fixed, fixed, fixed;
+    background-blend-mode: normal, multiply, multiply, multiply, normal;
+  }
 }
 
 /* ==========================================================================
    Illustration treatments — washed edges, never overpowering text
    ========================================================================== */
 
-/* Illustration with soft feathered edge, as if painted onto the page */
+/* Illustration, painted directly onto the page: each source image has its own
+   paper tone stretched to pure white and its edge dissolved into an irregular
+   watercolour bleed at the pixel level (see scratchpad/pdftools/paint.mjs),
+   so mix-blend-mode: multiply makes the white vanish and only pigment remains. */
 .illus {
   position: relative;
   display: block;
 }
 .illus img {
   width: 100%;
-  border-radius: 2px;
-  -webkit-mask-image: radial-gradient(ellipse 88% 86% at 50% 50%, #000 52%, transparent 96%);
-          mask-image: radial-gradient(ellipse 88% 86% at 50% 50%, #000 52%, transparent 96%);
   mix-blend-mode: multiply;
 }
-.illus--framed img {
-  -webkit-mask-image: none;
-          mask-image: none;
-  mix-blend-mode: normal;
-  border: 1px solid var(--rule-soft);
-  box-shadow: var(--shadow-paper);
-  background: var(--paper);
-  padding: clamp(.5rem, 1.4vw, 1rem);
+
+/* Homepage hero illustration. Deliberately wider than its own column and
+   pulled left, so it bleeds into the gap and reads at full presence without
+   running off the right edge of the window. The percentages ease back on
+   narrower windows, where there is less room either side to bleed into, and
+   reset entirely once the hero stacks to a single column.
+
+   Must sit after .illus img — same specificity, so source order decides.
+   Kept as a class rather than an inline style so the breakpoints below can
+   actually take effect; an inline width would outrank a media query. */
+.hero-illus img {
+  width: 125%;
+  max-width: none;
+  margin-left: -8%;
+}
+@media (max-width: 1100px) {
+  .hero-illus img { width: 118%; margin-left: -6%; }
+}
+@media (max-width: 860px) {
+  .hero-illus img { width: 100%; margin-left: 0; }
 }
 
-/* Faint scenery layer sitting behind a section */
+/* Faint scenery layer sitting behind a section. No z-index on purpose — see
+   the note on html's background above: an explicit z-index here would make
+   this its own stacking context and wall its mix-blend-mode off from the
+   page background. Document order already puts it behind .wrap's content. */
 .scenery {
   position: absolute;
   pointer-events: none;
   user-select: none;
-  z-index: 0;
   mix-blend-mode: multiply;
 }
 .scenery img {
   width: 100%;
-  -webkit-mask-image: radial-gradient(ellipse 78% 76% at 50% 50%, #000 30%, transparent 88%);
-          mask-image: radial-gradient(ellipse 78% 76% at 50% 50%, #000 30%, transparent 88%);
 }
 .scenery--r  { right: -6%;  top: 6%;   width: min(430px, 42vw); opacity: .13; }
 .scenery--l  { left: -7%;   top: 12%;  width: min(400px, 40vw); opacity: .12; }
@@ -394,12 +428,15 @@ p:last-child { margin-bottom: 0; }
 .scenery--c  { left: 50%; top: 50%; transform: translate(-50%,-50%); width: min(760px, 78vw); opacity: .07; }
 @media (max-width: 760px) { .scenery { opacity: .07 !important; } }
 
-.section > .wrap { position: relative; z-index: 1; }
+/* No z-index: .scenery/.wash are written before .wrap in the markup, and
+   positioned elements without a z-index paint in document order, so .wrap
+   still sits above them — without becoming a stacking context that would
+   cut its illustrations off from the page background. */
+.section > .wrap { position: relative; }
 
 /* Watercolour wash blob behind a block */
 .wash {
   position: absolute;
-  z-index: 0;
   pointer-events: none;
   filter: blur(38px);
   opacity: .5;
@@ -640,9 +677,12 @@ body.no-scroll { overflow: hidden; }
 .page-head {
   position: relative;
   padding-block: clamp(3.25rem, 8vw, 6rem) clamp(2.5rem, 5vw, 4rem);
-  overflow: hidden;
+  /* No overflow:hidden here — it was hard-clipping the scenery illustration's
+     own organic fade at this container's edge, showing as a straight corner
+     cutting across it. body already has overflow-x:hidden globally, so this
+     isn't needed to prevent a horizontal scrollbar. */
 }
-.page-head .wrap { position: relative; z-index: 2; }
+.page-head .wrap { position: relative; }
 .page-head h1 { margin-bottom: .35em; }
 .page-head .lead { max-width: 640px; }
 
@@ -1533,6 +1573,115 @@ body.no-scroll { overflow: hidden; }
   letter-spacing: .3em;
   text-transform: uppercase;
 }
+
+/* ==========================================================================
+   Cart & wishlist lines
+   ========================================================================== */
+.line {
+  display: grid;
+  grid-template-columns: 92px 1fr auto auto auto;
+  gap: clamp(.9rem, 2vw, 1.5rem);
+  align-items: center;
+  padding: 1.15rem 0;
+  border-bottom: 1px solid var(--rule-soft);
+}
+.line:first-child { border-top: 1px solid var(--rule-soft); }
+/* Wishlist rows have no quantity or line total, so they don't need those columns. */
+.line--simple { grid-template-columns: 92px 1fr auto; }
+.line-media {
+  width: 92px;
+  aspect-ratio: 1;
+  border: 1px solid var(--rule-soft);
+  border-radius: 2px;
+  background:
+    radial-gradient(ellipse 58% 52% at 32% 28%, rgba(218,138,103,.17), transparent 68%),
+    radial-gradient(ellipse 52% 48% at 74% 70%, rgba(118,158,176,.16), transparent 66%),
+    linear-gradient(160deg, var(--paper-warm), #F1E4CE);
+  position: relative;
+}
+.line-media::after {
+  content: '';
+  position: absolute;
+  inset: 22%;
+  opacity: .3;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 160' fill='none' stroke='%232B3A44' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M60 158V34'/%3E%3Cpath d='M60 124c-18 0-29-11-31-27 16-2 29 7 31 27z'/%3E%3Cpath d='M60 96c18 0 29-11 31-27-16-2-29 7-31 27z'/%3E%3Ccircle cx='60' cy='28' r='5'/%3E%3C/svg%3E");
+}
+.line-body .product-name { margin-bottom: .3rem; }
+.line-body .product-cat { margin-bottom: .3rem; }
+
+.qty { display: flex; align-items: center; gap: .2rem; }
+.qty-btn {
+  width: 30px; height: 30px;
+  display: grid; place-items: center;
+  border: 1px solid var(--rule);
+  background: rgba(255,255,255,.6);
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 1rem;
+  color: var(--slate);
+  transition: border-color .25s, color .25s, background-color .25s;
+}
+.qty-btn:hover { border-color: var(--terracotta); color: var(--brown); background: #fff; }
+.qty-n { min-width: 2ch; text-align: center; font-family: var(--serif2); font-size: 1.05rem; }
+
+.line-total { font-family: var(--serif2); font-size: 1.1rem; font-weight: 600; color: var(--slate); min-width: 5ch; text-align: right; }
+
+.line-remove {
+  width: 32px; height: 32px;
+  display: grid; place-items: center;
+  border: 0; background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-radius: 50%;
+  transition: color .25s, background-color .25s;
+}
+.line-remove:hover { color: var(--brown); background: rgba(218,138,103,.1); }
+.line-remove svg { width: 16px; height: 16px; }
+
+@media (max-width: 700px) {
+  .line { grid-template-columns: 68px 1fr auto; row-gap: .75rem; }
+  .line-media { width: 68px; }
+  .line-remove { grid-row: 1; grid-column: 3; align-self: start; }
+  .qty { grid-column: 2; }
+  .line-total { grid-column: 3; text-align: right; }
+}
+
+/* Cart lines beside the summary. Defined here rather than as an inline style
+   so the .split stacking breakpoint can still override it on narrow screens —
+   an inline grid-template-columns would win over the media query and leave
+   the summary jammed alongside the lines on mobile. */
+.split--cart {
+  grid-template-columns: 1.6fr .9fr;
+  align-items: start;
+  gap: clamp(2rem, 4vw, 3.5rem);
+}
+@media (max-width: 860px) {
+  .split--cart { grid-template-columns: 1fr; }
+  .cart-summary { position: static; }
+}
+
+.cart-summary {
+  background: var(--paper);
+  border: 1px solid var(--rule-soft);
+  border-radius: 2px;
+  padding: clamp(1.35rem, 3vw, 2rem);
+  box-shadow: var(--shadow-paper);
+  position: sticky;
+  top: 100px;
+}
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  padding-block: .55rem;
+}
+.summary-row + .summary-row { border-top: 1px dashed var(--rule); }
+.summary-row .k { color: var(--text-soft); font-size: .9rem; }
+.summary-row .v { font-family: var(--serif2); font-size: 1.3rem; font-weight: 600; color: var(--slate); }
 
 /* Toast */
 .toast {
