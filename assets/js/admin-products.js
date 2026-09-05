@@ -1,4 +1,4 @@
-(function () {
+﻿(function () {
   'use strict';
 
   window.SBTAdmin.requireSession(function () {
@@ -176,10 +176,31 @@
       });
     });
 
-    loadProducts();
+    document.getElementById('publish-btn').addEventListener('click', function () {
+      var btn = document.getElementById('publish-btn');
+      var status = document.getElementById('publish-status');
+      btn.disabled = true;
+      status.textContent = 'Publishing… this can take up to a minute.';
 
-    // Tasks 9 and 10 append more code inside this same requireSession
-    // callback below, so they can call loadProducts()/client directly via
-    // closure — no global export needed.
+      client.auth.getSession().then(function (sessionRes) {
+        var token = sessionRes.data.session.access_token;
+        fetch('/api/admin/publish', {
+          method: 'POST',
+          headers: { Authorization: 'Bearer ' + token },
+        })
+          .then(function (r) { return r.json(); })
+          .then(function (json) {
+            btn.disabled = false;
+            if (json.error) { status.textContent = 'Error: ' + json.error; return; }
+            status.textContent = 'Published: ' + json.deployment.url;
+          })
+          .catch(function (err) {
+            btn.disabled = false;
+            status.textContent = 'Error: ' + err.message;
+          });
+      });
+    });
+
+    loadProducts();
   });
 })();
