@@ -25,6 +25,8 @@
       formHeading.textContent = 'Add a product';
       cancelBtn.hidden = true;
       formError.hidden = true;
+      document.getElementById('upload-image-btn').disabled = true;
+      document.getElementById('upload-status').textContent = '';
     }
 
     function fillForm(p) {
@@ -38,6 +40,7 @@
       document.getElementById('is_provisional').checked = !!p.is_provisional;
       formHeading.textContent = 'Edit product';
       cancelBtn.hidden = false;
+      document.getElementById('upload-image-btn').disabled = false;
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -142,6 +145,36 @@
     });
 
     cancelBtn.addEventListener('click', resetForm);
+
+    document.getElementById('upload-image-btn').addEventListener('click', function () {
+      var id = idField.value;
+      var fileInput = document.getElementById('image-file');
+      var status = document.getElementById('upload-status');
+      if (!id) { status.textContent = 'Save the product first, then upload its image.'; return; }
+      if (!fileInput.files[0]) { status.textContent = 'Choose an image file first.'; return; }
+
+      var file = fileInput.files[0];
+      status.textContent = 'Uploading…';
+
+      client.auth.getSession().then(function (sessionRes) {
+        var token = sessionRes.data.session.access_token;
+        fetch('/api/admin/upload-image?productId=' + encodeURIComponent(id), {
+          method: 'POST',
+          headers: {
+            'Content-Type': file.type,
+            Authorization: 'Bearer ' + token,
+          },
+          body: file,
+        })
+          .then(function (r) { return r.json(); })
+          .then(function (json) {
+            if (json.error) { status.textContent = 'Error: ' + json.error; return; }
+            status.textContent = 'Image uploaded.';
+            loadProducts();
+          })
+          .catch(function (err) { status.textContent = 'Error: ' + err.message; });
+      });
+    });
 
     loadProducts();
 
