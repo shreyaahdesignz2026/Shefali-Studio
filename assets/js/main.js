@@ -167,6 +167,7 @@
   function itemOf(btn, attr) {
     var price = btn.getAttribute('data-price');
     return {
+      id: btn.getAttribute('data-product-id') || null,
       name: btn.getAttribute(attr),
       price: price ? parseFloat(price.replace(/,/g, '')) : null,
       label: btn.getAttribute('data-label') || '',
@@ -174,8 +175,13 @@
       qty: 1
     };
   }
-  function indexOfName(list, name) {
-    for (var i = 0; i < list.length; i++) if (list[i].name === name) return i;
+  function indexOfName(list, item) {
+    var id = typeof item === 'string' ? null : item.id;
+    var name = typeof item === 'string' ? item : item.name;
+    for (var i = 0; i < list.length; i++) {
+      if (id && list[i].id === id) return i;
+      if (!list[i].id && list[i].name === name) return i;
+    }
     return -1;
   }
   function money(n) {
@@ -209,7 +215,7 @@
     btn.addEventListener('click', function () {
       var item = itemOf(btn, 'data-add-cart');
       var cart = readCart();
-      var i = indexOfName(cart, item.name);
+      var i = indexOfName(cart, item);
       if (i > -1) cart[i].qty = (cart[i].qty || 1) + 1;
       else cart.push(item);
       write(KEY_CART, cart);
@@ -224,9 +230,10 @@
     if (name && indexOfName(readWish(), name) > -1) btn.setAttribute('aria-pressed', 'true');
     btn.addEventListener('click', function () {
       var l = readWish();
-      var i = indexOfName(l, name);
+      var wishItem = itemOf(btn, 'data-wish');
+      var i = indexOfName(l, wishItem);
       if (i > -1) { l.splice(i, 1); btn.setAttribute('aria-pressed', 'false'); toast('Removed from wishlist'); }
-      else { l.push(itemOf(btn, 'data-wish')); btn.setAttribute('aria-pressed', 'true'); toast('Saved to your wishlist'); }
+      else { l.push(wishItem); btn.setAttribute('aria-pressed', 'true'); toast('Saved to your wishlist'); }
       write(KEY_WISH, l);
       paintCounts();
       renderWishlist();
@@ -357,7 +364,7 @@
       b.addEventListener('click', function () {
         var wish = readWish(), cart = readCart();
         wish.forEach(function (it) {
-          var i = indexOfName(cart, it.name);
+          var i = indexOfName(cart, it);
           if (i > -1) cart[i].qty = (cart[i].qty || 1) + 1;
           else cart.push(Object.assign({}, it, { qty: 1 }));
         });
@@ -456,4 +463,6 @@
 
   /* ---------- current year ---------- */
   $$('[data-year]').forEach(function (el) { el.textContent = new Date().getFullYear(); });
+
+  window.SBTCart = { readCart: readCart, KEY_CART: KEY_CART };
 })();
