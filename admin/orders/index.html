@@ -23,7 +23,15 @@
   <main class="admin-main">
     <div class="admin-card">
       <h2 style="margin-top:0">Orders</h2>
-      <div id="orders-list"></div>
+      <p class="admin-note">Click a row to see the full order — address, items and status.</p>
+      <div style="overflow-x:auto">
+        <table class="admin-table">
+          <thead>
+            <tr><th>#</th><th>Order ID</th><th>Customer Name</th><th>Contact Number</th><th>Total Paid</th></tr>
+          </thead>
+          <tbody id="orders-rows"></tbody>
+        </table>
+      </div>
     </div>
   </main>
 

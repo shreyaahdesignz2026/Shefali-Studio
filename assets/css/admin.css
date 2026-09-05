@@ -36,6 +36,9 @@
   border-bottom: 1px solid #EEE8DC;
   vertical-align: top;
 }
+.admin-order-row { cursor: pointer; }
+.admin-order-row:hover { background: #F8F5EE; }
+.admin-order-detail td { background: #FBFAF6; }
 .admin-form-row { display: grid; gap: 0.4rem; margin-bottom: 0.9rem; }
 .admin-form-row label { font-size: 0.82rem; font-weight: 600; }
 .admin-form-row input, .admin-form-row select, .admin-form-row textarea {

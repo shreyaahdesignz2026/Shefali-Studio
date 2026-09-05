@@ -83,5 +83,26 @@ module.exports = async (req, res) => {
   const { error: itemsError } = await supabase.from('order_items').insert(orderItems);
   if (itemsError) return res.status(500).json({ error: itemsError.message });
 
-  return res.status(200).json({ ok: true, order_id: order.id });
+  return res.status(200).json({
+    ok: true,
+    order_id: order.id,
+    order: {
+      id: order.id,
+      order_number: order.order_number,
+      created_at: order.created_at,
+      customer: {
+        name: order.customer_name,
+        phone: order.customer_phone,
+        email: order.customer_email,
+        address_line: order.address_line,
+        city: order.city,
+        state: order.state,
+        pincode: order.pincode,
+      },
+      items: totals.lineItems,
+      subtotal: totals.subtotal,
+      shipping_fee: totals.shippingFee,
+      grand_total: totals.grandTotal,
+    },
+  });
 };

@@ -167,10 +167,30 @@
         </aside>
       </div>
 
-      <div data-checkout-success hidden style="text-align:center;padding:3rem 0">
-        <h3>Thank you — your order is placed!</h3>
-        <p>Order reference: <strong id="co-order-id"></strong></p>
-        <a class="btn btn--primary btn--sm" href="../">Back to home</a>
+      <div data-checkout-success hidden style="padding:2rem 0">
+        <div style="text-align:center;margin-bottom:2rem">
+          <h3>Thank you — your order is placed!</h3>
+          <p>Order <strong id="co-order-number"></strong></p>
+        </div>
+
+        <div class="split split--cart">
+          <div class="admin-card">
+            <h4 style="margin-top:0">Items ordered</h4>
+            <div id="co-success-lines"></div>
+            <div class="summary-row" style="margin-top:1rem"><span class="k">Subtotal</span><span class="v" id="co-success-subtotal"></span></div>
+            <div class="summary-row"><span class="k">Delivery</span><span class="v" id="co-success-shipping"></span></div>
+            <div class="summary-row"><span class="k">Amount paid</span><span class="v" id="co-success-total"></span></div>
+          </div>
+
+          <div class="admin-card">
+            <h4 style="margin-top:0">Delivery details</h4>
+            <p id="co-success-customer" class="admin-note"></p>
+          </div>
+        </div>
+
+        <div style="text-align:center;margin-top:2rem">
+          <a class="btn btn--primary btn--sm" href="../">Back to home</a>
+        </div>
       </div>
     </div>
   </section>

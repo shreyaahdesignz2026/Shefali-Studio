@@ -28,6 +28,33 @@
 
   var latestTotals = null;
 
+  function renderSuccess(order) {
+    document.getElementById('co-order-number').textContent = '#' + order.order_number;
+
+    document.getElementById('co-success-lines').innerHTML = order.items
+      .map(function (li) {
+        return (
+          '<div class="line line--simple">' +
+          '<div class="line-body">' +
+          '<h3 class="product-name">' + li.name + '</h3>' +
+          '<p class="price">' + money(li.unit_price) + ' × ' + li.qty + ' = ' + money(li.line_total) + '</p>' +
+          '</div>' +
+          '</div>'
+        );
+      })
+      .join('');
+
+    document.getElementById('co-success-subtotal').textContent = money(order.subtotal);
+    document.getElementById('co-success-shipping').textContent = money(order.shipping_fee);
+    document.getElementById('co-success-total').textContent = money(order.grand_total);
+
+    var c = order.customer;
+    document.getElementById('co-success-customer').innerHTML =
+      '<strong>' + c.name + '</strong><br>' +
+      c.phone + (c.email ? '<br>' + c.email : '') + '<br>' +
+      c.address_line + ', ' + c.city + ', ' + c.state + ' — ' + c.pincode;
+  }
+
   function renderLines(products) {
     var byId = {};
     products.forEach(function (p) { byId[p.id] = p; });
@@ -134,7 +161,7 @@
                 localStorage.removeItem(window.SBTCart.KEY_CART);
                 contentEl.hidden = true;
                 successEl.hidden = false;
-                document.getElementById('co-order-id').textContent = result.order_id;
+                renderSuccess(result.order);
               })
               .catch(function (err) {
                 payBtn.disabled = false;
