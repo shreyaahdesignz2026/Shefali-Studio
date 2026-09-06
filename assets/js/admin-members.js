@@ -40,6 +40,25 @@
       return '<span class="admin-status-badge admin-status-badge--' + plan + '">' + planLabel(plan) + '</span>';
     }
 
+    function withLineBreaks(s) {
+      return escapeHtml(s).replace(/\n/g, '<br>');
+    }
+
+    function humanize(key) {
+      return String(key).replace(/_/g, ' ').replace(/\b\w/g, function (c) { return c.toUpperCase(); });
+    }
+
+    var BOOKING_TYPE_LABELS = {
+      service_booking: 'Service Booking',
+      event_registration: 'Event Registration',
+    };
+
+    function bookingLabel(row) {
+      if (row.form_type === 'service_booking') return (row.details && row.details.service) || 'Session';
+      if (row.form_type === 'event_registration') return (row.details && row.details.event) || 'Event';
+      return BOOKING_TYPE_LABELS[row.form_type] || row.form_type;
+    }
+
     function renderAddresses(addresses) {
       if (!addresses.length) return '<p class="admin-note">No saved addresses.</p>';
       return (
@@ -59,22 +78,67 @@
       );
     }
 
-    function renderOrders(orders) {
+    function renderOrders(orders, itemsByOrder) {
       if (!orders.length) return '<p class="admin-note">No orders yet.</p>';
-      return (
-        '<ul style="margin:.5rem 0; padding-left:1.1rem;">' +
-        orders
-          .map(function (o) {
+      return orders
+        .map(function (o) {
+          var items = (itemsByOrder && itemsByOrder[o.id]) || [];
+          var itemLines = items
+            .map(function (li) {
+              return '<li>' + li.qty + ' × ' + escapeHtml(li.product_name) + ' — ' + money(li.line_total) + '</li>';
+            })
+            .join('');
+          return (
+            '<div class="admin-note" style="margin-bottom:.75rem;padding-bottom:.75rem;border-bottom:1px dashed #DDD5C7">' +
+            '<p style="margin:0"><strong>#' + o.order_number + '</strong> — ' + money(o.grand_total) + ' ' +
+            '<span class="admin-status-badge admin-status-badge--' + o.status + '">' + o.status + '</span>' +
+            ' — ' + new Date(o.created_at).toLocaleDateString('en-IN') + '</p>' +
+            '<ul style="margin:.4rem 0 0;padding-left:1.1rem">' + itemLines + '</ul>' +
+            '<p style="margin:.3rem 0 0">' + escapeHtml(o.address_line) + ', ' + escapeHtml(o.city) + ', ' + escapeHtml(o.state) + ' — ' + escapeHtml(o.pincode) + '</p>' +
+            '</div>'
+          );
+        })
+        .join('');
+    }
+
+    function renderBookings(rows) {
+      if (!rows.length) return '<p class="admin-note">No bookings yet.</p>';
+
+      var now = Date.now();
+      var upcoming = [];
+      var past = [];
+      rows.forEach(function (row) {
+        if (!row.happens_at || new Date(row.happens_at).getTime() >= now) upcoming.push(row);
+        else past.push(row);
+      });
+
+      function renderGroup(title, list) {
+        if (!list.length) return '<p class="admin-note"><strong>' + title + ':</strong> none</p>';
+        var items = list
+          .map(function (row) {
+            var when = row.happens_at
+              ? new Date(row.happens_at).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })
+              : 'Date to be confirmed';
+            var detailLines = Object.keys(row.details || {})
+              .map(function (k) {
+                return '<p style="margin:.1rem 0"><strong>' + humanize(k) + ':</strong> ' + withLineBreaks(String(row.details[k])) + '</p>';
+              })
+              .join('');
             return (
-              '<li class="admin-note">#' + o.order_number + ' — ' + money(o.grand_total) + ' ' +
-              '<span class="admin-status-badge admin-status-badge--' + o.status + '">' + o.status + '</span>' +
-              ' — ' + new Date(o.created_at).toLocaleDateString('en-IN') +
-              '</li>'
+              '<div style="margin-bottom:.5rem">' +
+              '<p style="margin:0"><strong>' + escapeHtml(bookingLabel(row)) + '</strong> — ' + escapeHtml(BOOKING_TYPE_LABELS[row.form_type] || row.form_type) + ' — ' + when + '</p>' +
+              (row.phone ? '<p style="margin:.1rem 0"><strong>Phone:</strong> ' + escapeHtml(row.phone) + '</p>' : '') +
+              (row.email ? '<p style="margin:.1rem 0"><strong>Email:</strong> ' + escapeHtml(row.email) + '</p>' : '') +
+              detailLines +
+              (row.message ? '<p style="margin:.1rem 0"><strong>Message:</strong><br>' + withLineBreaks(row.message) + '</p>' : '') +
+              '</div>'
             );
           })
-          .join('') +
-        '</ul>'
-      );
+          .join('');
+        return '<p class="admin-note" style="margin:0 0 .3rem"><strong>' + title + '</strong></p>' + items;
+      }
+
+      return renderGroup('Upcoming', upcoming) + renderGroup('Past', past);
     }
 
     function renderDetail(member) {
@@ -116,6 +180,8 @@
         '<div data-addresses-for="' + member.id + '"><p class="admin-note">Loading…</p></div>' +
         '<h4 style="margin:1rem 0 .5rem">Past orders</h4>' +
         '<div data-orders-for="' + member.id + '"><p class="admin-note">Loading…</p></div>' +
+        '<h4 style="margin:1rem 0 .5rem">Sessions &amp; events booked</h4>' +
+        '<div data-bookings-for="' + member.id + '"><p class="admin-note">Loading…</p></div>' +
         '</div>' +
         '</div>'
       );
@@ -220,14 +286,40 @@
 
       client
         .from('orders')
-        .select('id, order_number, grand_total, status, created_at')
+        .select('id, order_number, grand_total, status, created_at, address_line, city, state, pincode')
         .eq('member_id', member.id)
         .order('created_at', { ascending: false })
-        .then(function (res) {
+        .then(function (ordersRes) {
           var el = document.querySelector('[data-orders-for="' + member.id + '"]');
           if (!el) return;
+          if (ordersRes.error) { el.innerHTML = '<p class="admin-error">' + escapeHtml(ordersRes.error.message) + '</p>'; return; }
+          var orders = ordersRes.data;
+          if (!orders.length) { el.innerHTML = renderOrders(orders, {}); return; }
+          client
+            .from('order_items')
+            .select('*')
+            .in('order_id', orders.map(function (o) { return o.id; }))
+            .then(function (itemsRes) {
+              if (itemsRes.error) { el.innerHTML = '<p class="admin-error">' + escapeHtml(itemsRes.error.message) + '</p>'; return; }
+              var itemsByOrder = {};
+              itemsRes.data.forEach(function (li) {
+                (itemsByOrder[li.order_id] = itemsByOrder[li.order_id] || []).push(li);
+              });
+              el.innerHTML = renderOrders(orders, itemsByOrder);
+            });
+        });
+
+      client
+        .from('form_submissions')
+        .select('*')
+        .eq('member_id', member.id)
+        .in('form_type', ['service_booking', 'event_registration'])
+        .order('created_at', { ascending: false })
+        .then(function (res) {
+          var el = document.querySelector('[data-bookings-for="' + member.id + '"]');
+          if (!el) return;
           if (res.error) { el.innerHTML = '<p class="admin-error">' + escapeHtml(res.error.message) + '</p>'; return; }
-          el.innerHTML = renderOrders(res.data);
+          el.innerHTML = renderBookings(res.data);
         });
     }
 
