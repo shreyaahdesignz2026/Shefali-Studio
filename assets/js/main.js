@@ -627,6 +627,19 @@
 
     applyHash();
     applyFilters();
+
+    // Land on the results, not the page-head hero -- scroll so the
+    // category tabs sit just below the sticky header and the first
+    // matching product is right beneath them.
+    if (q) {
+      setTimeout(function () {
+        var scrollTarget = $('.category-scroll') || group;
+        var headerEl = doc.querySelector('.site-header');
+        var headerHeight = headerEl ? headerEl.getBoundingClientRect().height : 0;
+        var top = scrollTarget.getBoundingClientRect().top + window.pageYOffset - headerHeight - 16;
+        window.scrollTo({ top: top, behavior: 'smooth' });
+      }, 60);
+    }
   })();
 
   /* ---------- search: jump to a matching session/event, or filter products ---------- */
