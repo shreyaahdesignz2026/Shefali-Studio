@@ -115,6 +115,39 @@
       });
     });
 
+    /* ---------- redeem a gift card ---------- */
+
+    document.getElementById('gc-redeem-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var codeInput = document.getElementById('gc-code');
+      var errorEl = document.getElementById('gc-redeem-error');
+      var successEl = document.getElementById('gc-redeem-success');
+      errorEl.hidden = true;
+      successEl.hidden = true;
+
+      var submitBtn = e.target.querySelector('button[type="submit"]');
+      if (submitBtn.disabled) return;
+      submitBtn.disabled = true;
+
+      authedFetch('/api/members/me?action=redeem-gift-card', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code: codeInput.value.trim() }),
+      }).then(function (res) {
+        submitBtn.disabled = false;
+        if (res.json.error) {
+          errorEl.textContent = res.json.error;
+          errorEl.hidden = false;
+          return;
+        }
+        codeInput.value = '';
+        document.getElementById('wallet-balance').textContent = money(res.json.wallet_balance);
+        document.getElementById('gc-redeem-success-msg').textContent =
+          money(res.json.amount) + ' added to your E-Bliss Wallet.';
+        successEl.hidden = false;
+      });
+    });
+
     /* ---------- email change ---------- */
 
     document.getElementById('change-email-toggle').addEventListener('click', function (e) {

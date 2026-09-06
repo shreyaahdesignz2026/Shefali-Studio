@@ -23,19 +23,42 @@
       return '<span class="admin-status-badge admin-status-badge--' + status + '">' + status + '</span>';
     }
 
-    function renderDetail(order, items) {
+    function withLineBreaks(s) {
+      return escapeHtml(s).replace(/\n/g, '<br>');
+    }
+
+    function renderDetail(order, items, giftCardsByItem) {
       var itemsHtml = items
         .map(function (li) {
-          return '<li>' + li.qty + ' × ' + escapeHtml(li.product_name) + ' — ' + money(li.line_total) + '</li>';
+          var giftCard = giftCardsByItem[li.id];
+          var giftCardDetails = '';
+          if (li.item_type === 'gift_card' && giftCard) {
+            giftCardDetails =
+              '<div class="admin-note" style="margin:.35rem 0 .5rem;padding:.5rem .7rem;background:#F6F1E6;border-radius:6px">' +
+              '<strong>Recipient:</strong> ' + escapeHtml(giftCard.recipient_name) + ' — ' + escapeHtml(giftCard.recipient_email) + '<br>' +
+              '<strong>Sender:</strong> ' + escapeHtml(giftCard.sender_name) +
+              (giftCard.sender_phone ? ' — ' + escapeHtml(giftCard.sender_phone) : '') +
+              (giftCard.sender_email ? ' — ' + escapeHtml(giftCard.sender_email) : '') + '<br>' +
+              '<strong>Code:</strong> <span style="font-family:monospace">' + escapeHtml(giftCard.code) + '</span> (' + escapeHtml(giftCard.status) + ')' +
+              (giftCard.message ? '<br><strong>Message:</strong> ' + withLineBreaks(giftCard.message) : '') +
+              '</div>';
+          }
+          return '<li>' + li.qty + ' × ' + escapeHtml(li.product_name) + ' — ' + money(li.line_total) + giftCardDetails + '</li>';
         })
         .join('');
+
+      var walletLine = Number(order.wallet_amount_used) > 0
+        ? '<p class="admin-note">Wallet applied: ' + money(order.wallet_amount_used) + '</p>'
+        : '';
 
       return (
         '<div style="display:flex;justify-content:space-between;align-items:start;flex-wrap:wrap;gap:1rem">' +
         '<div>' +
         (order.customer_email ? '<p class="admin-note">Email: ' + escapeHtml(order.customer_email) + '</p>' : '') +
         '<p class="admin-note">' + escapeHtml(order.address_line) + ', ' + escapeHtml(order.city) + ', ' + escapeHtml(order.state) + ' — ' + escapeHtml(order.pincode) + '</p>' +
-        '<p class="admin-note">Placed ' + new Date(order.created_at).toLocaleString('en-IN') + ' · Razorpay order ' + escapeHtml(order.razorpay_order_id) + '</p>' +
+        '<p class="admin-note">Placed ' + new Date(order.created_at).toLocaleString('en-IN') +
+        (order.razorpay_order_id ? ' · Razorpay order ' + escapeHtml(order.razorpay_order_id) : ' · Paid entirely from wallet') + '</p>' +
+        walletLine +
         '</div>' +
         '<div style="text-align:right">' +
         (order.is_test_payment ? statusBadge('test') : '') +
@@ -56,7 +79,7 @@
       );
     }
 
-    function renderRows(orders, itemsByOrder) {
+    function renderRows(orders, itemsByOrder, giftCardsByItem) {
       var tbody = document.getElementById('orders-rows');
       tbody.innerHTML = orders
         .map(function (o, i) {
@@ -70,7 +93,7 @@
             '<td><button class="admin-btn admin-btn--danger" data-delete-order="' + o.id + '">Delete</button></td>' +
             '</tr>' +
             '<tr class="admin-order-detail" id="order-detail-' + o.id + '" hidden>' +
-            '<td colspan="6">' + renderDetail(o, itemsByOrder[o.id] || []) + '</td>' +
+            '<td colspan="6">' + renderDetail(o, itemsByOrder[o.id] || [], giftCardsByItem) + '</td>' +
             '</tr>'
           );
         })
@@ -135,7 +158,25 @@
               itemsRes.data.forEach(function (li) {
                 (itemsByOrder[li.order_id] = itemsByOrder[li.order_id] || []).push(li);
               });
-              renderRows(orders, itemsByOrder);
+
+              var giftCardItemIds = itemsRes.data
+                .filter(function (li) { return li.item_type === 'gift_card'; })
+                .map(function (li) { return li.id; });
+              if (!giftCardItemIds.length) {
+                renderRows(orders, itemsByOrder, {});
+                return;
+              }
+              client
+                .from('gift_cards')
+                .select('*')
+                .in('order_item_id', giftCardItemIds)
+                .then(function (giftCardsRes) {
+                  var giftCardsByItem = {};
+                  (giftCardsRes.data || []).forEach(function (gc) {
+                    giftCardsByItem[gc.order_item_id] = gc;
+                  });
+                  renderRows(orders, itemsByOrder, giftCardsByItem);
+                });
             });
         });
     }

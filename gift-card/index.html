@@ -127,6 +127,13 @@
             </ul>
             <p class="mt-2"><a class="link" href="../legal/#giftcard">Full gift card terms <span class="arw">→</span></a></p>
           </div>
+
+          <div class="card card--soft mt-2">
+            <h4 style="margin-top:0">Got a code to redeem?</h4>
+            <p class="small muted mt-1">Log in or create an account, then redeem it from your
+               Members Space under E-Bliss Wallet.</p>
+            <p class="mt-2"><a class="link" href="../members/#account">Go to Members Space <span class="arw">→</span></a></p>
+          </div>
         </div>
 
         <!-- RIGHT: form -->
@@ -193,51 +200,6 @@
 
           <p class="form-error" data-gc-error hidden></p>
         </form>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" style="padding-top:0">
-    <div class="wrap">
-      <div class="split" style="align-items:start;gap:clamp(2rem,5vw,4rem)">
-        <div class="card reveal">
-          <h3 style="margin-top:0;font-size:1.25rem">Redeem a gift card</h3>
-          <p class="small muted mt-1">Received an E-Bliss Card code by email? Log in or create
-             an account, then enter it below to add the value to your E-Bliss Wallet.</p>
-
-          <div id="gc-redeem-guest" class="mt-2">
-            <button class="btn btn--ghost btn--sm" type="button" id="gc-redeem-login-toggle">Log in to redeem</button>
-            <div id="gc-redeem-login-panel" class="mt-2" hidden></div>
-          </div>
-
-          <div id="gc-redeem-member" class="mt-2" hidden>
-            <p class="small muted">Logged in as <strong id="gc-redeem-email"></strong> · Wallet balance:
-               <strong id="gc-wallet-balance">₹0</strong></p>
-            <form id="gc-redeem-form" class="mt-2">
-              <div class="field">
-                <label for="gc-code">16-character code</label>
-                <input id="gc-code" type="text" maxlength="16" autocomplete="off" style="text-transform:uppercase;letter-spacing:2px" required>
-              </div>
-              <button class="btn btn--primary btn--sm" type="submit">Redeem</button>
-              <p class="form-error" id="gc-redeem-error" hidden></p>
-              <p class="form-success" id="gc-redeem-success" hidden>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
-                <div id="gc-redeem-success-msg"></div>
-              </p>
-            </form>
-          </div>
-        </div>
-
-        <div class="card card--soft reveal" data-d="1">
-          <h4 style="margin-top:0">How to redeem</h4>
-          <ol style="margin:1rem 0 0;padding-left:1.15rem;display:grid;gap:.6rem">
-            <li class="small muted">Don't share your code with anyone.</li>
-            <li class="small muted">Create an account at a4.snumcaj.com if you don't have one already.</li>
-            <li class="small muted">Come to this page — the E-Bliss Gift Card page.</li>
-            <li class="small muted">Enter the code you received.</li>
-            <li class="small muted">The amount is added to your E-Bliss Wallet — use it at checkout on any order.</li>
-          </ol>
-        </div>
       </div>
     </div>
   </section>
@@ -368,7 +330,6 @@
 <script src="../assets/js/main.js"></script>
 <script>
 (function () {
-  function fmt(v) { return '₹' + Number(v).toLocaleString('en-IN'); }
   function currentAmount() {
     var sel = document.querySelector('input[name="gift-amount"]:checked');
     if (!sel) return null;
@@ -424,84 +385,6 @@
     });
 
     window.location.href = '../cart/';
-  });
-
-  /* ---------- redeem a gift card ---------- */
-  var redeemGuest = document.getElementById('gc-redeem-guest');
-  var redeemMember = document.getElementById('gc-redeem-member');
-
-  function showRedeemMember(session) {
-    redeemGuest.hidden = true;
-    redeemMember.hidden = false;
-    document.getElementById('gc-redeem-email').textContent = session.user.email;
-    window.SBTMember.client
-      .from('members')
-      .select('wallet_balance')
-      .eq('id', session.user.id)
-      .maybeSingle()
-      .then(function (res) {
-        var bal = res.data ? Number(res.data.wallet_balance) : 0;
-        document.getElementById('gc-wallet-balance').textContent = fmt(bal);
-      });
-  }
-
-  document.getElementById('gc-redeem-login-toggle').addEventListener('click', function () {
-    var panel = document.getElementById('gc-redeem-login-panel');
-    panel.hidden = false;
-    window.SBTMember.mountLoginPanel(panel, {
-      onSuccess: function (session) {
-        panel.hidden = true;
-        showRedeemMember(session);
-      },
-    });
-  });
-
-  window.SBTMember.getSession(function (session) {
-    if (session) showRedeemMember(session);
-  });
-
-  document.getElementById('gc-redeem-form').addEventListener('submit', function (e) {
-    e.preventDefault();
-    var codeInput = document.getElementById('gc-code');
-    var redeemErrorEl = document.getElementById('gc-redeem-error');
-    var successEl = document.getElementById('gc-redeem-success');
-    redeemErrorEl.hidden = true;
-    successEl.hidden = true;
-
-    var submitBtn = e.target.querySelector('button[type="submit"]');
-    if (submitBtn.disabled) return;
-    submitBtn.disabled = true;
-
-    window.SBTMember.client.auth.getSession().then(function (sessionRes) {
-      var session = sessionRes.data && sessionRes.data.session;
-      return fetch('/api/members/me?action=redeem-gift-card', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + session.access_token,
-        },
-        body: JSON.stringify({ code: codeInput.value.trim() }),
-      });
-    })
-      .then(function (r) { return r.json(); })
-      .then(function (result) {
-        submitBtn.disabled = false;
-        if (result.error) {
-          redeemErrorEl.textContent = result.error;
-          redeemErrorEl.hidden = false;
-          return;
-        }
-        codeInput.value = '';
-        document.getElementById('gc-wallet-balance').textContent = fmt(result.wallet_balance);
-        document.getElementById('gc-redeem-success-msg').textContent =
-          fmt(result.amount) + ' added to your E-Bliss Wallet.';
-        successEl.hidden = false;
-      })
-      .catch(function () {
-        submitBtn.disabled = false;
-        redeemErrorEl.textContent = 'Something went wrong — please try again.';
-        redeemErrorEl.hidden = false;
-      });
   });
 })();
 </script>

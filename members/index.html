@@ -235,7 +235,25 @@
                 <h4 style="margin-top:0">E-Bliss Wallet</h4>
                 <p class="small muted">Balance from redeemed E-Bliss Gift Cards — apply it at checkout on any order.</p>
                 <p style="font-size:1.6rem;font-weight:600;margin:.4rem 0 0" id="wallet-balance">₹0</p>
-                <p class="mt-2"><a class="link" href="../gift-card/">Redeem a code <span class="arw">→</span></a></p>
+                <p class="mt-2"><a class="link" href="../gift-card/">Buy an E-Bliss Card <span class="arw">→</span></a></p>
+
+                <hr style="border:none;border-top:1px dashed var(--rule);margin:1.25rem 0">
+
+                <h4 style="margin:0 0 .5rem">Redeem a gift card</h4>
+                <p class="small muted">Received an E-Bliss Card code by email? Enter it below to
+                   add the value to your wallet.</p>
+                <form id="gc-redeem-form" class="mt-2">
+                  <div class="field">
+                    <label for="gc-code">16-character code</label>
+                    <input id="gc-code" type="text" maxlength="16" autocomplete="off" style="text-transform:uppercase;letter-spacing:2px" required>
+                  </div>
+                  <button class="btn btn--primary btn--sm" type="submit">Redeem</button>
+                  <p class="form-error" id="gc-redeem-error" hidden></p>
+                  <p class="form-success" id="gc-redeem-success" hidden>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                    <div id="gc-redeem-success-msg"></div>
+                  </p>
+                </form>
               </div>
             </div>
           </section>
