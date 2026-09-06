@@ -188,8 +188,69 @@
     return '₹' + n.toLocaleString('en-IN', { minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 });
   }
 
+  /* Member-aware wishlist state. A logged-out visitor's wishlist is plain
+     localStorage, unchanged. Once a member is signed in, any wishlist item
+     with a real product id reads/writes through member_wishlist (direct
+     RLS) instead -- items with no id (a couple of hardcoded homepage
+     picks that predate product ids existing at all) simply stay local
+     forever, since there's no product to link them to server-side. */
+  var memberSession = null;
+  var memberWishCache = null;
+
+  function getWish() {
+    var localIdless = readWish().filter(function (it) { return !it.id; });
+    if (memberSession && memberWishCache) return memberWishCache.concat(localIdless);
+    return readWish();
+  }
+
+  function addWish(item) {
+    if (memberSession && item.id) {
+      return window.SBTMember.client
+        .from('member_wishlist')
+        .insert({ member_id: memberSession.user.id, product_id: item.id })
+        .then(function (res) {
+          if (!res.error) memberWishCache.push(item);
+          return res;
+        });
+    }
+    var l = readWish();
+    l.push(item);
+    write(KEY_WISH, l);
+    return Promise.resolve({ error: null });
+  }
+
+  function removeWish(item) {
+    if (memberSession && item.id) {
+      return window.SBTMember.client
+        .from('member_wishlist')
+        .delete()
+        .eq('member_id', memberSession.user.id)
+        .eq('product_id', item.id)
+        .then(function (res) {
+          if (!res.error) {
+            var i = indexOfName(memberWishCache, item);
+            if (i > -1) memberWishCache.splice(i, 1);
+          }
+          return res;
+        });
+    }
+    var l = readWish();
+    var i = indexOfName(l, item);
+    if (i > -1) l.splice(i, 1);
+    write(KEY_WISH, l);
+    return Promise.resolve({ error: null });
+  }
+
+  function paintWishButtons() {
+    var list = getWish();
+    $$('.wish').forEach(function (btn) {
+      var wishItem = itemOf(btn, 'data-wish');
+      btn.setAttribute('aria-pressed', indexOfName(list, wishItem) > -1 ? 'true' : 'false');
+    });
+  }
+
   function paintCounts() {
-    var cart = readCart(), wish = readWish();
+    var cart = readCart(), wish = getWish();
     var c = cart.reduce(function (s, i) { return s + (i.qty || 1); }, 0);
     var w = wish.length;
     $$('[data-count="cart"]').forEach(function (b) { b.textContent = c; b.hidden = c === 0; });
@@ -230,17 +291,16 @@
   });
 
   $$('.wish').forEach(function (btn) {
-    var name = btn.getAttribute('data-wish');
-    if (name && indexOfName(readWish(), name) > -1) btn.setAttribute('aria-pressed', 'true');
     btn.addEventListener('click', function () {
-      var l = readWish();
       var wishItem = itemOf(btn, 'data-wish');
-      var i = indexOfName(l, wishItem);
-      if (i > -1) { l.splice(i, 1); btn.setAttribute('aria-pressed', 'false'); toast('Removed from wishlist'); }
-      else { l.push(wishItem); btn.setAttribute('aria-pressed', 'true'); toast('Saved to your wishlist'); }
-      write(KEY_WISH, l);
-      paintCounts();
-      renderWishlist();
+      var pressed = btn.getAttribute('aria-pressed') === 'true';
+      (pressed ? removeWish(wishItem) : addWish(wishItem)).then(function (res) {
+        if (res.error) { toast('Something went wrong — please try again'); return; }
+        btn.setAttribute('aria-pressed', String(!pressed));
+        toast(pressed ? 'Removed from wishlist' : 'Saved to your wishlist');
+        paintCounts();
+        renderWishlist();
+      });
     });
   });
 
@@ -297,13 +357,24 @@
   function bindLineActions(root, kind) {
     $$('[data-remove]', root).forEach(function (b) {
       b.addEventListener('click', function () {
-        var key = kind === 'cart' ? KEY_CART : KEY_WISH;
-        var list = kind === 'cart' ? readCart() : readWish();
-        var removed = list.splice(parseInt(b.getAttribute('data-remove'), 10), 1)[0];
-        write(key, list);
-        paintCounts();
-        kind === 'cart' ? renderCart() : renderWishlist();
-        toast((removed ? removed.name : 'Item') + ' removed');
+        var idx = parseInt(b.getAttribute('data-remove'), 10);
+        if (kind === 'cart') {
+          var cart = readCart();
+          var removed = cart.splice(idx, 1)[0];
+          write(KEY_CART, cart);
+          paintCounts();
+          renderCart();
+          toast((removed ? removed.name : 'Item') + ' removed');
+          return;
+        }
+        var wish = getWish();
+        var removedWish = wish[idx];
+        removeWish(removedWish).then(function (res) {
+          if (res.error) { toast('Something went wrong — please try again'); return; }
+          paintCounts();
+          renderWishlist();
+          toast((removedWish ? removedWish.name : 'Item') + ' removed');
+        });
       });
     });
     $$('[data-qty]', root).forEach(function (b) {
@@ -368,7 +439,7 @@
   function renderWishlist() {
     var root = $('[data-wishlist-page]');
     if (!root) return;
-    var list = readWish();
+    var list = getWish();
     var empty = $('[data-wishlist-empty]');
 
     if (!list.length) {
@@ -383,7 +454,7 @@
     // "move to cart" on the wishlist page
     $$('[data-move-cart]', root.parentNode).forEach(function (b) {
       b.addEventListener('click', function () {
-        var wish = readWish(), cart = readCart();
+        var wish = getWish(), cart = readCart();
         wish.forEach(function (it) {
           var i = indexOfName(cart, it);
           if (i > -1) cart[i].qty = (cart[i].qty || 1) + 1;
@@ -397,8 +468,69 @@
   }
 
   paintCounts();
+  paintWishButtons();
   renderCart();
   renderWishlist();
+
+  /* Once a member session is found, switch the wishlist over to
+     member_wishlist. The first time this happens in a browser, any
+     id-bearing localStorage wishlist entries are merged in (on conflict
+     do nothing) and then cleared locally, tracked by a per-user flag so
+     it only ever runs once. */
+  if (window.SBTMember) {
+    window.SBTMember.getSession(function (session) {
+      if (!session) return;
+      memberSession = session;
+
+      function loadMemberWish() {
+        return window.SBTMember.client
+          .from('member_wishlist')
+          .select('product_id, products(id, name, price, is_provisional, category, subcategory)')
+          .eq('member_id', session.user.id)
+          .then(function (res) {
+            if (res.error) return;
+            memberWishCache = res.data
+              .filter(function (row) { return row.products; })
+              .map(function (row) {
+                var p = row.products;
+                return {
+                  id: p.id,
+                  name: p.name,
+                  price: p.price,
+                  label: p.subcategory || p.category || '',
+                  provisional: !!p.is_provisional,
+                  qty: 1,
+                };
+              });
+            paintCounts();
+            paintWishButtons();
+            renderWishlist();
+          });
+      }
+
+      var mergeFlag = 'sbt.wish.merged.' + session.user.id;
+      var alreadyMerged = false;
+      try { alreadyMerged = localStorage.getItem(mergeFlag) === '1'; } catch (e) {}
+
+      if (alreadyMerged) { loadMemberWish(); return; }
+
+      var localIdItems = readWish().filter(function (it) { return it.id; });
+      var mergePromise = localIdItems.length
+        ? window.SBTMember.client.from('member_wishlist').upsert(
+            localIdItems.map(function (it) { return { member_id: session.user.id, product_id: it.id }; }),
+            { onConflict: 'member_id,product_id', ignoreDuplicates: true }
+          )
+        : Promise.resolve({ error: null });
+
+      mergePromise.then(function () {
+        try {
+          write(KEY_WISH, readWish().filter(function (it) { return !it.id; }));
+          localStorage.setItem(mergeFlag, '1');
+        } catch (e) {}
+        loadMemberWish();
+      });
+    });
+  }
 
   /* ---------- product filtering ---------- */
   $$('[data-filter-group]').forEach(function (group) {

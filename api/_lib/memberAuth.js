@@ -47,12 +47,16 @@ function makeRequireMember(getAuthenticatedUser, getMembersClient) {
 
 // Never throws -- checkout and enquiries must work identically whether or
 // not the visitor is logged in, so callers just get null back for a
-// missing/invalid/non-member session instead of having to catch.
-function makeGetOptionalMember(requireMember) {
+// missing/invalid session instead of having to catch. Deliberately built on
+// getAuthenticatedUser rather than requireMember: an order or enquiry must
+// still link to a brand-new OTP login's account even before that visitor
+// has ever hit /api/members/me (which is what lazily creates their
+// `members` row) -- callers here only ever need `.id` to set member_id.
+function makeGetOptionalMember(getAuthenticatedUser) {
   return async function getOptionalMember(authHeader) {
     if (!authHeader) return null;
     try {
-      return await requireMember(authHeader);
+      return await getAuthenticatedUser(authHeader);
     } catch (e) {
       return null;
     }
@@ -64,7 +68,7 @@ const defaultAuthClient = () =>
 
 const getAuthenticatedUser = makeGetAuthenticatedUser(defaultAuthClient);
 const requireMember = makeRequireMember(getAuthenticatedUser, getSupabaseAdmin);
-const getOptionalMember = makeGetOptionalMember(requireMember);
+const getOptionalMember = makeGetOptionalMember(getAuthenticatedUser);
 
 module.exports = {
   getAuthenticatedUser,

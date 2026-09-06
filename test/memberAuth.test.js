@@ -65,8 +65,7 @@ test('requireMember accepts a valid member session and attaches their row', asyn
 
 test('getOptionalMember returns null instead of throwing when no header is present', async () => {
   const getAuthenticatedUser = makeGetAuthenticatedUser(fakeAuthClient({ data: null, error: null }));
-  const requireMember = makeRequireMember(getAuthenticatedUser, fakeMembersClient({ data: null, error: null }));
-  const getOptionalMember = makeGetOptionalMember(requireMember);
+  const getOptionalMember = makeGetOptionalMember(getAuthenticatedUser);
   assert.equal(await getOptionalMember(undefined), null);
 });
 
@@ -74,20 +73,18 @@ test('getOptionalMember returns null when the session is invalid rather than thr
   const getAuthenticatedUser = makeGetAuthenticatedUser(
     fakeAuthClient({ data: null, error: new Error('bad token') })
   );
-  const requireMember = makeRequireMember(getAuthenticatedUser, fakeMembersClient({ data: null, error: null }));
-  const getOptionalMember = makeGetOptionalMember(requireMember);
+  const getOptionalMember = makeGetOptionalMember(getAuthenticatedUser);
   assert.equal(await getOptionalMember('Bearer bad-token'), null);
 });
 
-test('getOptionalMember returns the member when session and row are both valid', async () => {
+test('getOptionalMember returns the authenticated user even with no members row yet', async () => {
+  // A brand-new OTP login has an auth.users row but no `members` row until
+  // it first hits /api/members/me -- an order or enquiry placed in that
+  // window must still link via .id, so this must not come back null.
   const getAuthenticatedUser = makeGetAuthenticatedUser(
     fakeAuthClient({ data: { user: { id: 'u2', email: 'x@example.com' } }, error: null })
   );
-  const requireMember = makeRequireMember(
-    getAuthenticatedUser,
-    fakeMembersClient({ data: { id: 'u2', plan: 'artisoul_member' }, error: null })
-  );
-  const getOptionalMember = makeGetOptionalMember(requireMember);
-  const member = await getOptionalMember('Bearer good-token');
-  assert.equal(member.plan, 'artisoul_member');
+  const getOptionalMember = makeGetOptionalMember(getAuthenticatedUser);
+  const user = await getOptionalMember('Bearer good-token');
+  assert.equal(user.id, 'u2');
 });

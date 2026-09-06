@@ -27,6 +27,83 @@
   contentEl.hidden = false;
 
   var latestTotals = null;
+  var savedAddresses = [];
+
+  /* ---------- optional login: saved-address checkout ---------- */
+
+  function fillFormFromAddress(addr) {
+    if (!addr) return;
+    document.getElementById('cf-name').value = addr.name;
+    document.getElementById('cf-phone').value = addr.phone;
+    document.getElementById('cf-address').value = addr.address_line;
+    document.getElementById('cf-city').value = addr.city;
+    document.getElementById('cf-state').value = addr.state;
+    document.getElementById('cf-pincode').value = addr.pincode;
+  }
+
+  function loadSavedAddresses(userId) {
+    var pickerWrap = document.getElementById('checkout-address-picker-wrap');
+    var picker = document.getElementById('checkout-address-picker');
+    window.SBTMember.client
+      .from('member_addresses')
+      .select('*')
+      .eq('member_id', userId)
+      .order('created_at', { ascending: true })
+      .then(function (res) {
+        if (res.error || !res.data.length) return;
+        savedAddresses = res.data;
+        picker.innerHTML =
+          '<option value="">Enter a new address below</option>' +
+          savedAddresses
+            .map(function (a, i) {
+              var label = (a.label ? a.label + ' — ' : '') + a.address_line + ', ' + a.city;
+              return '<option value="' + a.id + '">' + label + '</option>';
+            })
+            .join('');
+        pickerWrap.hidden = false;
+        if (savedAddresses[0]) {
+          picker.value = savedAddresses[0].id;
+          fillFormFromAddress(savedAddresses[0]);
+        }
+      });
+  }
+
+  document.getElementById('checkout-address-picker').addEventListener('change', function (e) {
+    var addr = savedAddresses.filter(function (a) { return a.id === e.target.value; })[0];
+    if (addr) fillFormFromAddress(addr);
+  });
+
+  function showLoggedIn(session) {
+    document.getElementById('checkout-auth-guest').hidden = true;
+    document.getElementById('checkout-auth-member').hidden = false;
+    document.getElementById('checkout-member-email').textContent = session.user.email;
+    document.getElementById('cf-email').value = document.getElementById('cf-email').value || session.user.email;
+    loadSavedAddresses(session.user.id);
+  }
+
+  function showGuest() {
+    document.getElementById('checkout-auth-member').hidden = true;
+    document.getElementById('checkout-auth-guest').hidden = false;
+  }
+
+  document.getElementById('checkout-login-toggle').addEventListener('click', function () {
+    var panel = document.getElementById('checkout-login-panel');
+    panel.hidden = false;
+    window.SBTMember.mountLoginPanel(panel, {
+      onSuccess: function (session) {
+        panel.hidden = true;
+        showLoggedIn(session);
+      },
+    });
+  });
+
+  document.getElementById('checkout-logout').addEventListener('click', function () {
+    window.SBTMember.logout().then(function () { showGuest(); });
+  });
+
+  window.SBTMember.getSession(function (session) {
+    if (session) showLoggedIn(session);
+  });
 
   function renderSuccess(order) {
     document.getElementById('co-order-number').textContent = '#' + order.order_number;
@@ -139,16 +216,22 @@
           order_id: order.razorpay_order_id,
           prefill: { name: customer.name, email: customer.email || '', contact: customer.phone },
           handler: function (response) {
-            fetch('/api/checkout/verify-payment', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                razorpay_order_id: response.razorpay_order_id,
-                razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_signature: response.razorpay_signature,
-                items: items,
-                customer: customer,
-              }),
+            window.SBTMember.client.auth.getSession().then(function (sessionRes) {
+              var session = sessionRes.data && sessionRes.data.session;
+              var headers = { 'Content-Type': 'application/json' };
+              if (session) headers.Authorization = 'Bearer ' + session.access_token;
+
+              return fetch('/api/checkout/verify-payment', {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify({
+                  razorpay_order_id: response.razorpay_order_id,
+                  razorpay_payment_id: response.razorpay_payment_id,
+                  razorpay_signature: response.razorpay_signature,
+                  items: items,
+                  customer: customer,
+                }),
+              });
             })
               .then(function (r) { return r.json(); })
               .then(function (result) {

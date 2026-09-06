@@ -119,6 +119,29 @@
         <div>
           <div id="checkout-lines"></div>
 
+          <div class="admin-card" id="checkout-auth" style="margin-top:1.5rem">
+            <div id="checkout-auth-guest">
+              <div class="flex items-center justify-between flex-wrap gap-1">
+                <p class="admin-note" style="margin:0">Have an account? Log in to use a saved address and see this order in your Members Space.</p>
+                <button class="btn btn--ghost btn--sm" type="button" id="checkout-login-toggle">Log in</button>
+              </div>
+              <div id="checkout-login-panel" style="margin-top:1rem" hidden></div>
+            </div>
+
+            <div id="checkout-auth-member" hidden>
+              <div class="flex items-center justify-between flex-wrap gap-1">
+                <p class="admin-note" style="margin:0">Logged in as <strong id="checkout-member-email"></strong></p>
+                <button class="btn btn--ghost btn--sm" type="button" id="checkout-logout">Log out</button>
+              </div>
+              <div class="field mt-2" id="checkout-address-picker-wrap" hidden>
+                <label for="checkout-address-picker">Use a saved address</label>
+                <select id="checkout-address-picker">
+                  <option value="">Enter a new address below</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
           <div class="admin-card" style="margin-top:1.5rem">
             <h3 style="margin-top:0">Delivery details</h3>
             <form id="checkout-form">
@@ -335,8 +358,8 @@
 </footer>
 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-<script src="../assets/js/main.js"></script>
 <script src="../assets/js/member-common.js"></script>
+<script src="../assets/js/main.js"></script>
 <script src="../assets/js/checkout.js"></script>
 </body>
 </html>
