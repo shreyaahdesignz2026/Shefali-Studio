@@ -1,8 +1,6 @@
 (function () {
   'use strict';
 
-  var SUPABASE_URL = 'https://lektufytmhaumsltyfxf.supabase.co';
-
   window.SBTAdmin.requireSession(function () {
     var client = window.SBTAdmin.client;
     var form = document.getElementById('product-form');
@@ -38,7 +36,7 @@
     function renderGallery(images) {
       imageGallery.innerHTML = images
         .map(function (img) {
-          var thumbUrl = SUPABASE_URL + '/storage/v1/object/public/product-images/' + img.product_id + '/' + img.slug + '.jpg';
+          var thumbUrl = '/api/img?p=' + img.product_id + '&f=' + img.slug + '.jpg';
           return (
             '<div style="text-align:center">' +
             '<img src="' + thumbUrl + '" alt="" width="80" height="80" style="object-fit:cover;border-radius:6px;border:1px solid #DDD5C7;display:block">' +

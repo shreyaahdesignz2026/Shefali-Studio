@@ -30,7 +30,7 @@ async function main() {
 
   await attachImages(supabase, products);
 
-  const catalogueHtml = renderCatalogueHtml(products, process.env.SUPABASE_URL);
+  const catalogueHtml = renderCatalogueHtml(products);
 
   const productsPagePath = path.join(targetDir, 'products', 'index.html');
   const original = fs.readFileSync(productsPagePath, 'utf8');

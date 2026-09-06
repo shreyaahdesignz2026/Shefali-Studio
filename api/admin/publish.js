@@ -67,7 +67,7 @@ module.exports = async (req, res) => {
     return res.status(500).json({ error: e.message });
   }
 
-  const catalogueHtml = renderCatalogueHtml(products, process.env.SUPABASE_URL);
+  const catalogueHtml = renderCatalogueHtml(products);
 
   const tmpDir = path.join(os.tmpdir(), `publish-${Date.now()}`);
   copyIncluded(process.cwd(), tmpDir);

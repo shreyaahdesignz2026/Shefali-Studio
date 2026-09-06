@@ -19,8 +19,12 @@ function escapeHtml(s) {
   })[c]);
 }
 
-function slideMarkup(slug, product, supabaseUrl, isActive) {
-  const base = `${supabaseUrl}/storage/v1/object/public/product-images/${product.id}/${slug}`;
+function slideMarkup(slug, product, isActive) {
+  // Served through /api/img rather than Supabase Storage's public URL
+  // directly -- Vercel's edge cache absorbs repeat requests for this
+  // immutable, content-addressed slug instead of every visitor's browser
+  // hitting Supabase's storage egress on every page view.
+  const base = `/api/img?p=${product.id}&f=${slug}`;
   return (
     `<picture class="slide${isActive ? ' is-active' : ''}">` +
     `<source srcset="${base}.avif" type="image/avif">` +
@@ -30,11 +34,11 @@ function slideMarkup(slug, product, supabaseUrl, isActive) {
   );
 }
 
-function mediaMarkup(product, supabaseUrl) {
+function mediaMarkup(product) {
   const images = product.images || [];
   if (!images.length) return '';
 
-  const slides = images.map((img, i) => slideMarkup(img.slug, product, supabaseUrl, i === 0)).join('');
+  const slides = images.map((img, i) => slideMarkup(img.slug, product, i === 0)).join('');
 
   if (images.length === 1) {
     return `<div class="product-slider">${slides}</div>`;
@@ -62,7 +66,7 @@ function priceMarkup(product) {
   return `<span class="price">${money(product.price)}</span>`;
 }
 
-function productCard(product, supabaseUrl) {
+function productCard(product) {
   const name = escapeHtml(product.name);
   const label = escapeHtml(product.subcategory || '');
   const provisionalAttr = product.is_provisional ? ' data-provisional="1"' : '';
@@ -71,7 +75,7 @@ function productCard(product, supabaseUrl) {
   return (
     `<article class="product" data-cat="${escapeHtml(product.category)}">` +
     `<div class="product-media${hasPhoto ? ' has-photo' : ''}">` +
-    mediaMarkup(product, supabaseUrl) +
+    mediaMarkup(product) +
     (product.subcategory ? `<span class="product-tag">${label}</span>` : '') +
     `<button class="wish" type="button" data-wish="${name}" data-price="${product.price}" data-label="${label}" data-product-id="${product.id}"${provisionalAttr} aria-label="Save ${name} to wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>` +
     '</div>' +
@@ -88,10 +92,10 @@ function productCard(product, supabaseUrl) {
   );
 }
 
-function renderCatalogueHtml(products, supabaseUrl) {
+function renderCatalogueHtml(products) {
   return (
     '<div class="grid grid-auto mt-3" id="catalogue">\n' +
-    products.map((p) => productCard(p, supabaseUrl)).join('\n') +
+    products.map((p) => productCard(p)).join('\n') +
     '\n</div>'
   );
 }
