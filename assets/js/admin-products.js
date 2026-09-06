@@ -216,8 +216,8 @@
         : client.from('products').insert(payload).select().single();
 
       query.then(function (res) {
-        submitBtn.disabled = false;
         if (res.error) {
+          submitBtn.disabled = false;
           formError.textContent = res.error.message;
           formError.hidden = false;
           return;
@@ -229,7 +229,16 @@
         formHeading.textContent = 'Edit product';
         cancelBtn.hidden = false;
         document.getElementById('upload-image-btn').disabled = false;
-        loadProducts();
+
+        // If image file(s) were already chosen before hitting Save/Create,
+        // upload them right now as part of the same action instead of
+        // making the admin click a separate Upload button afterward.
+        var fileInput = document.getElementById('image-file');
+        var files = Array.prototype.slice.call(fileInput.files);
+        uploadFiles(res.data.id, files).then(function () {
+          submitBtn.disabled = false;
+          loadProducts();
+        });
       });
     });
 
@@ -247,6 +256,47 @@
       }
     });
 
+    function uploadFiles(id, files) {
+      var status = document.getElementById('upload-status');
+      var fileInput = document.getElementById('image-file');
+      if (!files.length) return Promise.resolve();
+
+      status.textContent = 'Uploading 1 of ' + files.length + '…';
+
+      return client.auth.getSession().then(function (sessionRes) {
+        var token = sessionRes.data.session.access_token;
+
+        return new Promise(function (resolve) {
+          function uploadNext(index) {
+            if (index >= files.length) {
+              status.textContent = 'Uploaded ' + files.length + ' image(s).';
+              fileInput.value = '';
+              loadProductImages(id);
+              resolve();
+              return;
+            }
+            status.textContent = 'Uploading ' + (index + 1) + ' of ' + files.length + '…';
+            var file = files[index];
+            fetch('/api/admin/upload-image?productId=' + encodeURIComponent(id), {
+              method: 'POST',
+              headers: {
+                'Content-Type': file.type,
+                Authorization: 'Bearer ' + token,
+              },
+              body: file,
+            })
+              .then(function (r) { return r.json(); })
+              .then(function (json) {
+                if (json.error) { status.textContent = 'Error on file ' + (index + 1) + ': ' + json.error; resolve(); return; }
+                uploadNext(index + 1);
+              })
+              .catch(function (err) { status.textContent = 'Error on file ' + (index + 1) + ': ' + err.message; resolve(); });
+          }
+          uploadNext(0);
+        });
+      });
+    }
+
     document.getElementById('upload-image-btn').addEventListener('click', function () {
       var id = idField.value;
       var fileInput = document.getElementById('image-file');
@@ -254,40 +304,7 @@
       if (!id) { status.textContent = 'Save the product first, then upload its image(s).'; return; }
       var files = Array.prototype.slice.call(fileInput.files);
       if (!files.length) { status.textContent = 'Choose at least one image file first.'; return; }
-
-      status.textContent = 'Uploading 1 of ' + files.length + '…';
-
-      client.auth.getSession().then(function (sessionRes) {
-        var token = sessionRes.data.session.access_token;
-
-        function uploadNext(index) {
-          if (index >= files.length) {
-            status.textContent = 'Uploaded ' + files.length + ' image(s).';
-            fileInput.value = '';
-            loadProductImages(id);
-            loadProducts();
-            return;
-          }
-          status.textContent = 'Uploading ' + (index + 1) + ' of ' + files.length + '…';
-          var file = files[index];
-          fetch('/api/admin/upload-image?productId=' + encodeURIComponent(id), {
-            method: 'POST',
-            headers: {
-              'Content-Type': file.type,
-              Authorization: 'Bearer ' + token,
-            },
-            body: file,
-          })
-            .then(function (r) { return r.json(); })
-            .then(function (json) {
-              if (json.error) { status.textContent = 'Error on file ' + (index + 1) + ': ' + json.error; return; }
-              uploadNext(index + 1);
-            })
-            .catch(function (err) { status.textContent = 'Error on file ' + (index + 1) + ': ' + err.message; });
-        }
-
-        uploadNext(0);
-      });
+      uploadFiles(id, files).then(loadProducts);
     });
 
     document.getElementById('publish-btn').addEventListener('click', function () {
