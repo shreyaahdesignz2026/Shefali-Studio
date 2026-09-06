@@ -4,6 +4,7 @@
     "api/checkout/create-order.js": { "maxDuration": 30 },
     "api/checkout/verify-payment.js": { "maxDuration": 30 },
     "api/admin/admin-users.js": { "maxDuration": 30 },
+    "api/admin/members.js": { "maxDuration": 30 },
     "api/admin/upload-image.js": { "memory": 1024, "maxDuration": 30 },
     "api/members/request-otp.js": { "maxDuration": 30 },
     "api/members/me.js": { "maxDuration": 30 },
