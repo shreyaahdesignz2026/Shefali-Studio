@@ -6,6 +6,7 @@
     contact_individual: 'Individual Enquiry',
     contact_corporate: 'Corporate Enquiry',
     event_registration: 'Event Registration',
+    artisoul_tribe: 'Artisoul Tribe Interest',
   };
 
   window.SBTAdmin.requireSession(function () {

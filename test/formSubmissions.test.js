@@ -85,3 +85,23 @@ test('buildRow falls back to null for optional contact fields', () => {
   assert.equal(row.phone, null);
   assert.equal(row.email, null);
 });
+
+test('artisoul_tribe requires only name and email (no phone field on that form)', () => {
+  assert.throws(
+    () => validateSubmission('artisoul_tribe', { name: 'A' }),
+    /Missing required field\(s\): email/
+  );
+  assert.doesNotThrow(() => validateSubmission('artisoul_tribe', { name: 'A', email: 'a@b.com' }));
+});
+
+test('artisoul_tribe buildRow maps worth to message and draw to details', () => {
+  const row = buildRow('artisoul_tribe', {
+    name: 'Ishani',
+    email: 'ishani@example.com',
+    draw: 'The book club and the events',
+    worth: 'A real discount on products',
+  });
+  assert.equal(row.message, 'A real discount on products');
+  assert.deepEqual(row.details, { draw: 'The book club and the events' });
+  assert.equal(row.phone, null);
+});

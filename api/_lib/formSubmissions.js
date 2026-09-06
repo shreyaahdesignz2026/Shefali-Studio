@@ -1,10 +1,17 @@
-const FORM_TYPES = ['service_booking', 'contact_individual', 'contact_corporate', 'event_registration'];
+const FORM_TYPES = [
+  'service_booking',
+  'contact_individual',
+  'contact_corporate',
+  'event_registration',
+  'artisoul_tribe',
+];
 
 const REQUIRED_FIELDS = {
   service_booking: ['name', 'phone', 'email', 'service'],
   contact_individual: ['name', 'phone', 'email', 'subject', 'message'],
   contact_corporate: ['name', 'phone', 'email', 'org', 'type', 'brief'],
   event_registration: ['name', 'phone', 'email', 'event'],
+  artisoul_tribe: ['name', 'email'],
 };
 
 const MESSAGE_FIELD = {
@@ -12,6 +19,7 @@ const MESSAGE_FIELD = {
   contact_individual: 'message',
   contact_corporate: 'brief',
   event_registration: 'access',
+  artisoul_tribe: 'worth',
 };
 
 const DETAIL_FIELDS = {
@@ -19,6 +27,7 @@ const DETAIL_FIELDS = {
   contact_individual: ['subject'],
   contact_corporate: ['type', 'org', 'qty', 'when', 'budget'],
   event_registration: ['event', 'places'],
+  artisoul_tribe: ['draw'],
 };
 
 function validateSubmission(formType, fields) {
