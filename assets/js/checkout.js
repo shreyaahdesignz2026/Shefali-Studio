@@ -246,7 +246,7 @@
       walletRow.hidden = true;
     }
     document.getElementById('co-total').textContent = money(grandTotal);
-    document.getElementById('pay-amount').textContent = remainder <= 0 ? '' : money(remainder);
+    document.getElementById('co-amount-due').textContent = money(remainder);
     document.getElementById('pay-btn').textContent = remainder <= 0 ? 'Place order' : 'Pay ' + money(remainder);
   }
 

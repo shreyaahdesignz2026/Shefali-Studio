@@ -207,7 +207,7 @@
                 <label>Pincode <span class="req">*</span></label>
                 <input id="cf-pincode" type="text" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" title="6-digit pincode" required>
               </div>
-              <button class="btn btn--primary btn--block" type="submit" id="pay-btn">Pay <span id="pay-amount"></span></button>
+              <button class="btn btn--primary btn--block" type="submit" id="pay-btn">Pay ₹0</button>
               <p class="admin-error" id="checkout-error" hidden></p>
             </form>
           </div>
@@ -217,8 +217,9 @@
           <h3 style="font-size:1.2rem;margin-bottom:.75rem">Order summary</h3>
           <div class="summary-row"><span class="k">Subtotal</span><span class="v" id="co-subtotal">₹0</span></div>
           <div class="summary-row"><span class="k">Delivery</span><span class="v" id="co-shipping">₹300</span></div>
+          <div class="summary-row"><span class="k">Order total</span><span class="v" id="co-total">₹0</span></div>
           <div class="summary-row" id="co-wallet-row" hidden><span class="k">Wallet applied</span><span class="v" id="co-wallet-applied">−₹0</span></div>
-          <div class="summary-row"><span class="k">Grand total</span><span class="v" id="co-total">₹0</span></div>
+          <div class="summary-row" style="font-weight:600"><span class="k">Amount to pay</span><span class="v" id="co-amount-due">₹0</span></div>
           <div class="summary-row" id="co-wallet-balance-row" style="margin-top:.6rem;padding-top:.6rem;border-top:1px dashed var(--rule)" hidden>
             <span class="k">E-Bliss Wallet balance</span><span class="v" id="co-summary-wallet-balance">₹0</span>
           </div>
