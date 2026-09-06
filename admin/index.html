@@ -34,9 +34,22 @@
       var form = document.getElementById('login-form');
       var errorEl = document.getElementById('login-error');
 
-      // If already logged in, skip straight to the products page.
+      if (new URLSearchParams(window.location.search).get('error') === 'not-admin') {
+        errorEl.textContent = 'That account is not an admin account. Log in with an admin account instead.';
+        errorEl.hidden = false;
+      }
+
+      // A valid Supabase login only proves the email/password is correct
+      // for *some* account -- members authenticate against the exact same
+      // user pool, so a session existing here doesn't mean it's an admin.
+      // Verify before treating "already logged in" as "already an admin".
       window.SBTAdmin.client.auth.getSession().then(function (res) {
-        if (res.data && res.data.session) window.location.href = '/admin/products/';
+        var session = res.data && res.data.session;
+        if (!session) return;
+        window.SBTAdmin.checkIsAdmin(session).then(function (isAdmin) {
+          if (isAdmin) window.location.href = '/admin/products/';
+          else window.SBTAdmin.client.auth.signOut();
+        });
       });
 
       form.addEventListener('submit', function (e) {
@@ -52,7 +65,16 @@
               errorEl.hidden = false;
               return;
             }
-            window.location.href = '/admin/products/';
+            window.SBTAdmin.checkIsAdmin(res.data.session).then(function (isAdmin) {
+              if (!isAdmin) {
+                window.SBTAdmin.client.auth.signOut().then(function () {
+                  errorEl.textContent = 'That account is not an admin account. Log in with an admin account instead.';
+                  errorEl.hidden = false;
+                });
+                return;
+              }
+              window.location.href = '/admin/products/';
+            });
           });
       });
     })();
