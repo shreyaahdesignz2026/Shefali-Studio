@@ -110,6 +110,20 @@ module.exports = async (req, res) => {
       return res.status(200).json({ ok: true });
     }
 
+    if (req.query.action === 'adjust-wallet') {
+      const { amount } = req.body || {};
+      const delta = Number(amount);
+      if (!Number.isFinite(delta) || delta === 0) {
+        return res.status(400).json({ error: 'Enter a non-zero amount' });
+      }
+      const { data: newBalance, error: adjustError } = await supabase.rpc('admin_adjust_wallet', {
+        p_member_id: targetId,
+        p_delta: Math.round(delta * 100) / 100,
+      });
+      if (adjustError) return res.status(400).json({ error: adjustError.message });
+      return res.status(200).json({ ok: true, wallet_balance: newBalance });
+    }
+
     const { display_name, phone, note, plan } = req.body || {};
     const updates = { updated_at: new Date().toISOString() };
     if (display_name !== undefined) updates.display_name = display_name;

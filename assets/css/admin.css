@@ -78,3 +78,5 @@
 .admin-status-badge--superadmin { background: #E9E1F5; color: #5B3FA0; }
 .admin-status-badge--free_tier { background: #EEEEEE; color: #555; }
 .admin-status-badge--artisoul_member { background: #F3EEDA; color: #8F6213; }
+.admin-status-badge--active { background: #E4EFE0; color: #2E6B2E; }
+.admin-status-badge--redeemed { background: #DDE7F3; color: #2B4E8C; }

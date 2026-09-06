@@ -28,6 +28,7 @@
         <li><a href="../products/">Products</a></li>
         <li><a href="../notice-board/">Notice Board</a></li>
         <li><a href="../artisoul-tribe/">Artisoul Tribe</a></li>
+        <li><a href="../gift-card/" aria-current="page">E-Bliss Card</a></li>
         <li><a href="../contact/">Contact</a></li>
       </ul>
     </nav>
@@ -111,8 +112,8 @@
             <ol style="margin:1rem 0 0;padding-left:1.15rem;display:grid;gap:.7rem">
               <li class="small muted">Choose an amount, or enter your own.</li>
               <li class="small muted">Tell us who it's for and add a message if you'd like one.</li>
-              <li class="small muted">We send the card by email, on the date you choose.</li>
-              <li class="small muted">They put it towards any product or any session.</li>
+              <li class="small muted">Check out like any order — the card is emailed to them as soon as payment is confirmed.</li>
+              <li class="small muted">They redeem the code into their E-Bliss Wallet, then spend it towards any product or session.</li>
             </ol>
           </div>
 
@@ -129,7 +130,7 @@
         </div>
 
         <!-- RIGHT: form -->
-        <form class="card reveal" data-d="1" data-demo-form>
+        <form class="card reveal" data-d="1" id="gift-card-form">
           <h3 style="font-size:1.25rem">Choose an amount</h3>
 
           <div class="amount-grid mt-2">
@@ -168,29 +169,75 @@
               <input id="g-from" name="from" type="text" required autocomplete="name">
             </div>
             <div class="field">
-              <label for="g-send">Send on</label>
-              <input id="g-send" name="sendOn" type="date">
+              <label for="g-from-phone">Your phone <span class="req">*</span></label>
+              <input id="g-from-phone" name="fromPhone" type="tel" inputmode="numeric" pattern="[0-9]{10}" maxlength="10" title="10-digit phone number" required autocomplete="tel">
             </div>
           </div>
 
           <div class="field">
+            <label for="g-from-email">Your email</label>
+            <input id="g-from-email" name="fromEmail" type="email" autocomplete="email">
+            <span class="hint">Optional — in case we need to reach you about this order.</span>
+          </div>
+
+          <div class="field">
             <label for="g-msg">A message</label>
-            <textarea id="g-msg" name="message" maxlength="300" style="min-height:100px" placeholder="Written in your words, printed on the card."></textarea>
+            <textarea id="g-msg" name="message" maxlength="300" style="min-height:100px" placeholder="Written in your words, sent along with the card."></textarea>
             <span class="hint">Optional, up to 300 characters.</span>
           </div>
 
-          <button class="btn btn--primary btn--block" type="submit">Continue</button>
+          <button class="btn btn--primary btn--block" type="submit">Add to cart</button>
+          <p class="hint mt-1">The card is added to your cart — you'll check out just like a
+             product order. The code is emailed to your recipient as soon as payment is
+             confirmed.</p>
 
-          <div class="draft mt-2" data-form-note hidden>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01"/><circle cx="12" cy="12" r="9"/></svg>
-            <div><strong>Not yet connected</strong><br>
-            No payment system is connected yet, so no card can be issued from this page.
-            Please send the amount, recipient and message on
-            <a class="a-inline" href="https://wa.me/919836783088">WhatsApp</a> or to
-            <a class="a-inline" href="mailto:connectwdls@gmail.com">connectwdls@gmail.com</a>
-            and we will arrange it directly.</div>
-          </div>
+          <p class="form-error" data-gc-error hidden></p>
         </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="split" style="align-items:start;gap:clamp(2rem,5vw,4rem)">
+        <div class="card reveal">
+          <h3 style="margin-top:0;font-size:1.25rem">Redeem a gift card</h3>
+          <p class="small muted mt-1">Received an E-Bliss Card code by email? Log in or create
+             an account, then enter it below to add the value to your E-Bliss Wallet.</p>
+
+          <div id="gc-redeem-guest" class="mt-2">
+            <button class="btn btn--ghost btn--sm" type="button" id="gc-redeem-login-toggle">Log in to redeem</button>
+            <div id="gc-redeem-login-panel" class="mt-2" hidden></div>
+          </div>
+
+          <div id="gc-redeem-member" class="mt-2" hidden>
+            <p class="small muted">Logged in as <strong id="gc-redeem-email"></strong> · Wallet balance:
+               <strong id="gc-wallet-balance">₹0</strong></p>
+            <form id="gc-redeem-form" class="mt-2">
+              <div class="field">
+                <label for="gc-code">16-character code</label>
+                <input id="gc-code" type="text" maxlength="16" autocomplete="off" style="text-transform:uppercase;letter-spacing:2px" required>
+              </div>
+              <button class="btn btn--primary btn--sm" type="submit">Redeem</button>
+              <p class="form-error" id="gc-redeem-error" hidden></p>
+              <p class="form-success" id="gc-redeem-success" hidden>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                <div id="gc-redeem-success-msg"></div>
+              </p>
+            </form>
+          </div>
+        </div>
+
+        <div class="card card--soft reveal" data-d="1">
+          <h4 style="margin-top:0">How to redeem</h4>
+          <ol style="margin:1rem 0 0;padding-left:1.15rem;display:grid;gap:.6rem">
+            <li class="small muted">Don't share your code with anyone.</li>
+            <li class="small muted">Create an account at a4.snumcaj.com if you don't have one already.</li>
+            <li class="small muted">Come to this page — the E-Bliss Gift Card page.</li>
+            <li class="small muted">Enter the code you received.</li>
+            <li class="small muted">The amount is added to your E-Bliss Wallet — use it at checkout on any order.</li>
+          </ol>
+        </div>
       </div>
     </div>
   </section>
@@ -200,14 +247,18 @@
     var out = document.querySelector('[data-gc-amount]');
     var custom = document.getElementById('g-custom');
     function fmt(v) { return '₹' + Number(v).toLocaleString('en-IN'); }
-    function paint() {
+    function currentAmount() {
       var sel = document.querySelector('input[name="gift-amount"]:checked');
-      if (!sel) return;
+      if (!sel) return null;
       if (sel.value === 'other') {
-        out.textContent = custom && custom.value ? fmt(custom.value) : '₹—';
-      } else {
-        out.textContent = fmt(sel.value);
+        var n = custom ? parseFloat(custom.value) : NaN;
+        return Number.isFinite(n) ? n : null;
       }
+      return Number(sel.value);
+    }
+    function paint() {
+      var amount = currentAmount();
+      out.textContent = amount != null ? fmt(amount) : '₹—';
     }
     document.querySelectorAll('input[name="gift-amount"]').forEach(function (r) {
       r.addEventListener('change', paint);
@@ -315,6 +366,145 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="../assets/js/member-common.js"></script>
 <script src="../assets/js/main.js"></script>
+<script>
+(function () {
+  function fmt(v) { return '₹' + Number(v).toLocaleString('en-IN'); }
+  function currentAmount() {
+    var sel = document.querySelector('input[name="gift-amount"]:checked');
+    if (!sel) return null;
+    if (sel.value === 'other') {
+      var custom = document.getElementById('g-custom');
+      var n = custom ? parseFloat(custom.value) : NaN;
+      return Number.isFinite(n) ? n : null;
+    }
+    return Number(sel.value);
+  }
+
+  /* ---------- add gift card to cart ---------- */
+  var form = document.getElementById('gift-card-form');
+  var errorEl = document.querySelector('[data-gc-error]');
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    errorEl.hidden = true;
+
+    var amount = currentAmount();
+    if (amount == null || amount < 250) {
+      errorEl.textContent = 'Please choose or enter an amount of at least ₹250.';
+      errorEl.hidden = false;
+      return;
+    }
+
+    var recipientName = document.getElementById('g-to').value.trim();
+    var recipientEmail = document.getElementById('g-to-email').value.trim();
+    var senderName = document.getElementById('g-from').value.trim();
+    var senderPhone = document.getElementById('g-from-phone').value.trim();
+    var senderEmail = document.getElementById('g-from-email').value.trim();
+    var message = document.getElementById('g-msg').value.trim();
+
+    if (!recipientName || !recipientEmail || !senderName || !senderPhone) {
+      errorEl.textContent = 'Please fill in every required field.';
+      errorEl.hidden = false;
+      return;
+    }
+
+    window.SBTCart.addItem({
+      item_type: 'gift_card',
+      id: null,
+      name: 'E-Bliss Gift Card',
+      label: 'E-Bliss Gift Card · for ' + recipientName,
+      price: amount,
+      qty: 1,
+      amount: amount,
+      recipient_name: recipientName,
+      recipient_email: recipientEmail,
+      sender_name: senderName,
+      sender_phone: senderPhone,
+      sender_email: senderEmail || null,
+      message: message || null,
+    });
+
+    window.location.href = '../cart/';
+  });
+
+  /* ---------- redeem a gift card ---------- */
+  var redeemGuest = document.getElementById('gc-redeem-guest');
+  var redeemMember = document.getElementById('gc-redeem-member');
+
+  function showRedeemMember(session) {
+    redeemGuest.hidden = true;
+    redeemMember.hidden = false;
+    document.getElementById('gc-redeem-email').textContent = session.user.email;
+    window.SBTMember.client
+      .from('members')
+      .select('wallet_balance')
+      .eq('id', session.user.id)
+      .maybeSingle()
+      .then(function (res) {
+        var bal = res.data ? Number(res.data.wallet_balance) : 0;
+        document.getElementById('gc-wallet-balance').textContent = fmt(bal);
+      });
+  }
+
+  document.getElementById('gc-redeem-login-toggle').addEventListener('click', function () {
+    var panel = document.getElementById('gc-redeem-login-panel');
+    panel.hidden = false;
+    window.SBTMember.mountLoginPanel(panel, {
+      onSuccess: function (session) {
+        panel.hidden = true;
+        showRedeemMember(session);
+      },
+    });
+  });
+
+  window.SBTMember.getSession(function (session) {
+    if (session) showRedeemMember(session);
+  });
+
+  document.getElementById('gc-redeem-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var codeInput = document.getElementById('gc-code');
+    var redeemErrorEl = document.getElementById('gc-redeem-error');
+    var successEl = document.getElementById('gc-redeem-success');
+    redeemErrorEl.hidden = true;
+    successEl.hidden = true;
+
+    var submitBtn = e.target.querySelector('button[type="submit"]');
+    if (submitBtn.disabled) return;
+    submitBtn.disabled = true;
+
+    window.SBTMember.client.auth.getSession().then(function (sessionRes) {
+      var session = sessionRes.data && sessionRes.data.session;
+      return fetch('/api/members/me?action=redeem-gift-card', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + session.access_token,
+        },
+        body: JSON.stringify({ code: codeInput.value.trim() }),
+      });
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (result) {
+        submitBtn.disabled = false;
+        if (result.error) {
+          redeemErrorEl.textContent = result.error;
+          redeemErrorEl.hidden = false;
+          return;
+        }
+        codeInput.value = '';
+        document.getElementById('gc-wallet-balance').textContent = fmt(result.wallet_balance);
+        document.getElementById('gc-redeem-success-msg').textContent =
+          fmt(result.amount) + ' added to your E-Bliss Wallet.';
+        successEl.hidden = false;
+      })
+      .catch(function () {
+        submitBtn.disabled = false;
+        redeemErrorEl.textContent = 'Something went wrong — please try again.';
+        redeemErrorEl.hidden = false;
+      });
+  });
+})();
+</script>
 <script>
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
 </script>

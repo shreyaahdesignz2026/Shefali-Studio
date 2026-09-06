@@ -72,6 +72,46 @@ function orderConfirmationEmail(order) {
   };
 }
 
+function giftCardEmail(giftCard) {
+  const orderedOn = new Date(giftCard.created_at).toLocaleDateString('en-IN', {
+    day: 'numeric', month: 'long', year: 'numeric',
+  });
+  const cardVisual =
+    '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:20px 0;">' +
+    '<tr><td align="center">' +
+    '<table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="max-width:420px;background:linear-gradient(135deg,#3F5B54,#20323F);border-radius:14px;">' +
+    '<tr><td style="padding:28px 30px;color:#F3ECDD;font-family:Georgia,\'Times New Roman\',serif;">' +
+    '<p style="margin:0;font-size:12px;letter-spacing:2px;text-transform:uppercase;opacity:.75;">Shreyaah\'s Bliss Trails</p>' +
+    '<p style="margin:14px 0 2px;font-size:13px;letter-spacing:1px;text-transform:uppercase;opacity:.85;">E-Bliss Card</p>' +
+    `<p style="margin:0 0 20px;font-size:34px;font-weight:bold;">${money(giftCard.amount)}</p>` +
+    '<p style="margin:0;font-size:11px;letter-spacing:2px;text-transform:uppercase;opacity:.7;">Your code</p>' +
+    `<p style="margin:4px 0 0;font-size:24px;font-weight:bold;letter-spacing:3px;font-family:'Courier New',monospace;">${escapeHtml(giftCard.code)}</p>` +
+    '</td></tr></table>' +
+    '</td></tr></table>';
+
+  const body =
+    `<p>Hi ${escapeHtml(giftCard.recipient_name)},</p>` +
+    `<p><strong>${escapeHtml(giftCard.sender_name)}</strong> sent you an E-Bliss Card worth ${money(giftCard.amount)}, ordered on ${orderedOn}.</p>` +
+    (giftCard.message
+      ? `<p style="margin:16px 0;padding:14px 18px;background:#F6F1E6;border-left:3px solid #DA8A67;font-style:italic;">${withLineBreaks(giftCard.message)}</p>`
+      : '') +
+    cardVisual +
+    '<p><strong>Please don\'t share this code with anyone else.</strong></p>' +
+    '<p><strong>How to use it:</strong></p>' +
+    '<ol style="padding-left:20px;margin:8px 0;">' +
+    '<li>Don\'t share this code with anyone.</li>' +
+    '<li>Create an account at a4.snumcaj.com if you don\'t already have one.</li>' +
+    '<li>Go to the E-Bliss Gift Card page.</li>' +
+    '<li>Enter the code above in the "Redeem a gift card" section.</li>' +
+    '<li>The amount is added to your E-Bliss Wallet, ready to use at checkout on any product or session.</li>' +
+    '</ol>';
+
+  return {
+    subject: `${giftCard.sender_name} sent you an E-Bliss Card worth ${money(giftCard.amount)}`,
+    html: wrapEmail('You\'ve Received an E-Bliss Card', body),
+  };
+}
+
 function otpEmail(code) {
   const body =
     '<p>Your one-time login code is:</p>' +
@@ -134,6 +174,7 @@ module.exports = {
   escapeHtml,
   withLineBreaks,
   orderConfirmationEmail,
+  giftCardEmail,
   otpEmail,
   emailChangeCodeEmail,
   adminNotificationEmail,

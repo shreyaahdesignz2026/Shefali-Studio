@@ -35,6 +35,21 @@ module.exports = async (req, res) => {
     return res.status(200).json({ member });
   }
 
+  if (req.method === 'POST' && req.query.action === 'redeem-gift-card') {
+    const { code } = req.body || {};
+    if (!code || typeof code !== 'string' || !code.trim()) {
+      return res.status(400).json({ error: 'Missing gift card code' });
+    }
+    const normalized = code.trim().toUpperCase();
+    const { data, error: rpcError } = await supabase.rpc('redeem_gift_card', {
+      p_code: normalized,
+      p_member_id: user.id,
+    });
+    if (rpcError) return res.status(400).json({ error: rpcError.message });
+    const row = Array.isArray(data) ? data[0] : data;
+    return res.status(200).json({ ok: true, amount: row.amount, wallet_balance: row.new_balance });
+  }
+
   if (req.method === 'PATCH') {
     const { display_name, phone, note } = req.body || {};
     const updates = { updated_at: new Date().toISOString() };

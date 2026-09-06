@@ -2,6 +2,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const {
   orderConfirmationEmail,
+  giftCardEmail,
   otpEmail,
   emailChangeCodeEmail,
   adminNotificationEmail,
@@ -40,6 +41,34 @@ test('orderConfirmationEmail escapes HTML in customer-supplied fields', () => {
     customer: { ...sampleOrder.customer, name: '<script>alert(1)</script>' },
   };
   const { html } = orderConfirmationEmail(order);
+  assert.doesNotMatch(html, /<script>/);
+  assert.match(html, /&lt;script&gt;/);
+});
+
+const sampleGiftCard = {
+  code: 'AB12CD34EF56GH78',
+  amount: 500,
+  sender_name: 'Ravi Kapoor',
+  recipient_name: 'Asha Sen',
+  message: 'Happy birthday!',
+  created_at: '2026-01-15T10:00:00.000Z',
+};
+
+test('giftCardEmail includes the code, amount, sender, message, and redemption steps', () => {
+  const { subject, html } = giftCardEmail(sampleGiftCard);
+  assert.match(subject, /Ravi Kapoor/);
+  assert.match(subject, /500\.00/);
+  assert.match(html, /AB12CD34EF56GH78/);
+  assert.match(html, /Asha Sen/);
+  assert.match(html, /Ravi Kapoor/);
+  assert.match(html, /Happy birthday!/);
+  assert.match(html, /Don't share this code/i);
+  assert.match(html, /E-Bliss Wallet/i);
+});
+
+test('giftCardEmail escapes HTML in sender-supplied fields', () => {
+  const giftCard = { ...sampleGiftCard, message: '<script>alert(1)</script>' };
+  const { html } = giftCardEmail(giftCard);
   assert.doesNotMatch(html, /<script>/);
   assert.match(html, /&lt;script&gt;/);
 });

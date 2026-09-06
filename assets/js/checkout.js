@@ -19,8 +19,10 @@
   }
 
   var cart = (window.SBTCart ? window.SBTCart.readCart() : []).filter(function (it) {
-    return it.id;
+    return it.id || it.item_type === 'gift_card';
   });
+  var productCart = cart.filter(function (it) { return it.item_type !== 'gift_card'; });
+  var giftCardCart = cart.filter(function (it) { return it.item_type === 'gift_card'; });
 
   var emptyEl = document.querySelector('[data-checkout-empty]');
   var contentEl = document.querySelector('[data-checkout-content]');
@@ -32,10 +34,10 @@
   }
   contentEl.hidden = false;
 
-  var latestTotals = null;
+  var walletBalance = 0;
   var savedAddresses = [];
 
-  /* ---------- optional login: saved-address checkout ---------- */
+  /* ---------- optional login: saved-address checkout + wallet ---------- */
 
   function fillFormFromAddress(addr) {
     document.getElementById('cf-name').value = addr ? addr.name : '';
@@ -78,17 +80,42 @@
     fillFormFromAddress(addr || null);
   });
 
+  function loadWallet(userId) {
+    window.SBTMember.client
+      .from('members')
+      .select('wallet_balance')
+      .eq('id', userId)
+      .maybeSingle()
+      .then(function (res) {
+        walletBalance = res.data ? Number(res.data.wallet_balance) : 0;
+        var wrap = document.getElementById('checkout-wallet-wrap');
+        if (walletBalance > 0) {
+          document.getElementById('checkout-wallet-balance').textContent = money(walletBalance);
+          wrap.hidden = false;
+        } else {
+          wrap.hidden = true;
+        }
+        renderTotals();
+      });
+  }
+
+  document.getElementById('checkout-use-wallet').addEventListener('change', renderTotals);
+
   function showLoggedIn(session) {
     document.getElementById('checkout-auth-guest').hidden = true;
     document.getElementById('checkout-auth-member').hidden = false;
     document.getElementById('checkout-member-email').textContent = session.user.email;
     document.getElementById('cf-email').value = document.getElementById('cf-email').value || session.user.email;
     loadSavedAddresses(session.user.id);
+    loadWallet(session.user.id);
   }
 
   function showGuest() {
     document.getElementById('checkout-auth-member').hidden = true;
     document.getElementById('checkout-auth-guest').hidden = false;
+    document.getElementById('checkout-wallet-wrap').hidden = true;
+    walletBalance = 0;
+    renderTotals();
   }
 
   document.getElementById('checkout-login-toggle').addEventListener('click', function () {
@@ -126,9 +153,17 @@
       })
       .join('');
 
+    var walletUsed = Number(order.wallet_amount_used || 0);
     document.getElementById('co-success-subtotal').textContent = money(order.subtotal);
     document.getElementById('co-success-shipping').textContent = money(order.shipping_fee);
-    document.getElementById('co-success-total').textContent = money(order.grand_total);
+    var walletRow = document.getElementById('co-success-wallet-row');
+    if (walletUsed > 0) {
+      document.getElementById('co-success-wallet').textContent = '−' + money(walletUsed);
+      walletRow.hidden = false;
+    } else {
+      walletRow.hidden = true;
+    }
+    document.getElementById('co-success-total').textContent = money(order.grand_total - walletUsed);
 
     var c = order.customer;
     document.getElementById('co-success-customer').innerHTML =
@@ -137,13 +172,12 @@
       escapeHtml(c.address_line) + ', ' + escapeHtml(c.city) + ', ' + escapeHtml(c.state) + ' — ' + escapeHtml(c.pincode);
   }
 
-  function renderLines(products) {
-    var byId = {};
-    products.forEach(function (p) { byId[p.id] = p; });
+  var productPrices = {}; // filled once products load
 
-    var linesHtml = cart
+  function renderLines() {
+    var linesHtml = productCart
       .map(function (it) {
-        var p = byId[it.id];
+        var p = productPrices[it.id];
         if (!p) return '';
         return (
           '<div class="line line--simple">' +
@@ -155,35 +189,118 @@
           '</div>'
         );
       })
-      .join('');
+      .join('') +
+      giftCardCart
+        .map(function (it) {
+          return (
+            '<div class="line line--simple">' +
+            '<div class="line-media" aria-hidden="true"></div>' +
+            '<div class="line-body">' +
+            '<p class="product-cat">E-Bliss Gift Card</p>' +
+            '<h3 class="product-name">For ' + escapeHtml(it.recipient_name) + '</h3>' +
+            '<p class="price">' + money(it.amount) + '</p>' +
+            '</div>' +
+            '</div>'
+          );
+        })
+        .join('');
     document.getElementById('checkout-lines').innerHTML = linesHtml;
-
-    var subtotal = cart.reduce(function (sum, it) {
-      var p = byId[it.id];
-      return p ? sum + p.price * it.qty : sum;
-    }, 0);
-    var grandTotal = subtotal + SHIPPING_FEE;
-
-    document.getElementById('co-subtotal').textContent = money(subtotal);
-    document.getElementById('co-shipping').textContent = money(SHIPPING_FEE);
-    document.getElementById('co-total').textContent = money(grandTotal);
-    document.getElementById('pay-amount').textContent = money(grandTotal);
-
-    latestTotals = { subtotal: subtotal, grandTotal: grandTotal };
+    renderTotals();
   }
 
-  client
-    .from('products')
-    .select('id, name, price, original_price, is_provisional')
-    .in('id', cart.map(function (it) { return it.id; }))
-    .then(function (res) {
-      if (res.error) {
-        document.getElementById('checkout-error').textContent = res.error.message;
-        document.getElementById('checkout-error').hidden = false;
-        return;
-      }
-      renderLines(res.data);
-    });
+  function renderTotals() {
+    var productSubtotal = productCart.reduce(function (sum, it) {
+      var p = productPrices[it.id];
+      return p ? sum + p.price * it.qty : sum;
+    }, 0);
+    var giftCardSubtotal = giftCardCart.reduce(function (sum, it) { return sum + it.amount; }, 0);
+    var subtotal = productSubtotal + giftCardSubtotal;
+    var shippingFee = productCart.length ? SHIPPING_FEE : 0;
+    var grandTotal = subtotal + shippingFee;
+
+    var useWalletBox = document.getElementById('checkout-use-wallet');
+    var wantsWallet = !document.getElementById('checkout-wallet-wrap').hidden && useWalletBox.checked;
+    var walletApplied = wantsWallet ? Math.min(walletBalance, grandTotal) : 0;
+    var remainder = Math.round((grandTotal - walletApplied) * 100) / 100;
+
+    document.getElementById('co-subtotal').textContent = money(subtotal);
+    document.getElementById('co-shipping').textContent = money(shippingFee);
+    var walletRow = document.getElementById('co-wallet-row');
+    if (walletApplied > 0) {
+      document.getElementById('co-wallet-applied').textContent = '−' + money(walletApplied);
+      walletRow.hidden = false;
+    } else {
+      walletRow.hidden = true;
+    }
+    document.getElementById('co-total').textContent = money(grandTotal);
+    document.getElementById('pay-amount').textContent = remainder <= 0 ? '' : money(remainder);
+    document.getElementById('pay-btn').textContent = remainder <= 0 ? 'Place order' : 'Pay ' + money(remainder);
+  }
+
+  if (productCart.length) {
+    client
+      .from('products')
+      .select('id, name, price, original_price, is_provisional')
+      .in('id', productCart.map(function (it) { return it.id; }))
+      .then(function (res) {
+        if (res.error) {
+          document.getElementById('checkout-error').textContent = res.error.message;
+          document.getElementById('checkout-error').hidden = false;
+          return;
+        }
+        res.data.forEach(function (p) { productPrices[p.id] = p; });
+        renderLines();
+      });
+  } else {
+    renderLines();
+  }
+
+  function buildItemsPayload() {
+    return productCart.map(function (it) { return { item_type: 'product', product_id: it.id, qty: it.qty || 1 }; })
+      .concat(giftCardCart.map(function (it) {
+        return {
+          item_type: 'gift_card',
+          amount: it.amount,
+          recipient_name: it.recipient_name,
+          recipient_email: it.recipient_email,
+          sender_name: it.sender_name,
+          sender_email: it.sender_email,
+          sender_phone: it.sender_phone,
+          message: it.message,
+        };
+      }));
+  }
+
+  function completeOrder(payload, payBtn, errorEl) {
+    return window.SBTMember.client.auth.getSession().then(function (sessionRes) {
+      var session = sessionRes.data && sessionRes.data.session;
+      var headers = { 'Content-Type': 'application/json' };
+      if (session) headers.Authorization = 'Bearer ' + session.access_token;
+      return fetch('/api/checkout/verify-payment', {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(payload),
+      });
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (result) {
+        payBtn.disabled = false;
+        if (result.error) {
+          errorEl.textContent = result.error;
+          errorEl.hidden = false;
+          return;
+        }
+        localStorage.removeItem(window.SBTCart.KEY_CART);
+        contentEl.hidden = true;
+        successEl.hidden = false;
+        renderSuccess(result.order);
+      })
+      .catch(function (err) {
+        payBtn.disabled = false;
+        errorEl.textContent = err.message;
+        errorEl.hidden = false;
+      });
+  }
 
   document.getElementById('checkout-form').addEventListener('submit', function (e) {
     e.preventDefault();
@@ -199,19 +316,31 @@
       state: document.getElementById('cf-state').value.trim(),
       pincode: document.getElementById('cf-pincode').value.trim(),
     };
-    var items = cart.map(function (it) { return { product_id: it.id, qty: it.qty || 1 }; });
+    var items = buildItemsPayload();
+    var useWallet = !document.getElementById('checkout-wallet-wrap').hidden &&
+      document.getElementById('checkout-use-wallet').checked;
 
     var payBtn = document.getElementById('pay-btn');
     payBtn.disabled = true;
 
-    fetch('/api/checkout/create-order', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ items: items, customer: customer }),
+    window.SBTMember.client.auth.getSession().then(function (sessionRes) {
+      var session = sessionRes.data && sessionRes.data.session;
+      var headers = { 'Content-Type': 'application/json' };
+      if (session) headers.Authorization = 'Bearer ' + session.access_token;
+      return fetch('/api/checkout/create-order', {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify({ items: items, customer: customer, use_wallet: useWallet }),
+      });
     })
       .then(function (r) { return r.json(); })
       .then(function (order) {
         if (order.error) throw new Error(order.error);
+
+        if (order.zero_amount) {
+          // Fully covered by the wallet -- no Razorpay step at all.
+          return completeOrder({ items: items, customer: customer, use_wallet: useWallet }, payBtn, errorEl);
+        }
 
         var rzp = new Razorpay({
           key: order.key_id,
@@ -221,41 +350,14 @@
           order_id: order.razorpay_order_id,
           prefill: { name: customer.name, email: customer.email || '', contact: customer.phone },
           handler: function (response) {
-            window.SBTMember.client.auth.getSession().then(function (sessionRes) {
-              var session = sessionRes.data && sessionRes.data.session;
-              var headers = { 'Content-Type': 'application/json' };
-              if (session) headers.Authorization = 'Bearer ' + session.access_token;
-
-              return fetch('/api/checkout/verify-payment', {
-                method: 'POST',
-                headers: headers,
-                body: JSON.stringify({
-                  razorpay_order_id: response.razorpay_order_id,
-                  razorpay_payment_id: response.razorpay_payment_id,
-                  razorpay_signature: response.razorpay_signature,
-                  items: items,
-                  customer: customer,
-                }),
-              });
-            })
-              .then(function (r) { return r.json(); })
-              .then(function (result) {
-                payBtn.disabled = false;
-                if (result.error) {
-                  errorEl.textContent = result.error;
-                  errorEl.hidden = false;
-                  return;
-                }
-                localStorage.removeItem(window.SBTCart.KEY_CART);
-                contentEl.hidden = true;
-                successEl.hidden = false;
-                renderSuccess(result.order);
-              })
-              .catch(function (err) {
-                payBtn.disabled = false;
-                errorEl.textContent = err.message;
-                errorEl.hidden = false;
-              });
+            completeOrder({
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+              items: items,
+              customer: customer,
+              use_wallet: useWallet,
+            }, payBtn, errorEl);
           },
           modal: {
             ondismiss: function () { payBtn.disabled = false; },

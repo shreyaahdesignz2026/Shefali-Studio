@@ -2,13 +2,46 @@ const { getSupabaseAdmin } = require('../_lib/supabaseAdmin');
 const { computeTotals } = require('../_lib/pricing');
 const { verifyPaymentSignature } = require('../_lib/razorpaySignature');
 const { getOptionalMember } = require('../_lib/memberAuth');
-const { orderConfirmationEmail, adminNotificationEmail } = require('../_lib/emailTemplates');
+const { generateGiftCardCode } = require('../_lib/giftCards');
+const { orderConfirmationEmail, giftCardEmail, adminNotificationEmail } = require('../_lib/emailTemplates');
 const { sendEmail } = require('../_lib/email');
 
 const ADMIN_NOTIFICATION_EMAIL = process.env.ADMIN_NOTIFICATION_EMAIL || 'shreyaahdesignz2026@gmail.com';
+const MAX_CODE_ATTEMPTS = 5;
 
 function isTestKey() {
   return (process.env.RAZORPAY_KEY_ID || '').startsWith('rzp_test_');
+}
+
+async function insertGiftCard(supabase, { orderId, orderItemId, memberId, giftCardData, createdAt }) {
+  // The 16-character code is unique-constrained; a collision is astronomically
+  // unlikely (32^16 possibilities) but retry a few times rather than fail
+  // an already-paid-for order over it.
+  let lastError;
+  for (let attempt = 0; attempt < MAX_CODE_ATTEMPTS; attempt++) {
+    const code = generateGiftCardCode();
+    const { data, error } = await supabase
+      .from('gift_cards')
+      .insert({
+        order_id: orderId,
+        order_item_id: orderItemId,
+        code,
+        amount: giftCardData.amount,
+        sender_name: giftCardData.sender_name,
+        sender_email: giftCardData.sender_email,
+        sender_phone: giftCardData.sender_phone,
+        recipient_name: giftCardData.recipient_name,
+        recipient_email: giftCardData.recipient_email,
+        message: giftCardData.message,
+        purchaser_member_id: memberId,
+      })
+      .select()
+      .single();
+    if (!error) return { ...data, created_at: data.created_at || createdAt };
+    lastError = error;
+    if (error.code !== '23505') break; // not a unique-violation -- don't retry
+  }
+  throw new Error(`Could not issue gift card code: ${lastError.message}`);
 }
 
 module.exports = async (req, res) => {
@@ -22,31 +55,21 @@ module.exports = async (req, res) => {
     razorpay_signature,
     items,
     customer,
+    use_wallet,
   } = req.body || {};
 
-  if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
-    return res.status(400).json({ error: 'Missing Razorpay payment fields' });
-  }
   if (!customer || !customer.name || !customer.phone || !customer.address_line ||
       !customer.city || !customer.state || !customer.pincode) {
     return res.status(400).json({ error: 'Missing customer details' });
   }
 
-  const validSignature = verifyPaymentSignature(
-    { razorpay_order_id, razorpay_payment_id, razorpay_signature },
-    process.env.RAZORPAY_KEY_SECRET
-  );
-  if (!validSignature) {
-    return res.status(400).json({ error: 'Payment signature verification failed' });
-  }
-
   const member = await getOptionalMember(req.headers.authorization);
 
   const supabase = getSupabaseAdmin();
-  const { data: products, error: productsError } = await supabase
-    .from('products')
-    .select('id, name, price, status')
-    .in('id', items.map((i) => i.product_id));
+  const productIds = (items || []).filter((i) => i.item_type !== 'gift_card').map((i) => i.product_id);
+  const { data: products, error: productsError } = productIds.length
+    ? await supabase.from('products').select('id, name, price, status').in('id', productIds)
+    : { data: [], error: null };
   if (productsError) return res.status(500).json({ error: productsError.message });
 
   let totals;
@@ -56,17 +79,57 @@ module.exports = async (req, res) => {
     return res.status(400).json({ error: e.message });
   }
 
+  // Recompute the wallet contribution independently, server-side, exactly
+  // as create-order.js did -- never trust a client-sent amount.
+  let walletAmount = 0;
+  if (use_wallet && member) {
+    const { data: row, error: memberError } = await supabase
+      .from('members')
+      .select('wallet_balance')
+      .eq('id', member.id)
+      .maybeSingle();
+    if (memberError) return res.status(500).json({ error: memberError.message });
+    const balance = row ? Number(row.wallet_balance) : 0;
+    walletAmount = Math.round(Math.min(balance, totals.grandTotal) * 100) / 100;
+  }
+  const remainder = Math.round((totals.grandTotal - walletAmount) * 100) / 100;
+
+  if (remainder > 0) {
+    if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
+      return res.status(400).json({ error: 'Missing Razorpay payment fields' });
+    }
+    const validSignature = verifyPaymentSignature(
+      { razorpay_order_id, razorpay_payment_id, razorpay_signature },
+      process.env.RAZORPAY_KEY_SECRET
+    );
+    if (!validSignature) {
+      return res.status(400).json({ error: 'Payment signature verification failed' });
+    }
+  } else if (walletAmount > 0) {
+    // Fully covered by the wallet, nothing charged to Razorpay -- deduct
+    // first, since a failure here (a genuine balance race) must block the
+    // order rather than hand out a free one.
+    const { error: deductError } = await supabase.rpc('deduct_wallet', {
+      p_member_id: member.id,
+      p_amount: walletAmount,
+    });
+    if (deductError) {
+      return res.status(400).json({ error: `Wallet charge failed: ${deductError.message}` });
+    }
+  }
+
   const { data: order, error: orderError } = await supabase
     .from('orders')
     .insert({
-      razorpay_order_id,
-      razorpay_payment_id,
-      razorpay_signature,
-      is_test_payment: isTestKey(),
+      razorpay_order_id: razorpay_order_id || null,
+      razorpay_payment_id: razorpay_payment_id || null,
+      razorpay_signature: razorpay_signature || null,
+      is_test_payment: remainder > 0 ? isTestKey() : false,
       status: 'placed',
       subtotal: totals.subtotal,
       shipping_fee: totals.shippingFee,
       grand_total: totals.grandTotal,
+      wallet_amount_used: walletAmount,
       customer_name: customer.name,
       customer_phone: customer.phone,
       customer_email: customer.email || null,
@@ -80,16 +143,52 @@ module.exports = async (req, res) => {
     .single();
   if (orderError) return res.status(500).json({ error: orderError.message });
 
-  const orderItems = totals.lineItems.map((li) => ({
+  const orderItemsPayload = totals.lineItems.map((li) => ({
     order_id: order.id,
+    item_type: li.item_type,
     product_id: li.product_id,
     product_name: li.name,
     unit_price: li.unit_price,
     qty: li.qty,
     line_total: li.line_total,
   }));
-  const { error: itemsError } = await supabase.from('order_items').insert(orderItems);
+  const { data: insertedItems, error: itemsError } = await supabase
+    .from('order_items')
+    .insert(orderItemsPayload)
+    .select();
   if (itemsError) return res.status(500).json({ error: itemsError.message });
+
+  // Partial wallet use alongside a real Razorpay charge -- the charge is
+  // already captured, so the order must stand regardless; log rather than
+  // fail if this specific deduction has trouble.
+  if (walletAmount > 0 && remainder > 0) {
+    const { error: deductError } = await supabase.rpc('deduct_wallet', {
+      p_member_id: member.id,
+      p_amount: walletAmount,
+    });
+    if (deductError) console.error('Wallet deduction after paid order failed:', deductError.message);
+  }
+
+  // Issue a gift_cards row (with its own redeemable code) for every
+  // gift-card line item, matched back to its order_item by array position --
+  // a single-statement multi-row INSERT ... RETURNING preserves input order.
+  const issuedGiftCards = [];
+  for (let i = 0; i < totals.lineItems.length; i++) {
+    const li = totals.lineItems[i];
+    if (li.item_type !== 'gift_card') continue;
+    try {
+      const giftCard = await insertGiftCard(supabase, {
+        orderId: order.id,
+        orderItemId: insertedItems[i] ? insertedItems[i].id : null,
+        memberId: member ? member.id : null,
+        giftCardData: li.gift_card,
+        createdAt: order.created_at,
+      });
+      issuedGiftCards.push(giftCard);
+    } catch (e) {
+      console.error('Gift card issuance failed:', e.message);
+    }
+  }
 
   const responseOrder = {
     id: order.id,
@@ -107,10 +206,11 @@ module.exports = async (req, res) => {
     items: totals.lineItems,
     subtotal: totals.subtotal,
     shipping_fee: totals.shippingFee,
+    wallet_amount_used: walletAmount,
     grand_total: totals.grandTotal,
   };
 
-  // Both sends are non-fatal: a Resend failure must never fail an
+  // All sends below are non-fatal: a Resend failure must never fail an
   // already-completed, already-paid-for order.
   if (responseOrder.customer.email) {
     try {
@@ -118,6 +218,15 @@ module.exports = async (req, res) => {
       await sendEmail({ to: responseOrder.customer.email, subject, html });
     } catch (e) {
       console.error('Order confirmation email failed:', e.message);
+    }
+  }
+
+  for (const giftCard of issuedGiftCards) {
+    try {
+      const { subject, html } = giftCardEmail(giftCard);
+      await sendEmail({ to: giftCard.recipient_email, subject, html });
+    } catch (e) {
+      console.error('Gift card recipient email failed:', e.message);
     }
   }
 

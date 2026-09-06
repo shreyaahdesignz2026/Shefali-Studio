@@ -173,6 +173,16 @@
         '</div></div>' +
         '<button class="admin-btn admin-btn--ghost" data-reset-login="' + member.id + '">Or reset to a random password</button>' +
         '<p class="admin-note" data-reset-result hidden></p>' +
+
+        '<h4 style="margin:1rem 0 .5rem">E-Bliss Wallet</h4>' +
+        '<p class="admin-note">Current balance: <strong data-wallet-balance-for="' + member.id + '">' + money(member.wallet_balance || 0) + '</strong></p>' +
+        '<div class="admin-form-row"><label>Add or subtract an amount</label>' +
+        '<div style="display:flex;gap:.5rem">' +
+        '<input type="number" step="0.01" data-wallet-amount placeholder="e.g. 500 or -500" style="flex:1">' +
+        '<button class="admin-btn admin-btn--ghost" type="button" data-adjust-wallet="' + member.id + '">Apply</button>' +
+        '</div></div>' +
+        '<p class="admin-note">A positive amount adds to the wallet, a negative amount subtracts from it.</p>' +
+        '<p class="admin-error" data-wallet-error hidden></p>' +
         '</div>' +
 
         '<div>' +
@@ -267,6 +277,31 @@
           }
           resultEl.textContent = 'New temporary password: ' + res.json.temporary_password + ' — share this with them now, it will not be shown again.';
           resultEl.hidden = false;
+        });
+      });
+
+      detailEl.querySelector('[data-adjust-wallet]').addEventListener('click', function () {
+        var amountInput = detailEl.querySelector('[data-wallet-amount]');
+        var errorEl = detailEl.querySelector('[data-wallet-error]');
+        errorEl.hidden = true;
+        var amount = parseFloat(amountInput.value);
+        if (!amount) {
+          errorEl.textContent = 'Enter a non-zero amount.';
+          errorEl.hidden = false;
+          return;
+        }
+        authedFetch('/api/admin/members?id=' + encodeURIComponent(member.id) + '&action=adjust-wallet', {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ amount: amount }),
+        }).then(function (res) {
+          if (res.json.error) {
+            errorEl.textContent = res.json.error;
+            errorEl.hidden = false;
+            return;
+          }
+          amountInput.value = '';
+          detailEl.querySelector('[data-wallet-balance-for="' + member.id + '"]').textContent = money(res.json.wallet_balance);
         });
       });
     }

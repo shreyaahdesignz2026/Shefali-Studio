@@ -82,6 +82,7 @@
       document.getElementById('p-display').value = member.display_name || '';
       document.getElementById('p-phone').value = member.phone || '';
       document.getElementById('p-note').value = member.note || '';
+      document.getElementById('wallet-balance').textContent = money(member.wallet_balance || 0);
       renderPlan(member);
     }
 

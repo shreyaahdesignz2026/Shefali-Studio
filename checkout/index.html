@@ -29,6 +29,7 @@
         <li><a href="../products/">Products</a></li>
         <li><a href="../notice-board/">Notice Board</a></li>
         <li><a href="../artisoul-tribe/">Artisoul Tribe</a></li>
+        <li><a href="../gift-card/">E-Bliss Card</a></li>
         <li><a href="../contact/">Contact</a></li>
       </ul>
     </nav>
@@ -118,6 +119,13 @@
                 <select id="checkout-address-picker">
                   <option value="">Enter a new address below</option>
                 </select>
+              </div>
+
+              <div class="field mt-2" id="checkout-wallet-wrap" hidden>
+                <label style="display:flex;align-items:center;gap:.6rem;font-weight:400">
+                  <input type="checkbox" id="checkout-use-wallet" style="width:auto">
+                  Use my E-Bliss Wallet balance (<strong id="checkout-wallet-balance">₹0</strong> available)
+                </label>
               </div>
             </div>
           </div>
@@ -209,6 +217,7 @@
           <h3 style="font-size:1.2rem;margin-bottom:.75rem">Order summary</h3>
           <div class="summary-row"><span class="k">Subtotal</span><span class="v" id="co-subtotal">₹0</span></div>
           <div class="summary-row"><span class="k">Delivery</span><span class="v" id="co-shipping">₹300</span></div>
+          <div class="summary-row" id="co-wallet-row" hidden><span class="k">Wallet applied</span><span class="v" id="co-wallet-applied">−₹0</span></div>
           <div class="summary-row"><span class="k">Grand total</span><span class="v" id="co-total">₹0</span></div>
         </aside>
       </div>
@@ -225,6 +234,7 @@
             <div id="co-success-lines"></div>
             <div class="summary-row" style="margin-top:1rem"><span class="k">Subtotal</span><span class="v" id="co-success-subtotal"></span></div>
             <div class="summary-row"><span class="k">Delivery</span><span class="v" id="co-success-shipping"></span></div>
+            <div class="summary-row" id="co-success-wallet-row" hidden><span class="k">Wallet applied</span><span class="v" id="co-success-wallet"></span></div>
             <div class="summary-row"><span class="k">Amount paid</span><span class="v" id="co-success-total"></span></div>
           </div>
 

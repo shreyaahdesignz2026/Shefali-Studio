@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Enquiries — Admin</title>
+<title>Gift Cards — Admin</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="icon" href="../../assets/img/logo-mark.png">
 <link rel="stylesheet" href="../../assets/css/admin.css">
@@ -15,10 +15,10 @@
       <a href="../products/">Products</a>
       <a href="../orders/">Orders</a>
       <a href="../services/">Services</a>
-      <a href="../enquiries/" class="is-active">Enquiries</a>
+      <a href="../enquiries/">Enquiries</a>
       <a href="../events/">Events</a>
       <a href="../artisoul-tribe/">Artisoul Tribe</a>
-      <a href="../gift-cards/">Gift Cards</a>
+      <a href="../gift-cards/" class="is-active">Gift Cards</a>
       <a href="../members/">Members</a>
       <a href="../admins/">Admins</a>
       <a href="#" id="logout-link">Log out</a>
@@ -27,23 +27,22 @@
 
   <main class="admin-main">
     <div class="admin-card">
-      <h2 style="margin-top:0">Contact Enquiries</h2>
-      <p class="admin-note">Individual and corporate messages from the Contact page. Click a row for the full message and details.</p>
+      <h2 style="margin-top:0">E-Bliss Gift Cards</h2>
+      <p class="admin-note">Click a row to see its worth, sender, recipient, message, and its 16-character redemption code.</p>
       <div style="overflow-x:auto">
         <table class="admin-table">
           <thead>
-            <tr><th>#</th><th>Name</th><th>Phone</th><th>Submitted</th><th></th></tr>
+            <tr><th>#</th><th>Recipient</th><th>Amount</th><th>Status</th><th>Issued</th></tr>
           </thead>
-          <tbody id="submission-rows"></tbody>
+          <tbody id="gift-card-rows"></tbody>
         </table>
       </div>
     </div>
   </main>
 
-  <script>window.SBT_FORM_TYPES = ['contact_individual', 'contact_corporate'];</script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="../../assets/js/admin-common.js"></script>
-  <script src="../../assets/js/admin-submissions.js"></script>
+  <script src="../../assets/js/admin-gift-cards.js"></script>
 <script>
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
 </script>

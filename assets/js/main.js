@@ -346,7 +346,8 @@
     var priceTxt = it.price == null
       ? '<span class="muted small">Price on request</span>'
       : money(it.price) + (it.provisional ? ' <em class="tiny" style="color:var(--brown);font-style:normal">to confirm</em>' : '');
-    var qtyCell = kind === 'cart'
+    // A gift card is one card for one recipient -- quantity doesn't apply.
+    var qtyCell = kind === 'cart' && it.item_type !== 'gift_card'
       ? '<div class="qty">' +
           '<button type="button" class="qty-btn" data-qty="-1" data-i="' + idx + '" aria-label="Decrease quantity">&minus;</button>' +
           '<span class="qty-n">' + (it.qty || 1) + '</span>' +
@@ -840,5 +841,18 @@
   /* ---------- current year ---------- */
   $$('[data-year]').forEach(function (el) { el.textContent = new Date().getFullYear(); });
 
-  window.SBTCart = { readCart: readCart, KEY_CART: KEY_CART };
+  window.SBTCart = {
+    readCart: readCart,
+    KEY_CART: KEY_CART,
+    // Used by the gift-card page to add a gift-card line -- it has no
+    // product id, so it can't go through the [data-add-cart] button flow
+    // above, but shares the same cart array and localStorage key.
+    addItem: function (item) {
+      var cart = readCart();
+      cart.push(item);
+      write(KEY_CART, cart);
+      paintCounts();
+      return cart;
+    },
+  };
 })();
