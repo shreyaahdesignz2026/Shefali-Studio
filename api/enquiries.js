@@ -1,5 +1,10 @@
 const { getSupabaseAdmin } = require('./_lib/supabaseAdmin');
 const { validateSubmission, buildRow } = require('./_lib/formSubmissions');
+const { getOptionalMember } = require('./_lib/memberAuth');
+const { adminNotificationEmail } = require('./_lib/emailTemplates');
+const { sendEmail } = require('./_lib/email');
+
+const ADMIN_NOTIFICATION_EMAIL = process.env.ADMIN_NOTIFICATION_EMAIL || 'shreyaahdesignz2026@gmail.com';
 
 module.exports = async (req, res) => {
   if (req.method !== 'POST') {
@@ -17,9 +22,26 @@ module.exports = async (req, res) => {
     return res.status(400).json({ error: e.message });
   }
 
+  const member = await getOptionalMember(req.headers.authorization);
+
+  const row = buildRow(formType, fields);
+  if (member) row.member_id = member.id;
+
   const supabase = getSupabaseAdmin();
-  const { error } = await supabase.from('form_submissions').insert(buildRow(formType, fields));
+  const { data: submission, error } = await supabase
+    .from('form_submissions')
+    .insert(row)
+    .select()
+    .single();
   if (error) return res.status(500).json({ error: error.message });
+
+  // Non-fatal: a Resend failure must never fail an already-saved enquiry.
+  try {
+    const { subject, html } = adminNotificationEmail('enquiry', { submission });
+    await sendEmail({ to: ADMIN_NOTIFICATION_EMAIL, subject, html });
+  } catch (e) {
+    console.error('Admin enquiry notification email failed:', e.message);
+  }
 
   return res.status(200).json({ ok: true });
 };

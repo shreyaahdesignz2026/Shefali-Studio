@@ -40,6 +40,21 @@ function validateSubmission(formType, fields) {
   }
 }
 
+const TIME_BUCKET_HOUR = { Morning: 9, Afternoon: 14, Evening: 18 };
+
+// Only service_booking carries a real calendar date -- event_registration's
+// date only exists as free text inside the event-name option, so every
+// other form type is "date to be confirmed" (null).
+function computeHappensAt(formType, fields) {
+  if (formType !== 'service_booking') return null;
+  const date = fields.date;
+  if (!date || !/^\d{4}-\d{2}-\d{2}$/.test(date)) return null;
+  const hour = TIME_BUCKET_HOUR[fields.time] || 12;
+  const d = new Date(`${date}T${String(hour).padStart(2, '0')}:00:00`);
+  if (Number.isNaN(d.getTime())) return null;
+  return d.toISOString();
+}
+
 function buildRow(formType, fields) {
   const details = {};
   DETAIL_FIELDS[formType].forEach((k) => {
@@ -53,7 +68,16 @@ function buildRow(formType, fields) {
     email: fields.email || null,
     message: fields[MESSAGE_FIELD[formType]] || null,
     details,
+    happens_at: computeHappensAt(formType, fields),
   };
 }
 
-module.exports = { FORM_TYPES, REQUIRED_FIELDS, MESSAGE_FIELD, DETAIL_FIELDS, validateSubmission, buildRow };
+module.exports = {
+  FORM_TYPES,
+  REQUIRED_FIELDS,
+  MESSAGE_FIELD,
+  DETAIL_FIELDS,
+  validateSubmission,
+  buildRow,
+  computeHappensAt,
+};

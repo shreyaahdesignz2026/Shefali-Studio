@@ -1,6 +1,6 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const { validateSubmission, buildRow } = require('../api/_lib/formSubmissions');
+const { validateSubmission, buildRow, computeHappensAt } = require('../api/_lib/formSubmissions');
 
 test('rejects an unknown form type', () => {
   assert.throws(() => validateSubmission('carrier-pigeon', {}), /Unknown form type/);
@@ -104,4 +104,56 @@ test('artisoul_tribe buildRow maps worth to message and draw to details', () => 
   assert.equal(row.message, 'A real discount on products');
   assert.deepEqual(row.details, { draw: 'The book club and the events' });
   assert.equal(row.phone, null);
+});
+
+test('computeHappensAt combines a service_booking date with its time-of-day bucket', () => {
+  assert.equal(
+    computeHappensAt('service_booking', { date: '2026-10-01', time: 'Morning' }),
+    new Date('2026-10-01T09:00:00').toISOString()
+  );
+  assert.equal(
+    computeHappensAt('service_booking', { date: '2026-10-01', time: 'Afternoon' }),
+    new Date('2026-10-01T14:00:00').toISOString()
+  );
+  assert.equal(
+    computeHappensAt('service_booking', { date: '2026-10-01', time: 'Evening' }),
+    new Date('2026-10-01T18:00:00').toISOString()
+  );
+});
+
+test('computeHappensAt falls back to a nominal midday hour with no time bucket chosen', () => {
+  assert.equal(
+    computeHappensAt('service_booking', { date: '2026-10-01' }),
+    new Date('2026-10-01T12:00:00').toISOString()
+  );
+});
+
+test('computeHappensAt is null without a valid date', () => {
+  assert.equal(computeHappensAt('service_booking', {}), null);
+  assert.equal(computeHappensAt('service_booking', { date: 'not-a-date' }), null);
+});
+
+test('computeHappensAt is always null for form types other than service_booking', () => {
+  assert.equal(computeHappensAt('event_registration', { date: '2026-10-01' }), null);
+  assert.equal(computeHappensAt('artisoul_tribe', {}), null);
+});
+
+test('buildRow includes happens_at for service_booking and null for other types', () => {
+  const booking = buildRow('service_booking', {
+    name: 'Priya',
+    phone: '9999999999',
+    email: 'priya@example.com',
+    service: 'Oracle Card Reading',
+    date: '2026-10-01',
+    time: 'Morning',
+  });
+  assert.equal(booking.happens_at, new Date('2026-10-01T09:00:00').toISOString());
+
+  const event = buildRow('event_registration', {
+    name: 'Rahul',
+    phone: '8888888888',
+    email: 'rahul@example.com',
+    event: 'Alaap 01',
+  });
+  assert.equal(event.happens_at, null);
 });
