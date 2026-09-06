@@ -561,7 +561,12 @@
     });
   });
 
-  /* ---------- product filtering (category tabs + optional ?q= text search) ---------- */
+  /* ---------- product filtering (category tabs + name-only text search) ----------
+     The search bar only appears on services/events/products (see each
+     page's own <head>), and each page's search is scoped to just that
+     page's own content -- no cross-page navigation from a search. */
+  var runProductSearch = null;
+
   (function () {
     var group = $('[data-filter-group]');
     if (!group) return;
@@ -579,9 +584,9 @@
         var matchesCat = cat === 'all' || item.getAttribute('data-cat') === cat;
         var matchesQuery = true;
         if (q) {
+          // Name only -- not the description -- per how this is meant to work.
           var nameEl = item.querySelector('.product-name');
-          var descEl = item.querySelector('.product-desc');
-          var haystack = ((nameEl ? nameEl.textContent : '') + ' ' + (descEl ? descEl.textContent : '')).toLowerCase();
+          var haystack = (nameEl ? nameEl.textContent : '').toLowerCase();
           matchesQuery = haystack.indexOf(q) > -1;
         }
         var show = matchesCat && matchesQuery;
@@ -590,6 +595,29 @@
       });
       var out = $('[data-filter-count]');
       if (out) out.textContent = visible;
+      var note = $('[data-search-note]');
+      if (note) {
+        if (q) {
+          note.textContent = '';
+          note.appendChild(doc.createTextNode('Showing results for "' + searchQuery.trim() + '" '));
+          var clearBtn = doc.createElement('button');
+          clearBtn.type = 'button';
+          clearBtn.className = 'search-clear';
+          clearBtn.setAttribute('aria-label', 'Clear search and show all products');
+          clearBtn.textContent = '✕ Clear';
+          clearBtn.addEventListener('click', clearProductSearch);
+          note.appendChild(clearBtn);
+          note.hidden = false;
+        } else {
+          note.hidden = true;
+        }
+      }
+    }
+
+    function clearProductSearch() {
+      searchQuery = '';
+      $$('.search-form[data-search-scope="products"] input[name="q"]').forEach(function (input) { input.value = ''; });
+      applyFilters();
     }
 
     btns.forEach(function (btn) {
@@ -607,31 +635,12 @@
       if (btn) btn.click();
     };
     window.addEventListener('hashchange', applyHash);
-
-    // Arriving at /products/?q=candle from the header search filters by that keyword.
-    var q = new URLSearchParams(window.location.search).get('q');
-    if (q) {
-      searchQuery = q;
-      var searchInput = $('.search-form input[name="q"]');
-      if (searchInput) searchInput.value = q;
-      var note = $('[data-filter-count]');
-      if (note && note.parentElement) {
-        var span = doc.createElement('span');
-        span.className = 'tiny muted';
-        span.style.display = 'block';
-        span.style.marginTop = '.3rem';
-        span.textContent = 'Showing results for "' + q + '"';
-        note.parentElement.appendChild(span);
-      }
-    }
-
     applyHash();
     applyFilters();
 
-    // Land on the results, not the page-head hero -- scroll so the
-    // category tabs sit just below the sticky header and the first
-    // matching product is right beneath them.
-    if (q) {
+    runProductSearch = function (query) {
+      searchQuery = query;
+      applyFilters();
       setTimeout(function () {
         var scrollTarget = $('.category-scroll') || group;
         var headerEl = doc.querySelector('.site-header');
@@ -639,63 +648,91 @@
         var top = scrollTarget.getBoundingClientRect().top + window.pageYOffset - headerHeight - 16;
         window.scrollTo({ top: top, behavior: 'smooth' });
       }, 60);
-    }
+    };
   })();
 
-  /* ---------- search: jump to a matching session/event, or filter products ---------- */
-  var SEARCH_INDEX = [
-    { url: '/services/#oracle', keywords: ['oracle', 'oracle card reading', 'oracle card reading based consultation'] },
-    { url: '/services/#intro', keywords: ['intro', 'introductory', 'introductory consultation', 'consultation introductory'] },
-    { url: '/services/#discussion', keywords: ['discussion', 'consultation & discussion', 'consultation and discussion'] },
-    { url: '/services/#collective', keywords: [
-      'collective circles', 'workshops', 'workshops & classes', 'dhyan sutras', 'b.f.f.', 'bff',
-      'books films fandoms', 'lessons from the animal kingdom', 'animal kingdom',
-      'meet & jam', 'jam & chill', 'moon circle', 'drum circle', 'craft therapy',
-      'journaling', 'vision board', 'mindful parenting dialogues', 'circles & sessions',
-    ] },
-    { url: '/services/#custom', keywords: ['custom collaborations', 'custom', 'corporate'] },
-    { url: '/services/#book', keywords: ['book a session', 'booking'] },
-    { url: '/services/#policy', keywords: ['cancellation policy', 'policy', 'reschedule'] },
-    { url: '/events/#alaap', keywords: ['alaap'] },
-    { url: '/events/#rotary', keywords: ['rotary', 'pay it forward'] },
-    { url: '/events/#upcoming', keywords: [
-      'upcoming events', 'upcoming', 'beyond the pages', 'geetu', 'kala bhava', 'kalā bhāva',
-      'art therapy', 'nada ananda', 'nāda ananda', 'sound healing', 'curious about',
-      'mindful parenting', 'yoga',
-    ] },
-    { url: '/events/#past', keywords: ['past events'] },
-    { url: '/events/#register', keywords: ['register your interest', 'event registration', 'register for an event'] },
-    { url: '/artisoul-tribe/', keywords: ['artisoul tribe', 'the artisoul tribe'] },
+  /* ---------- search: scoped to whichever of services/events/products it's on ---------- */
+  var SERVICE_SEARCH_INDEX = [
+    { anchor: '#oracle', keywords: ['oracle', 'oracle card reading', 'oracle card reading based consultation'] },
+    { anchor: '#intro', keywords: ['intro', 'introductory', 'introductory consultation', 'consultation — introductory'] },
+    { anchor: '#discussion', keywords: ['discussion', 'consultation & discussion', 'consultation and discussion'] },
+    { anchor: '#dhyan-sutras-i', keywords: ['dhyan sutras i', 'dhyan sutras 1'] },
+    { anchor: '#dhyan-sutras-ii', keywords: ['dhyan sutras', 'dhyan sutras ii', 'dhyan sutras 2'] },
+    { anchor: '#bff', keywords: ['b.f.f.', 'bff'] },
+    { anchor: '#beyond-the-pages', keywords: ['beyond the pages'] },
+    { anchor: '#animal-kingdom', keywords: ['lessons from the animal kingdom', 'animal kingdom'] },
+    { anchor: '#meet-and-jam', keywords: ['meet & jam', 'jam & chill', 'meet and jam', 'jam and chill'] },
+    { anchor: '#moon-circle', keywords: ['moon circle'] },
+    { anchor: '#drum-circle', keywords: ['drum circle'] },
+    { anchor: '#services-sound-healing', keywords: ['sound healing'] },
+    { anchor: '#services-art-therapy', keywords: ['art therapy'] },
+    { anchor: '#craft-therapy', keywords: ['craft therapy'] },
+    { anchor: '#yoga-movement-circles', keywords: ['yoga & movement circles', 'yoga and movement circles', 'yoga'] },
+    { anchor: '#services-mindful-parenting', keywords: ['mindful parenting dialogues', 'mindful parenting'] },
+    { anchor: '#journaling-vision-board', keywords: ['journaling & vision-board circles', 'journaling', 'vision board', 'vision-board'] },
+    { anchor: '#custom', keywords: ['custom collaborations', 'corporate'] },
   ];
 
-  function findSearchDestination(query) {
+  var EVENT_SEARCH_INDEX = [
+    { anchor: '#alaap', keywords: ['alaap'] },
+    { anchor: '#rotary', keywords: ['rotary', 'pay it forward'] },
+    { anchor: '#geetu', keywords: ['beyond the pages with geetu', 'beyond the pages', 'geetu'] },
+    { anchor: '#event-bff', keywords: ['b.f.f.', 'bff', 'books, films & fandoms', 'books films fandoms'] },
+    { anchor: '#kala-bhava', keywords: ['kalā bhāva', 'kala bhava', 'art therapy'] },
+    { anchor: '#nada-ananda', keywords: ['nāda ananda', 'nada ananda', 'sound healing'] },
+    { anchor: '#events-mindful-parenting', keywords: ['curious about — mindful parenting', 'mindful parenting'] },
+    { anchor: '#events-yoga-intro', keywords: ['curious about — yoga', 'yoga? an honest introduction', 'yoga'] },
+    { anchor: '#past', keywords: ['past events'] },
+  ];
+
+  function findAnchorMatch(index, query) {
     var q = query.trim().toLowerCase();
     if (!q) return null;
     var best = null;
-    SEARCH_INDEX.forEach(function (entry) {
+    index.forEach(function (entry) {
       entry.keywords.forEach(function (kw) {
         if (kw.indexOf(q) > -1 || q.indexOf(kw) > -1) {
-          if (!best || kw.length > best.matchLen) best = { url: entry.url, matchLen: kw.length };
+          if (!best || kw.length > best.matchLen) best = { anchor: entry.anchor, matchLen: kw.length };
         }
       });
     });
-    return best ? best.url : null;
+    return best ? best.anchor : null;
+  }
+
+  function scrollToAnchor(anchor) {
+    var el = doc.querySelector(anchor);
+    if (!el) return false;
+    var headerEl = doc.querySelector('.site-header');
+    var headerHeight = headerEl ? headerEl.getBoundingClientRect().height : 0;
+    var top = el.getBoundingClientRect().top + window.pageYOffset - headerHeight - 16;
+    window.scrollTo({ top: top, behavior: 'smooth' });
+    return true;
   }
 
   $$('.search-form').forEach(function (form) {
+    var scope = form.getAttribute('data-search-scope');
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       var input = form.querySelector('input[name="q"]');
-      var query = input ? input.value : '';
-      if (!query.trim()) return;
+      var query = input ? input.value.trim() : '';
+      if (!query) return;
 
-      var destination = findSearchDestination(query);
-      if (destination) {
-        window.location.href = destination;
+      if (scope === 'products' && runProductSearch) {
+        closeSearch();
+        runProductSearch(query);
         return;
       }
-      // No session/event matched -- treat it as a product search.
-      window.location.href = '/products/?q=' + encodeURIComponent(query.trim());
+
+      if (scope === 'services' || scope === 'events') {
+        var index = scope === 'services' ? SERVICE_SEARCH_INDEX : EVENT_SEARCH_INDEX;
+        var anchor = findAnchorMatch(index, query);
+        closeSearch();
+        if (anchor && scrollToAnchor(anchor)) {
+          toast('Showing results for "' + query + '"');
+        } else {
+          toast('No ' + (scope === 'services' ? 'session' : 'event') + ' found matching "' + query + '"');
+        }
+      }
     });
   });
 

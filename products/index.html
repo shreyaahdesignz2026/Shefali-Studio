@@ -45,18 +45,18 @@
 
 <div class="search-panel" id="search-panel" aria-hidden="true">
   <div class="wrap">
-    <form class="search-form" role="search" data-demo-form>
+    <form class="search-form" role="search" data-search-scope="products">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" style="color:var(--ochre)"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-      <input type="search" name="q" placeholder="Search sessions, events, products…" aria-label="Search this site">
+      <input type="search" name="q" placeholder="Search products by name…" aria-label="Search products">
       <button class="icon-btn" type="button" data-close-search aria-label="Close search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
     </form>
     <div class="search-hint">
       <span class="tiny muted" style="letter-spacing:.14em;text-transform:uppercase;">Try</span>
-      <a class="chip" href="../services/#oracle">Oracle Card Reading</a>
-      <a class="chip" href="../events/#alaap">Alaap</a>
-      <a class="chip" href="../products/#candles">Soy Wax Candles</a>
-      <a class="chip" href="../products/#planters">Terracotta Planters</a>
-      <a class="chip" href="../artisoul-tribe/">The Artisoul Tribe</a>
+      <a class="chip" href="#candles">Candles</a>
+      <a class="chip" href="#notebooks">Notebooks</a>
+      <a class="chip" href="#journals">Journals &amp; Kits</a>
+      <a class="chip" href="#planters">Planters &amp; Decor</a>
+      <a class="chip" href="#diy">DIY Kits</a>
     </div>
   </div>
 </div>
@@ -157,6 +157,8 @@
         </div>
         <button class="category-scroll-btn" type="button" data-scroll-cat="next" aria-label="Scroll categories right"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
       </div>
+
+      <p class="tiny muted" data-search-note hidden style="margin:-1.3rem 0 1.3rem"></p>
 
       <div class="draft reveal" data-editable style="max-width:820px">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01"/><circle cx="12" cy="12" r="9"/></svg>

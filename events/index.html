@@ -45,18 +45,18 @@
 
 <div class="search-panel" id="search-panel" aria-hidden="true">
   <div class="wrap">
-    <form class="search-form" role="search" data-demo-form>
+    <form class="search-form" role="search" data-search-scope="events">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" style="color:var(--ochre)"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-      <input type="search" name="q" placeholder="Search sessions, events, products…" aria-label="Search this site">
+      <input type="search" name="q" placeholder="Search events by name…" aria-label="Search events">
       <button class="icon-btn" type="button" data-close-search aria-label="Close search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
     </form>
     <div class="search-hint">
       <span class="tiny muted" style="letter-spacing:.14em;text-transform:uppercase;">Try</span>
-      <a class="chip" href="../services/#oracle">Oracle Card Reading</a>
-      <a class="chip" href="../events/#alaap">Alaap</a>
-      <a class="chip" href="../products/#candles">Soy Wax Candles</a>
-      <a class="chip" href="../products/#planters">Terracotta Planters</a>
-      <a class="chip" href="../artisoul-tribe/">The Artisoul Tribe</a>
+      <a class="chip" href="#alaap">Alaap</a>
+      <a class="chip" href="#rotary">Rotary Connection</a>
+      <a class="chip" href="#geetu">Beyond the Pages</a>
+      <a class="chip" href="#nada-ananda">Nāda Ananda</a>
+      <a class="chip" href="#past">Past Events</a>
     </div>
   </div>
 </div>
@@ -241,7 +241,7 @@
       </div>
 
       <div class="grid grid-2 mt-3">
-        <article class="event event--upcoming reveal">
+        <article class="event event--upcoming reveal" id="geetu">
           <div class="event-date tbd"><span class="d">Date<br>TBD</span></div>
           <div>
             <h3>Beyond the Pages with Geetu</h3>
@@ -256,7 +256,7 @@
           </div>
         </article>
 
-        <article class="event event--upcoming reveal" data-d="1">
+        <article class="event event--upcoming reveal" data-d="1" id="event-bff">
           <div class="event-date tbd"><span class="d">Date<br>TBD</span></div>
           <div>
             <h3>B.F.F. — Books, Films &amp; Fandoms</h3>
@@ -270,7 +270,7 @@
           </div>
         </article>
 
-        <article class="event event--upcoming reveal" data-d="2">
+        <article class="event event--upcoming reveal" data-d="2" id="kala-bhava">
           <div class="event-date tbd"><span class="d">Date<br>TBD</span></div>
           <div>
             <h3>Kalā Bhāva — Art Therapy</h3>
@@ -284,7 +284,7 @@
           </div>
         </article>
 
-        <article class="event event--upcoming reveal" data-d="3">
+        <article class="event event--upcoming reveal" data-d="3" id="nada-ananda">
           <div class="event-date tbd"><span class="d">Date<br>TBD</span></div>
           <div>
             <h3>Nāda Ananda — Sound Healing</h3>
@@ -298,7 +298,7 @@
           </div>
         </article>
 
-        <article class="event event--upcoming reveal" data-d="4">
+        <article class="event event--upcoming reveal" data-d="4" id="events-mindful-parenting">
           <div class="event-date tbd"><span class="d">Date<br>TBD</span></div>
           <div>
             <h3>Curious about — Mindful Parenting?</h3>
@@ -311,7 +311,7 @@
           </div>
         </article>
 
-        <article class="event event--upcoming reveal" data-d="5">
+        <article class="event event--upcoming reveal" data-d="5" id="events-yoga-intro">
           <div class="event-date tbd"><span class="d">Date<br>TBD</span></div>
           <div>
             <h3>Curious about — Yoga? An Honest Introduction</h3>

@@ -45,18 +45,18 @@
 
 <div class="search-panel" id="search-panel" aria-hidden="true">
   <div class="wrap">
-    <form class="search-form" role="search" data-demo-form>
+    <form class="search-form" role="search" data-search-scope="services">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" style="color:var(--ochre)"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-      <input type="search" name="q" placeholder="Search sessions, events, products…" aria-label="Search this site">
+      <input type="search" name="q" placeholder="Search sessions by name…" aria-label="Search sessions">
       <button class="icon-btn" type="button" data-close-search aria-label="Close search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
     </form>
     <div class="search-hint">
       <span class="tiny muted" style="letter-spacing:.14em;text-transform:uppercase;">Try</span>
-      <a class="chip" href="../services/#oracle">Oracle Card Reading</a>
-      <a class="chip" href="../events/#alaap">Alaap</a>
-      <a class="chip" href="../products/#candles">Soy Wax Candles</a>
-      <a class="chip" href="../products/#planters">Terracotta Planters</a>
-      <a class="chip" href="../artisoul-tribe/">The Artisoul Tribe</a>
+      <a class="chip" href="#oracle">Oracle Card Reading</a>
+      <a class="chip" href="#intro">Introductory Consultation</a>
+      <a class="chip" href="#discussion">Consultation &amp; Discussion</a>
+      <a class="chip" href="#collective">Collective Circles</a>
+      <a class="chip" href="#custom">Custom Collaborations</a>
     </div>
   </div>
 </div>
@@ -368,21 +368,21 @@
       <!-- Workshops & classes -->
       <h3 class="mt-4 reveal" style="font-size:1.35rem">Workshops &amp; classes</h3>
       <div class="grid grid-3 mt-2">
-        <article class="card card--lift reveal">
+        <article class="card card--lift reveal" id="dhyan-sutras-i">
           <p class="product-cat">Meditative Practice</p>
           <h3>Dhyan Sutras I</h3>
           <p class="muted small mt-1">The first of the studio's two meditative practice
              programmes.</p>
           <p class="tiny muted mt-2" style="padding-top:.7rem;border-top:1px dashed var(--rule)">Schedule and fee to be confirmed</p>
         </article>
-        <article class="card card--lift reveal" data-d="1">
+        <article class="card card--lift reveal" data-d="1" id="dhyan-sutras-ii">
           <p class="product-cat">Meditative Practice</p>
           <h3>Dhyan Sutras II</h3>
           <p class="muted small mt-1">The continuation of Dhyan Sutras, for those who have
              begun the practice.</p>
           <p class="tiny muted mt-2" style="padding-top:.7rem;border-top:1px dashed var(--rule)">Schedule and fee to be confirmed</p>
         </article>
-        <article class="card card--lift reveal" data-d="2">
+        <article class="card card--lift reveal" data-d="2" id="bff">
           <p class="product-cat">Books, Films &amp; Fandoms</p>
           <h3>B.F.F.</h3>
           <p class="muted small mt-1">A warm, witty fandom meetup for books, series, film,
@@ -390,7 +390,7 @@
              is <em>Alice in Wonderland</em>.</p>
           <div class="pills"><span class="pill pill--gold">Book Club inside</span></div>
         </article>
-        <article class="card card--lift reveal" data-d="3">
+        <article class="card card--lift reveal" data-d="3" id="beyond-the-pages">
           <p class="product-cat">Book Club</p>
           <h3>Beyond the Pages</h3>
           <p class="muted small mt-1">A guided online circle exploring a book on trauma,
@@ -398,14 +398,14 @@
              Geetu Thackur.</p>
           <p class="mt-2"><a class="link" href="../events/#upcoming">On the events page <span class="arw">→</span></a></p>
         </article>
-        <article class="card card--lift reveal" data-d="4">
+        <article class="card card--lift reveal" data-d="4" id="animal-kingdom">
           <p class="product-cat">Reflective Workshop</p>
           <h3>Lessons from the Animal Kingdom</h3>
           <p class="muted small mt-1">A workshop drawing on animals as a way into qualities
              like curiosity, courage, listening, community and adaptability.</p>
           <p class="tiny muted mt-2" style="padding-top:.7rem;border-top:1px dashed var(--rule)">Schedule and fee to be confirmed</p>
         </article>
-        <article class="card card--lift reveal" data-d="5">
+        <article class="card card--lift reveal" data-d="5" id="meet-and-jam">
           <p class="product-cat">Community</p>
           <h3>Meet &amp; Jam / Jam &amp; Chill</h3>
           <p class="muted small mt-1">Informal community meets built around music and easy
@@ -417,40 +417,40 @@
       <!-- Circles & events -->
       <h3 class="mt-4 reveal" style="font-size:1.35rem">Circles &amp; sessions</h3>
       <div class="grid grid-4 mt-2">
-        <article class="card card--soft card--lift reveal">
+        <article class="card card--soft card--lift reveal" id="moon-circle">
           <h4>Moon Circle</h4>
           <p class="small muted mt-1">A group gathering held in a loose circle, marking the
              lunar cycle.</p>
         </article>
-        <article class="card card--soft card--lift reveal" data-d="1">
+        <article class="card card--soft card--lift reveal" data-d="1" id="drum-circle">
           <h4>Drum Circle</h4>
           <p class="small muted mt-1">Rhythm-led group work — no experience needed.</p>
         </article>
-        <article class="card card--soft card--lift reveal" data-d="2">
+        <article class="card card--soft card--lift reveal" data-d="2" id="services-sound-healing">
           <h4>Sound Healing</h4>
           <p class="small muted mt-1">Restorative sessions using singing bowls, chimes and
              other vibrational instruments.</p>
         </article>
-        <article class="card card--soft card--lift reveal" data-d="3">
+        <article class="card card--soft card--lift reveal" data-d="3" id="services-art-therapy">
           <h4>Art Therapy</h4>
           <p class="small muted mt-1">Colour, texture and guided themes used for emotional
              release and self-awareness.</p>
         </article>
-        <article class="card card--soft card--lift reveal" data-d="4">
+        <article class="card card--soft card--lift reveal" data-d="4" id="craft-therapy">
           <h4>Craft Therapy</h4>
           <p class="small muted mt-1">Clay work, origami, macramé, punch needle and other
              making-led sessions.</p>
         </article>
-        <article class="card card--soft card--lift reveal" data-d="5">
+        <article class="card card--soft card--lift reveal" data-d="5" id="yoga-movement-circles">
           <h4>Yoga &amp; movement circles</h4>
           <p class="small muted mt-1">Grounding movement sessions led by trained teachers.</p>
         </article>
-        <article class="card card--soft card--lift reveal" data-d="5">
+        <article class="card card--soft card--lift reveal" data-d="5" id="services-mindful-parenting">
           <h4>Mindful parenting dialogues</h4>
           <p class="small muted mt-1">Interactive sessions on emotionally present parenting,
              led by Sourish Choudhury.</p>
         </article>
-        <article class="card card--soft card--lift reveal" data-d="5">
+        <article class="card card--soft card--lift reveal" data-d="5" id="journaling-vision-board">
           <h4>Journaling &amp; vision-board circles</h4>
           <p class="small muted mt-1">Reflective, page-led group work.</p>
         </article>
