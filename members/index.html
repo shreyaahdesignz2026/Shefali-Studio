@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Members Space — Shreyaah's Bliss Trails</title>
-<meta name="description" content="Your account, membership plan, wishlist, orders, bookings, events calendar and the Members Lounge.">
+<meta name="description" content="Your account, membership plan, wishlist, orders, saved addresses and bookings calendar.">
 <link rel="icon" href="../assets/img/logo-mark.png">
 <link rel="stylesheet" href="../assets/css/style.css">
 <script>document.documentElement.classList.add('js');</script>
@@ -112,7 +112,10 @@
 
   <section class="section" style="padding-top:clamp(1.5rem,3vw,2.5rem)">
     <div class="wrap wrap--wide">
-      <div class="member-grid">
+
+      <div id="member-login"></div>
+
+      <div class="member-grid" id="member-dashboard" hidden>
 
         <!-- ============ SIDEBAR ============ -->
         <aside class="member-side">
@@ -121,8 +124,8 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
             </div>
             <p class="hi">Welcome back</p>
-            <p class="nm">Your name</p>
-            <p class="em">your.email@example.com</p>
+            <p class="nm" data-member-name>—</p>
+            <p class="em" data-member-email>—</p>
           </div>
 
           <nav class="member-card" style="padding:.6rem" aria-label="Members Space sections">
@@ -133,9 +136,6 @@
               <a href="#plan" data-member-nav="plan">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.4 5.5 6 .5-4.5 4 1.4 5.9L12 15.8 6.7 18.9l1.4-5.9-4.5-4 6-.5z"/></svg>
                 Membership Plan</a>
-              <a href="#coins" data-member-nav="coins">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9.5 9.5h3.8a1.8 1.8 0 0 1 0 3.6H9.5"/></svg>
-                Coins &amp; Rewards</a>
               <div class="sep"></div>
               <a href="#bookings" data-member-nav="bookings">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>
@@ -153,17 +153,10 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
                 Saved Addresses</a>
               <div class="sep"></div>
-              <a href="#lounge" data-member-nav="lounge">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 15a2 2 0 0 1-2 2H8l-4 4V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2z"/></svg>
-                Members Lounge</a>
-              <a href="../notice-board/#bulletin">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h14v16l-7-4-7 4z"/></svg>
-                Bulletin</a>
-              <div class="sep"></div>
               <a href="#privacy-note" data-member-nav="privacy-note">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.4 8.3-8 9.5C7.4 20.3 4 17 4 12V6z"/></svg>
                 Your Data</a>
-              <a href="../" style="color:var(--brown)">
+              <a href="#" id="member-logout-link" style="color:var(--brown)">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M15 17l5-5-5-5M20 12H9M11 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h5"/></svg>
                 Log out</a>
             </div>
@@ -176,57 +169,84 @@
           <!-- ACCOUNT -->
           <section class="member-panel" data-member-panel="account" id="account">
             <h2>Account &amp; Profile</h2>
-            <p class="muted mb-3">A quiet home for your personal details. What you keep here is
-               used to reach you about orders and bookings — nothing more.</p>
+            <p class="muted mb-3">A quiet home for your personal details. Edit anything here at
+               any time.</p>
 
             <div class="grid grid-2">
               <div class="member-card">
-                <div class="flex items-center justify-between mb-2">
-                  <h4 style="margin:0">My details</h4>
-                  <a class="link" href="#account" style="font-size:.72rem">Edit</a>
-                </div>
-                <div class="data-row">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
-                  <div><p class="lbl">Name</p><p class="val">Your name</p></div>
-                </div>
-                <div class="data-row">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
-                  <div><p class="lbl">Email</p><p class="val">your.email@example.com</p></div>
-                </div>
-                <div class="data-row">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a1 1 0 0 1-1 1A16 16 0 0 1 4 5a1 1 0 0 1 1-1z"/></svg>
-                  <div><p class="lbl">Phone</p><p class="val">+91 —</p></div>
-                </div>
-                <div class="data-row">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
-                  <div><p class="lbl">City</p><p class="val">Kolkata, West Bengal</p></div>
-                </div>
+                <h4 style="margin-top:0">My details</h4>
+                <form id="profile-form">
+                  <div class="field">
+                    <label for="p-display">Display name</label>
+                    <input id="p-display" type="text" placeholder="How we address you">
+                  </div>
+                  <div class="field">
+                    <label for="p-phone">Phone</label>
+                    <input id="p-phone" type="tel">
+                  </div>
+                  <div class="field">
+                    <label for="p-note">A short note</label>
+                    <textarea id="p-note" style="min-height:80px" placeholder="A line or two, if you'd like."></textarea>
+                  </div>
+                  <button class="btn btn--primary btn--sm" type="submit">Save changes</button>
+                  <p class="form-error" id="profile-error" hidden></p>
+                  <p class="form-success" id="profile-success" hidden>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                    <div>Saved.</div>
+                  </p>
+                </form>
               </div>
 
               <div class="member-card">
-                <h4>Member profile</h4>
-                <p class="small muted mt-1">A profile of your own, visible to fellow members —
-                   a name, a short note about yourself, and the interests that draw you here.
-                   Offered as a quiet way to connect within the Members Lounge and the wider
-                   Artisoul Tribe.</p>
-                <div class="field mt-2">
-                  <label for="m-display">Display name</label>
-                  <input id="m-display" type="text" placeholder="How other members see you">
+                <h4 style="margin-top:0">Login</h4>
+                <div class="data-row">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+                  <div><p class="lbl">Email</p><p class="val" id="account-email">—</p></div>
                 </div>
-                <div class="field">
-                  <label for="m-note">A short note</label>
-                  <textarea id="m-note" style="min-height:80px" placeholder="A line or two about yourself."></textarea>
-                </div>
-                <div class="field">
-                  <label>Interests</label>
-                  <div class="pills" style="margin:0">
-                    <span class="pill">Craft</span><span class="pill">Wellness</span>
-                    <span class="pill">Books</span><span class="pill">Music</span>
-                    <span class="pill">Journalling</span>
+                <p class="mt-2"><a class="link" href="#" id="change-email-toggle" style="font-size:.72rem">Change email</a></p>
+
+                <form id="change-email-form" hidden class="mt-2">
+                  <div class="field">
+                    <label for="new-email-input">New email</label>
+                    <input id="new-email-input" type="email" required>
                   </div>
-                </div>
-                <p class="tiny muted">Your email, phone and addresses are never shown to other
-                   members.</p>
+                  <button class="btn btn--ghost btn--sm" type="submit">Send confirmation code</button>
+                  <p class="form-error" id="change-email-error" hidden></p>
+                </form>
+
+                <form id="confirm-email-form" hidden class="mt-2">
+                  <p class="small muted">Enter the code we emailed to your new address.</p>
+                  <div class="field">
+                    <label for="email-code-input">Code</label>
+                    <input id="email-code-input" type="text" inputmode="numeric" maxlength="6" required>
+                  </div>
+                  <button class="btn btn--ghost btn--sm" type="submit">Confirm new email</button>
+                  <p class="form-error" id="confirm-email-error" hidden></p>
+                  <p class="form-success" id="confirm-email-success" hidden>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                    <div>Email updated.</div>
+                  </p>
+                </form>
+
+                <hr style="border:none;border-top:1px dashed var(--rule);margin:1.25rem 0">
+
+                <h4 style="margin:0 0 .75rem">Password</h4>
+                <form id="password-form">
+                  <div class="field">
+                    <label for="new-password">New password</label>
+                    <input id="new-password" type="password" autocomplete="new-password" minlength="8">
+                  </div>
+                  <div class="field">
+                    <label for="confirm-password">Confirm new password</label>
+                    <input id="confirm-password" type="password" autocomplete="new-password" minlength="8">
+                  </div>
+                  <button class="btn btn--ghost btn--sm" type="submit">Update password</button>
+                  <p class="form-error" id="password-error" hidden></p>
+                  <p class="form-success" id="password-success" hidden>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                    <div>Password updated.</div>
+                  </p>
+                </form>
               </div>
             </div>
           </section>
@@ -234,65 +254,25 @@
           <!-- PLAN -->
           <section class="member-panel" data-member-panel="plan" id="plan" hidden>
             <h2>Membership Plan</h2>
-            <p class="muted mb-3">Your plan, what it includes, and when it renews.</p>
+            <p class="muted mb-3">Your plan and what it includes. Plans are set by our team —
+               reach out if you would like to become an Artisoul Member.</p>
 
             <div class="grid grid-2">
               <div class="member-card plan">
-                <span class="status">Sample</span>
+                <span class="status">Current</span>
                 <p class="k">Your plan</p>
-                <h4>Artisoul Member</h4>
-                <p class="valid">Slab name and validity to be confirmed</p>
-                <ul>
-                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Discount on all products</li>
-                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Priority booking on events and sessions</li>
-                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Access to the members-only Bulletin</li>
-                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> A seat in the Members Lounge</li>
-                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Invitations to smaller gatherings</li>
-                </ul>
+                <h4 id="plan-name">—</h4>
+                <ul id="plan-benefits"></ul>
               </div>
 
               <div class="member-card">
                 <h4>About these benefits</h4>
-                <p class="small muted mt-2">Membership tiers, pricing and joining criteria are
-                   still being decided — including whether this is a free community layer or a
-                   paid membership.</p>
+                <p class="small muted mt-2">Membership tiers are set by our team. Get in touch
+                   through the Artisoul Tribe page if you would like to be considered.</p>
                 <div class="flex flex-wrap gap-1 mt-2">
                   <a class="btn btn--ghost btn--sm" href="../artisoul-tribe/">View plan details</a>
                   <a class="btn btn--ghost btn--sm" href="../legal/#membership">Membership terms</a>
                 </div>
-              </div>
-            </div>
-          </section>
-
-          <!-- COINS -->
-          <section class="member-panel" data-member-panel="coins" id="coins" hidden>
-            <h2>Coins &amp; Rewards</h2>
-            <p class="muted mb-3">Coins earned through purchases and participation, usable
-               against products and services.</p>
-
-            <div class="grid grid-2">
-              <div class="member-card">
-                <div class="coins">
-                  <span class="motif" style="color:var(--ochre)">
-                    <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5.5"/><path d="M12 8.5v7M10 10.5h3a1.5 1.5 0 0 1 0 3h-3"/></svg>
-                  </span>
-                  <div>
-                    <p class="coins-n">—<small>Coins</small></p>
-                  </div>
-                </div>
-                <p class="small muted mt-2" style="padding-top:1rem;border-top:1px dashed var(--rule)">
-                  Use coins to get discounts on products and services.</p>
-                <a class="btn btn--ghost btn--sm mt-2" href="#coins">How to earn coins</a>
-              </div>
-
-              <div class="member-card">
-                <h4>How the scheme would work</h4>
-                <dl class="detail-grid" style="border-top:0;padding-top:.5rem">
-                  <div><dt>How coins are earned</dt><dd class="muted">To be defined</dd></div>
-                  <div><dt>Conversion rate</dt><dd class="muted">To be defined</dd></div>
-                  <div><dt>What they apply to</dt><dd class="muted">Products &amp; services</dd></div>
-                  <div><dt>Expiry</dt><dd class="muted">To be defined</dd></div>
-                </dl>
               </div>
             </div>
           </section>
@@ -310,27 +290,9 @@
                 <button class="tab" type="button" aria-selected="false" aria-controls="bk-past" id="tb2">Past</button>
               </div>
 
-              <div class="tab-panel" id="bk-up" role="tabpanel" aria-labelledby="tb1">
-                <div class="empty">
-                  <span class="motif">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>
-                  </span>
-                  <h3>No bookings yet</h3>
-                  <p>Sessions and events you book will appear here, with the details you need
-                     and a reminder before the day.</p>
-                  <div class="flex flex-wrap gap-1 mt-2" style="justify-content:center">
-                    <a class="btn btn--primary btn--sm" href="../services/#book">Book a session</a>
-                    <a class="btn btn--ghost btn--sm" href="../events/">See events</a>
-                  </div>
-                </div>
-              </div>
+              <div class="tab-panel" id="bk-up" role="tabpanel" aria-labelledby="tb1"></div>
 
-              <div class="tab-panel" id="bk-past" role="tabpanel" aria-labelledby="tb2" hidden>
-                <div class="empty">
-                  <h3>Nothing here yet</h3>
-                  <p>Sessions you've attended will be listed here once they've taken place.</p>
-                </div>
-              </div>
+              <div class="tab-panel" id="bk-past" role="tabpanel" aria-labelledby="tb2" hidden></div>
             </div>
 
             <div class="member-card mt-2">
@@ -346,19 +308,9 @@
           <section class="member-panel" data-member-panel="orders" id="orders" hidden>
             <h2>Orders</h2>
             <p class="muted mb-3">A running record of your past and current orders — their
-               status, their journey to you, and the ease of ordering them again.</p>
+               status and their journey to you.</p>
 
-            <div class="member-card">
-              <div class="empty">
-                <span class="motif">
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-                </span>
-                <h3>No orders yet</h3>
-                <p>Once you've ordered, everything you've bought will be here — with tracking
-                   while it's on its way, and a one-tap reorder afterwards.</p>
-                <a class="btn btn--primary btn--sm mt-2" href="../products/">Browse the collection</a>
-              </div>
-            </div>
+            <div id="orders-list"></div>
           </section>
 
           <!-- Cart and Wishlist are their own pages (/cart/, /wishlist/) rather
@@ -370,107 +322,35 @@
             <p class="muted mb-3">Keep up to five addresses, so that future orders find their
                way to you with ease.</p>
 
-            <div class="grid grid-2">
-              <div class="addr is-default">
-                <span class="tag">Default · Home</span>
-                <p class="small muted">No address saved yet. Add one and it will be used as your
-                   default delivery address.</p>
-                <p class="mt-2"><a class="link" href="#addresses" style="font-size:.72rem">Add address</a></p>
-              </div>
-              <a class="addr add" href="#addresses">
-                <span>
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" style="margin:0 auto .5rem"><path d="M12 5v14M5 12h14"/></svg>
-                  <span class="small">Add another address</span>
-                  <span class="tiny muted" style="display:block;margin-top:.25rem">0 of 5 saved</span>
-                </span>
-              </a>
+            <div class="grid grid-2" id="addresses-grid"></div>
+
+            <div class="member-card mt-2" id="address-form-card" hidden>
+              <h4 style="margin-top:0" id="address-form-title">Add address</h4>
+              <form id="address-form">
+                <input type="hidden" id="addr-id">
+                <div class="field"><label for="addr-label">Label</label><input id="addr-label" type="text" placeholder="Home, Work…"></div>
+                <div class="field"><label for="addr-name">Name <span class="req">*</span></label><input id="addr-name" type="text" required></div>
+                <div class="field"><label for="addr-phone">Phone <span class="req">*</span></label><input id="addr-phone" type="tel" required></div>
+                <div class="field"><label for="addr-line">Address <span class="req">*</span></label><textarea id="addr-line" required></textarea></div>
+                <div class="field"><label for="addr-city">City <span class="req">*</span></label><input id="addr-city" type="text" required></div>
+                <div class="field"><label for="addr-state">State <span class="req">*</span></label><input id="addr-state" type="text" required></div>
+                <div class="field"><label for="addr-pincode">Pincode <span class="req">*</span></label><input id="addr-pincode" type="text" required></div>
+                <button class="btn btn--primary btn--sm" type="submit">Save address</button>
+                <button class="btn btn--ghost btn--sm" type="button" id="address-form-cancel">Cancel</button>
+                <p class="form-error" id="address-form-error" hidden></p>
+              </form>
             </div>
           </section>
 
-          <!-- LOUNGE -->
-          <section class="member-panel" data-member-panel="lounge" id="lounge" hidden>
-            <h2>Members Lounge</h2>
-            <p class="muted mb-3">A topic-led space for members to speak with one another —
-               about wellness, craft, upcoming events, book club reads, or anything else the
-               community feels drawn to gather around. Threaded, topic-based conversation
-               rather than a single open chat.</p>
-
-            <div class="member-card">
-              <h4 class="mb-2">Topics</h4>
-              <div class="thread">
-                <span class="dot">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M4 5h16v14H4z"/><path d="M12 5v14"/></svg>
-                </span>
-                <div><h4>Book Club</h4><p class="meta">Currently reading: Alice in Wonderland</p></div>
-                <span class="cnt">No posts yet</span>
-              </div>
-              <div class="thread">
-                <span class="dot">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 3v18M3 12h18"/></svg>
-                </span>
-                <div><h4>Craft &amp; making</h4><p class="meta">Work in progress, questions, and what you've finished</p></div>
-                <span class="cnt">No posts yet</span>
-              </div>
-              <div class="thread">
-                <span class="dot">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>
-                </span>
-                <div><h4>Wellness &amp; practice</h4><p class="meta">Meditation, movement, and keeping a practice going</p></div>
-                <span class="cnt">No posts yet</span>
-              </div>
-              <div class="thread">
-                <span class="dot">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4"/></svg>
-                </span>
-                <div><h4>Upcoming events</h4><p class="meta">Who's going, and finding each other there</p></div>
-                <span class="cnt">No posts yet</span>
-              </div>
-
-            </div>
-          </section>
-
-          <!-- PRIVACY -->
+          <!-- YOUR DATA -->
           <section class="member-panel" data-member-panel="privacy-note" id="privacy-note" hidden>
             <h2>Your Data</h2>
-            <p class="muted mb-3">What we would collect, why, and who can see it. Written
-               plainly, because you should not have to read a policy to know this.</p>
+            <p class="muted mb-3">Every enquiry you've sent us — about a session, an event, a
+               product, or the Artisoul Tribe — kept here so you can see what you asked and when.</p>
 
-            <div class="member-card">
-              <dl class="detail-grid" style="border-top:0;padding-top:0">
-                <div>
-                  <dt>What is collected</dt>
-                  <dd>Your name, email, phone number, and up to five delivery addresses. Your
-                      orders, bookings, wishlist and any profile note you write.</dd>
-                </div>
-                <div>
-                  <dt>Why</dt>
-                  <dd>To confirm and deliver your orders, to hold and remind you about your
-                      bookings, and to reach you when something you asked about changes.</dd>
-                </div>
-                <div>
-                  <dt>What other members can see</dt>
-                  <dd>Only your display name, your short profile note and your listed interests
-                      — and only inside the Members Lounge and Tribe.</dd>
-                </div>
-                <div>
-                  <dt>What stays private</dt>
-                  <dd>Your email, phone number, addresses, payment details, orders and bookings.
-                      These are never visible to other members.</dd>
-                </div>
-                <div>
-                  <dt>What you can edit</dt>
-                  <dd>All of your personal details, your addresses, your profile and your
-                      wishlist, at any time.</dd>
-                </div>
-                <div>
-                  <dt>If you close your account</dt>
-                  <dd>Your profile and wishlist are removed. Order and booking records are kept
-                      only as long as tax and accounting rules require.</dd>
-                </div>
-              </dl>
+            <div id="your-data-list"></div>
 
-              <p class="mt-2"><a class="link" href="../legal/#privacy">Full Privacy Policy <span class="arw">→</span></a></p>
-            </div>
+            <p class="mt-2"><a class="link" href="../legal/#privacy">Full Privacy Policy <span class="arw">→</span></a></p>
           </section>
 
         </div>
@@ -574,6 +454,9 @@
   </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="../assets/js/main.js"></script>
+<script src="../assets/js/member-common.js"></script>
+<script src="../assets/js/members-space.js"></script>
 </body>
 </html>
