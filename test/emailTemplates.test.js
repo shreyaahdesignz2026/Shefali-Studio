@@ -45,6 +45,60 @@ test('orderConfirmationEmail escapes HTML in customer-supplied fields', () => {
   assert.match(html, /&lt;script&gt;/);
 });
 
+test('orderConfirmationEmail includes gift-card recipient/sender/message when the order mixes a product and a gift card', () => {
+  const order = {
+    ...sampleOrder,
+    items: [
+      { item_type: 'product', name: 'Rose Quartz Bracelet', qty: 2, line_total: 900 },
+      {
+        item_type: 'gift_card',
+        name: 'E-Bliss Gift Card — for Asha Sen',
+        qty: 1,
+        line_total: 500,
+        gift_card: {
+          recipient_name: 'Asha Sen',
+          recipient_email: 'asha@example.com',
+          sender_name: 'Priya Sharma',
+          sender_phone: '9999999999',
+          sender_email: 'priya@example.com',
+          message: 'Happy birthday!',
+        },
+      },
+    ],
+  };
+  const { html } = orderConfirmationEmail(order);
+  assert.match(html, /Rose Quartz Bracelet/);
+  assert.match(html, /E-Bliss Gift Card — for Asha Sen/);
+  assert.match(html, /Asha Sen/);
+  assert.match(html, /asha@example\.com/);
+  assert.match(html, /Priya Sharma/);
+  assert.match(html, /9999999999/);
+  assert.match(html, /Happy birthday!/);
+});
+
+test('orderConfirmationEmail gift-card details escape HTML', () => {
+  const order = {
+    ...sampleOrder,
+    items: [
+      {
+        item_type: 'gift_card',
+        name: 'E-Bliss Gift Card',
+        qty: 1,
+        line_total: 500,
+        gift_card: {
+          recipient_name: '<script>alert(1)</script>',
+          recipient_email: 'r@example.com',
+          sender_name: 'S',
+          message: null,
+        },
+      },
+    ],
+  };
+  const { html } = orderConfirmationEmail(order);
+  assert.doesNotMatch(html, /<script>/);
+  assert.match(html, /&lt;script&gt;/);
+});
+
 const sampleGiftCard = {
   code: 'AB12CD34EF56GH78',
   amount: 500,

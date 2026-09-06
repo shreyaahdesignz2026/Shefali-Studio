@@ -38,9 +38,25 @@ function wrapEmail(title, bodyHtml) {
   );
 }
 
+function giftCardLineDetails(gc) {
+  if (!gc) return '';
+  return (
+    '<div style="margin:4px 0 10px;padding:8px 12px;background:#F6F1E6;border-radius:6px;font-size:14px;">' +
+    `<strong>Recipient:</strong> ${escapeHtml(gc.recipient_name)} &mdash; ${escapeHtml(gc.recipient_email)}<br>` +
+    `<strong>Sender:</strong> ${escapeHtml(gc.sender_name)}` +
+    (gc.sender_phone ? ` &mdash; ${escapeHtml(gc.sender_phone)}` : '') +
+    (gc.sender_email ? ` &mdash; ${escapeHtml(gc.sender_email)}` : '') +
+    (gc.message ? `<br><strong>Message:</strong> ${withLineBreaks(gc.message)}` : '') +
+    '</div>'
+  );
+}
+
 function orderItemLines(items) {
   return (items || [])
-    .map((li) => `<p style="margin:4px 0;">${escapeHtml(li.name)} &times; ${li.qty} &mdash; ${money(li.line_total)}</p>`)
+    .map((li) => (
+      `<p style="margin:4px 0;">${escapeHtml(li.name)} &times; ${li.qty} &mdash; ${money(li.line_total)}</p>` +
+      (li.item_type === 'gift_card' ? giftCardLineDetails(li.gift_card) : '')
+    ))
     .join('');
 }
 
