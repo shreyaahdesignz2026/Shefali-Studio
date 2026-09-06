@@ -92,6 +92,8 @@
         // it's useful to see there's nothing to apply, not just when there is.
         document.getElementById('checkout-wallet-balance').textContent = money(walletBalance);
         document.getElementById('checkout-wallet-wrap').hidden = false;
+        document.getElementById('co-summary-wallet-balance').textContent = money(walletBalance);
+        document.getElementById('co-wallet-balance-row').hidden = false;
         renderTotals();
       });
   }
@@ -111,6 +113,7 @@
     document.getElementById('checkout-auth-member').hidden = true;
     document.getElementById('checkout-auth-guest').hidden = false;
     document.getElementById('checkout-wallet-wrap').hidden = true;
+    document.getElementById('co-wallet-balance-row').hidden = true;
     walletBalance = 0;
     renderTotals();
   }
