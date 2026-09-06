@@ -1720,12 +1720,21 @@ body.no-scroll { overflow: hidden; }
 
 /* Toast — anchored near the top rather than the bottom, so it can never
    end up partly hidden behind a taskbar, mobile browser toolbar, or other
-   OS/browser chrome that eats into the bottom of the viewport. */
+   OS/browser chrome that eats into the bottom of the viewport.
+
+   The hidden state uses a fixed top: -200px (comfortably off-screen above,
+   regardless of the toast's own rendered height) rather than a
+   translateY() percentage — a percentage is relative to the element's
+   OWN height, which is only ~50px here, so translateY(-150%) only moved
+   it up ~75px total. With top already close to 0 (positioned just below
+   a short header), that left it still fully inside the viewport instead
+   of hidden. JS sets --toast-top to place it under the actual header
+   height when shown. */
 .toast {
   position: fixed;
   left: 50%;
-  top: 4.5rem;
-  transform: translate(-50%, -150%);
+  top: -200px;
+  transform: translateX(-50%);
   z-index: 300;
   display: flex;
   align-items: center;
@@ -1736,8 +1745,8 @@ body.no-scroll { overflow: hidden; }
   border-radius: 2px;
   font-size: .86rem;
   box-shadow: 0 20px 40px -20px rgba(17,34,43,.7);
-  transition: transform .45s var(--ease);
+  transition: top .45s var(--ease);
   max-width: calc(100vw - 2rem);
 }
-.toast.is-on { transform: translate(-50%, 0); }
+.toast.is-on { top: var(--toast-top, 4.5rem); }
 .toast svg { width: 16px; height: 16px; color: var(--sage); flex-shrink: 0; }

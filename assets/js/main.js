@@ -207,7 +207,7 @@
     }
     var headerEl = doc.querySelector('.site-header');
     if (headerEl) {
-      toastEl.style.top = (headerEl.getBoundingClientRect().height + 16) + 'px';
+      toastEl.style.setProperty('--toast-top', (headerEl.getBoundingClientRect().height + 16) + 'px');
     }
     toastEl.querySelector('span').textContent = msg;
     toastEl.classList.add('is-on');
