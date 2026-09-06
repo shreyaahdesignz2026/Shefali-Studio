@@ -88,13 +88,10 @@
       .maybeSingle()
       .then(function (res) {
         walletBalance = res.data ? Number(res.data.wallet_balance) : 0;
-        var wrap = document.getElementById('checkout-wallet-wrap');
-        if (walletBalance > 0) {
-          document.getElementById('checkout-wallet-balance').textContent = money(walletBalance);
-          wrap.hidden = false;
-        } else {
-          wrap.hidden = true;
-        }
+        // Always show the balance once a member is logged in, even at ₹0 —
+        // it's useful to see there's nothing to apply, not just when there is.
+        document.getElementById('checkout-wallet-balance').textContent = money(walletBalance);
+        document.getElementById('checkout-wallet-wrap').hidden = false;
         renderTotals();
       });
   }
@@ -142,11 +139,24 @@
 
     document.getElementById('co-success-lines').innerHTML = order.items
       .map(function (li) {
+        var giftCardDetails = '';
+        if (li.item_type === 'gift_card' && li.gift_card) {
+          var gc = li.gift_card;
+          giftCardDetails =
+            '<div class="admin-note" style="margin-top:.5rem;padding-top:.5rem;border-top:1px dashed var(--rule)">' +
+            '<strong>Recipient:</strong> ' + escapeHtml(gc.recipient_name) + ' — ' + escapeHtml(gc.recipient_email) + '<br>' +
+            '<strong>Sender:</strong> ' + escapeHtml(gc.sender_name) +
+            (gc.sender_phone ? ' — ' + escapeHtml(gc.sender_phone) : '') +
+            (gc.sender_email ? ' — ' + escapeHtml(gc.sender_email) : '') +
+            (gc.message ? '<br><strong>Message:</strong> ' + escapeHtml(gc.message) : '') +
+            '</div>';
+        }
         return (
           '<div class="line line--simple">' +
           '<div class="line-body">' +
           '<h3 class="product-name">' + escapeHtml(li.name) + '</h3>' +
           '<p class="price">' + money(li.unit_price) + ' × ' + li.qty + ' = ' + money(li.line_total) + '</p>' +
+          giftCardDetails +
           '</div>' +
           '</div>'
         );
