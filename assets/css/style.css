@@ -1718,12 +1718,14 @@ body.no-scroll { overflow: hidden; }
 .summary-row .k { color: var(--text-soft); font-size: .9rem; }
 .summary-row .v { font-family: var(--serif2); font-size: 1.3rem; font-weight: 600; color: var(--slate); }
 
-/* Toast */
+/* Toast — anchored near the top rather than the bottom, so it can never
+   end up partly hidden behind a taskbar, mobile browser toolbar, or other
+   OS/browser chrome that eats into the bottom of the viewport. */
 .toast {
   position: fixed;
   left: 50%;
-  bottom: 2rem;
-  transform: translate(-50%, 120%);
+  top: 4.5rem;
+  transform: translate(-50%, -150%);
   z-index: 300;
   display: flex;
   align-items: center;
