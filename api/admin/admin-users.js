@@ -1,7 +1,7 @@
 const crypto = require('node:crypto');
 const { requireAdmin } = require('../_lib/auth');
 const { getSupabaseAdmin } = require('../_lib/supabaseAdmin');
-const { canGrantRole, canChangeRole, canKick, ROLES } = require('../_lib/adminRoles');
+const { canGrantRole, canChangeRole, canKick, canChangePassword, ROLES } = require('../_lib/adminRoles');
 
 function generatePassword() {
   return crypto.randomBytes(18).toString('base64url');
@@ -95,8 +95,31 @@ module.exports = async (req, res) => {
 
   if (req.method === 'PATCH') {
     const targetId = req.query.id;
+    if (!targetId) return res.status(400).json({ error: 'Missing id' });
+
+    if (req.query.action === 'reset-login' || req.query.action === 'set-password') {
+      if (!canChangePassword(actingUser.role)) {
+        return res.status(403).json({ error: 'Only a superadmin can change another account\'s password' });
+      }
+
+      let newPassword;
+      if (req.query.action === 'set-password') {
+        const { password } = req.body || {};
+        if (!password || String(password).length < 8) {
+          return res.status(400).json({ error: 'Password must be at least 8 characters' });
+        }
+        newPassword = password;
+      } else {
+        newPassword = generatePassword();
+      }
+
+      const { error: pwError } = await supabase.auth.admin.updateUserById(targetId, { password: newPassword });
+      if (pwError) return res.status(500).json({ error: pwError.message });
+      return res.status(200).json({ ok: true, temporary_password: newPassword });
+    }
+
     const { role } = req.body || {};
-    if (!targetId || !role) return res.status(400).json({ error: 'Missing id or role' });
+    if (!role) return res.status(400).json({ error: 'Missing role' });
     if (!ROLES.includes(role)) return res.status(400).json({ error: `Invalid role: ${role}` });
     if (!canChangeRole(actingUser.role)) {
       return res.status(403).json({ error: 'Only a superadmin can change roles' });

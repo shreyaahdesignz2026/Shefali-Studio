@@ -22,4 +22,11 @@ function canKick(actingRole) {
   return actingRole === 'superadmin';
 }
 
-module.exports = { ROLES, canGrantRole, canChangeRole, canKick };
+// Can `actingRole` set/reset another account's password? Only superadmins
+// -- letting a plain admin reset anyone else's login would let them take
+// over another admin's (or a superadmin's) account outright.
+function canChangePassword(actingRole) {
+  return actingRole === 'superadmin';
+}
+
+module.exports = { ROLES, canGrantRole, canChangeRole, canKick, canChangePassword };

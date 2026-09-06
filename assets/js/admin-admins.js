@@ -59,16 +59,75 @@
             kickControl = '<button class="admin-btn admin-btn--danger" data-kick="' + a.id + '">Remove</button>';
           }
 
+          var passwordControl = '<span class="admin-note">—</span>';
+          if (myRole === 'superadmin') {
+            passwordControl =
+              '<div style="display:flex;gap:.3rem;flex-wrap:wrap;align-items:center">' +
+              '<input type="text" data-new-password-for="' + a.id + '" placeholder="New password" minlength="8" style="width:130px;font-size:.75rem;padding:.35rem .5rem">' +
+              '<button class="admin-btn admin-btn--ghost" type="button" data-set-password="' + a.id + '" style="font-size:.7rem;padding:.35rem .55rem">Set</button>' +
+              '<button class="admin-btn admin-btn--ghost" type="button" data-reset-password="' + a.id + '" style="font-size:.7rem;padding:.35rem .55rem">Reset</button>' +
+              '</div>' +
+              '<p class="admin-note" data-password-result-for="' + a.id + '" hidden style="margin:.3rem 0 0;max-width:220px"></p>';
+          }
+
           return (
             '<tr>' +
             '<td>' + escapeHtml(a.email) + (isSelf ? ' <span class="admin-note">(you)</span>' : '') + '</td>' +
             '<td>' + roleControl + '</td>' +
             '<td>' + new Date(a.created_at).toLocaleDateString('en-IN') + '</td>' +
+            '<td>' + passwordControl + '</td>' +
             '<td>' + kickControl + '</td>' +
             '</tr>'
           );
         })
         .join('');
+
+      Array.prototype.forEach.call(tbody.querySelectorAll('[data-set-password]'), function (btn) {
+        btn.addEventListener('click', function () {
+          var id = btn.getAttribute('data-set-password');
+          var input = tbody.querySelector('[data-new-password-for="' + id + '"]');
+          var resultEl = tbody.querySelector('[data-password-result-for="' + id + '"]');
+          var password = input.value;
+          if (password.length < 8) {
+            resultEl.textContent = 'Password must be at least 8 characters.';
+            resultEl.hidden = false;
+            return;
+          }
+          authedFetch('/api/admin/admin-users?id=' + encodeURIComponent(id) + '&action=set-password', {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ password: password }),
+          }).then(function (res) {
+            if (res.json.error) {
+              resultEl.textContent = res.json.error;
+              resultEl.hidden = false;
+              return;
+            }
+            input.value = '';
+            resultEl.textContent = 'Password set. Share it with them now — it will not be shown again.';
+            resultEl.hidden = false;
+          });
+        });
+      });
+
+      Array.prototype.forEach.call(tbody.querySelectorAll('[data-reset-password]'), function (btn) {
+        btn.addEventListener('click', function () {
+          var id = btn.getAttribute('data-reset-password');
+          var resultEl = tbody.querySelector('[data-password-result-for="' + id + '"]');
+          if (!confirm('Reset this account\'s password to a random one? Their current password will stop working immediately.')) return;
+          authedFetch('/api/admin/admin-users?id=' + encodeURIComponent(id) + '&action=reset-login', {
+            method: 'PATCH',
+          }).then(function (res) {
+            if (res.json.error) {
+              resultEl.textContent = res.json.error;
+              resultEl.hidden = false;
+              return;
+            }
+            resultEl.textContent = 'New password: ' + res.json.temporary_password + ' — share this with them now, it will not be shown again.';
+            resultEl.hidden = false;
+          });
+        });
+      });
 
       Array.prototype.forEach.call(tbody.querySelectorAll('[data-role-for]'), function (select) {
         select.addEventListener('change', function () {

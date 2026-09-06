@@ -1,6 +1,6 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const { canGrantRole, canChangeRole, canKick } = require('../api/_lib/adminRoles');
+const { canGrantRole, canChangeRole, canKick, canChangePassword } = require('../api/_lib/adminRoles');
 
 test('superadmin can grant admin', () => {
   assert.equal(canGrantRole('superadmin', 'admin'), true);
@@ -34,4 +34,9 @@ test('only superadmin can change roles', () => {
 test('only superadmin can kick', () => {
   assert.equal(canKick('superadmin'), true);
   assert.equal(canKick('admin'), false);
+});
+
+test('only superadmin can change another account\'s password', () => {
+  assert.equal(canChangePassword('superadmin'), true);
+  assert.equal(canChangePassword('admin'), false);
 });
