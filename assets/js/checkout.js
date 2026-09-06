@@ -12,6 +12,12 @@
     return '₹' + Number(n).toLocaleString('en-IN', { maximumFractionDigits: 2 });
   }
 
+  function escapeHtml(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
   var cart = (window.SBTCart ? window.SBTCart.readCart() : []).filter(function (it) {
     return it.id;
   });
@@ -32,13 +38,12 @@
   /* ---------- optional login: saved-address checkout ---------- */
 
   function fillFormFromAddress(addr) {
-    if (!addr) return;
-    document.getElementById('cf-name').value = addr.name;
-    document.getElementById('cf-phone').value = addr.phone;
-    document.getElementById('cf-address').value = addr.address_line;
-    document.getElementById('cf-city').value = addr.city;
-    document.getElementById('cf-state').value = addr.state;
-    document.getElementById('cf-pincode').value = addr.pincode;
+    document.getElementById('cf-name').value = addr ? addr.name : '';
+    document.getElementById('cf-phone').value = addr ? addr.phone : '';
+    document.getElementById('cf-address').value = addr ? addr.address_line : '';
+    document.getElementById('cf-city').value = addr ? addr.city : '';
+    document.getElementById('cf-state').value = addr ? addr.state : '';
+    document.getElementById('cf-pincode').value = addr ? addr.pincode : '';
   }
 
   function loadSavedAddresses(userId) {
@@ -56,7 +61,7 @@
           '<option value="">Enter a new address below</option>' +
           savedAddresses
             .map(function (a, i) {
-              var label = (a.label ? a.label + ' — ' : '') + a.address_line + ', ' + a.city;
+              var label = (a.label ? escapeHtml(a.label) + ' — ' : '') + escapeHtml(a.address_line) + ', ' + escapeHtml(a.city);
               return '<option value="' + a.id + '">' + label + '</option>';
             })
             .join('');
@@ -70,7 +75,7 @@
 
   document.getElementById('checkout-address-picker').addEventListener('change', function (e) {
     var addr = savedAddresses.filter(function (a) { return a.id === e.target.value; })[0];
-    if (addr) fillFormFromAddress(addr);
+    fillFormFromAddress(addr || null);
   });
 
   function showLoggedIn(session) {
@@ -113,7 +118,7 @@
         return (
           '<div class="line line--simple">' +
           '<div class="line-body">' +
-          '<h3 class="product-name">' + li.name + '</h3>' +
+          '<h3 class="product-name">' + escapeHtml(li.name) + '</h3>' +
           '<p class="price">' + money(li.unit_price) + ' × ' + li.qty + ' = ' + money(li.line_total) + '</p>' +
           '</div>' +
           '</div>'
@@ -127,9 +132,9 @@
 
     var c = order.customer;
     document.getElementById('co-success-customer').innerHTML =
-      '<strong>' + c.name + '</strong><br>' +
-      c.phone + (c.email ? '<br>' + c.email : '') + '<br>' +
-      c.address_line + ', ' + c.city + ', ' + c.state + ' — ' + c.pincode;
+      '<strong>' + escapeHtml(c.name) + '</strong><br>' +
+      escapeHtml(c.phone) + (c.email ? '<br>' + escapeHtml(c.email) : '') + '<br>' +
+      escapeHtml(c.address_line) + ', ' + escapeHtml(c.city) + ', ' + escapeHtml(c.state) + ' — ' + escapeHtml(c.pincode);
   }
 
   function renderLines(products) {
@@ -144,7 +149,7 @@
           '<div class="line line--simple">' +
           '<div class="line-media" aria-hidden="true"></div>' +
           '<div class="line-body">' +
-          '<h3 class="product-name">' + p.name + '</h3>' +
+          '<h3 class="product-name">' + escapeHtml(p.name) + '</h3>' +
           '<p class="price">' + money(p.price) + ' × ' + it.qty + '</p>' +
           '</div>' +
           '</div>'

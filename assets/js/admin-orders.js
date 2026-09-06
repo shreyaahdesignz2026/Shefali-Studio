@@ -9,6 +9,12 @@
       window.SBTAdmin.logout();
     });
 
+    function escapeHtml(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+      });
+    }
+
     function money(n) {
       return '₹' + Number(n).toLocaleString('en-IN', { maximumFractionDigits: 2 });
     }
@@ -20,16 +26,16 @@
     function renderDetail(order, items) {
       var itemsHtml = items
         .map(function (li) {
-          return '<li>' + li.qty + ' × ' + li.product_name + ' — ' + money(li.line_total) + '</li>';
+          return '<li>' + li.qty + ' × ' + escapeHtml(li.product_name) + ' — ' + money(li.line_total) + '</li>';
         })
         .join('');
 
       return (
         '<div style="display:flex;justify-content:space-between;align-items:start;flex-wrap:wrap;gap:1rem">' +
         '<div>' +
-        (order.customer_email ? '<p class="admin-note">Email: ' + order.customer_email + '</p>' : '') +
-        '<p class="admin-note">' + order.address_line + ', ' + order.city + ', ' + order.state + ' — ' + order.pincode + '</p>' +
-        '<p class="admin-note">Placed ' + new Date(order.created_at).toLocaleString('en-IN') + ' · Razorpay order ' + order.razorpay_order_id + '</p>' +
+        (order.customer_email ? '<p class="admin-note">Email: ' + escapeHtml(order.customer_email) + '</p>' : '') +
+        '<p class="admin-note">' + escapeHtml(order.address_line) + ', ' + escapeHtml(order.city) + ', ' + escapeHtml(order.state) + ' — ' + escapeHtml(order.pincode) + '</p>' +
+        '<p class="admin-note">Placed ' + new Date(order.created_at).toLocaleString('en-IN') + ' · Razorpay order ' + escapeHtml(order.razorpay_order_id) + '</p>' +
         '</div>' +
         '<div style="text-align:right">' +
         (order.is_test_payment ? statusBadge('test') : '') +
@@ -58,8 +64,8 @@
             '<tr class="admin-order-row" data-toggle-order="' + o.id + '">' +
             '<td>' + (i + 1) + '</td>' +
             '<td>#' + o.order_number + '</td>' +
-            '<td>' + o.customer_name + '</td>' +
-            '<td>' + o.customer_phone + '</td>' +
+            '<td>' + escapeHtml(o.customer_name) + '</td>' +
+            '<td>' + escapeHtml(o.customer_phone) + '</td>' +
             '<td>' + money(o.grand_total) + ' ' + statusBadge(o.status) + '</td>' +
             '<td><button class="admin-btn admin-btn--danger" data-delete-order="' + o.id + '">Delete</button></td>' +
             '</tr>' +

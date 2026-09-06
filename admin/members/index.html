@@ -7,7 +7,6 @@
 <meta name="robots" content="noindex, nofollow">
 <link rel="icon" href="../../assets/img/logo-mark.png">
 <link rel="stylesheet" href="../../assets/css/admin.css">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 </head>
 <body class="admin-body">
   <header class="admin-header">
@@ -42,6 +41,10 @@
           <input id="new-phone" type="tel">
         </div>
         <div class="admin-form-row">
+          <label for="new-password">Password (optional — leave blank to auto-generate)</label>
+          <input id="new-password" type="text" minlength="8" placeholder="At least 8 characters">
+        </div>
+        <div class="admin-form-row">
           <label for="new-plan">Membership plan</label>
           <select id="new-plan">
             <option value="free_tier">Free Tier</option>
@@ -68,7 +71,8 @@
     </div>
   </main>
 
-  <script src="../../assets/js/admin-common.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="../../assets/js/admin-common.js"></script>
   <script src="../../assets/js/admin-members.js"></script>
 <script>
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };

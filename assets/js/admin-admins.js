@@ -28,6 +28,12 @@
       return role === 'superadmin' ? 'Super Admin' : 'Admin';
     }
 
+    function escapeHtml(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+      });
+    }
+
     function renderRows(admins) {
       var tbody = document.getElementById('admin-rows');
       tbody.innerHTML = admins
@@ -55,7 +61,7 @@
 
           return (
             '<tr>' +
-            '<td>' + a.email + (isSelf ? ' <span class="admin-note">(you)</span>' : '') + '</td>' +
+            '<td>' + escapeHtml(a.email) + (isSelf ? ' <span class="admin-note">(you)</span>' : '') + '</td>' +
             '<td>' + roleControl + '</td>' +
             '<td>' + new Date(a.created_at).toLocaleDateString('en-IN') + '</td>' +
             '<td>' + kickControl + '</td>' +
@@ -109,6 +115,10 @@
 
     document.getElementById('add-admin-form').addEventListener('submit', function (e) {
       e.preventDefault();
+      var submitBtn = e.target.querySelector('button[type="submit"]');
+      if (submitBtn.disabled) return;
+      submitBtn.disabled = true;
+
       var errorEl = document.getElementById('add-error');
       var successEl = document.getElementById('add-success');
       errorEl.hidden = true;
@@ -122,6 +132,7 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: email, role: role }),
       }).then(function (res) {
+        submitBtn.disabled = false;
         if (res.json.error) {
           errorEl.textContent = res.json.error;
           errorEl.hidden = false;

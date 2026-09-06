@@ -35,13 +35,16 @@ module.exports = async (req, res) => {
   }
 
   if (req.method === 'POST') {
-    const { email, display_name, phone, note, plan } = req.body || {};
+    const { email, display_name, phone, note, plan, password } = req.body || {};
     if (!email || !String(email).trim()) return res.status(400).json({ error: 'Missing email' });
+    if (password && String(password).length < 8) {
+      return res.status(400).json({ error: 'Password must be at least 8 characters' });
+    }
     const normalizedEmail = String(email).trim().toLowerCase();
     const normalizedPlan = PLANS.includes(plan) ? plan : 'free_tier';
 
     let authUser;
-    let temporaryPassword = generatePassword();
+    let temporaryPassword = password || generatePassword();
     const { data: created, error: createError } = await supabase.auth.admin.createUser({
       email: normalizedEmail,
       password: temporaryPassword,
@@ -95,6 +98,16 @@ module.exports = async (req, res) => {
       });
       if (resetError) return res.status(500).json({ error: resetError.message });
       return res.status(200).json({ ok: true, temporary_password: newPassword });
+    }
+
+    if (req.query.action === 'set-password') {
+      const { password } = req.body || {};
+      if (!password || String(password).length < 8) {
+        return res.status(400).json({ error: 'Password must be at least 8 characters' });
+      }
+      const { error: setError } = await supabase.auth.admin.updateUserById(targetId, { password });
+      if (setError) return res.status(500).json({ error: setError.message });
+      return res.status(200).json({ ok: true });
     }
 
     const { display_name, phone, note, plan } = req.body || {};

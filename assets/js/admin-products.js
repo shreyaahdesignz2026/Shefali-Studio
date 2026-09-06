@@ -22,6 +22,12 @@
       return '₹' + Number(n).toFixed(2).replace(/\.00$/, '');
     }
 
+    function escapeHtml(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+      });
+    }
+
     function resetForm() {
       form.reset();
       idField.value = '';
@@ -99,7 +105,7 @@
       var current = categorySelect.value;
       var categories = Array.from(new Set(products.map(function (p) { return p.category; }))).sort();
       categorySelect.innerHTML = categories
-        .map(function (c) { return '<option value="' + c + '">' + c + '</option>'; })
+        .map(function (c) { return '<option value="' + escapeHtml(c) + '">' + escapeHtml(c) + '</option>'; })
         .join('');
       if (categories.indexOf(current) > -1) categorySelect.value = current;
     }
@@ -110,10 +116,10 @@
           var count = imageCounts[p.id] || 0;
           return (
             '<tr>' +
-            '<td>' + p.name + '</td>' +
-            '<td>' + p.category + '</td>' +
+            '<td>' + escapeHtml(p.name) + '</td>' +
+            '<td>' + escapeHtml(p.category) + '</td>' +
             '<td>' + money(p.price) + '</td>' +
-            '<td>' + p.status + '</td>' +
+            '<td>' + escapeHtml(p.status) + '</td>' +
             '<td>' + count + '</td>' +
             '<td>' +
             '<button class="admin-btn admin-btn--ghost" data-edit="' + p.id + '">Edit</button> ' +
@@ -186,6 +192,9 @@
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
+      var submitBtn = form.querySelector('button[type="submit"]');
+      if (submitBtn.disabled) return;
+      submitBtn.disabled = true;
       formError.hidden = true;
 
       var payload = {
@@ -203,17 +212,23 @@
 
       var id = idField.value;
       var query = id
-        ? client.from('products').update(payload).eq('id', id)
-        : client.from('products').insert(payload);
+        ? client.from('products').update(payload).eq('id', id).select().single()
+        : client.from('products').insert(payload).select().single();
 
       query.then(function (res) {
+        submitBtn.disabled = false;
         if (res.error) {
           formError.textContent = res.error.message;
           formError.hidden = false;
           return;
         }
-        resetForm();
-        form.hidden = true;
+        // Keep the form open with the (now-known) id populated so a brand
+        // new product's image-upload button works immediately, instead of
+        // requiring a separate Edit click to pick the id back up.
+        idField.value = res.data.id;
+        formHeading.textContent = 'Edit product';
+        cancelBtn.hidden = false;
+        document.getElementById('upload-image-btn').disabled = false;
         loadProducts();
       });
     });

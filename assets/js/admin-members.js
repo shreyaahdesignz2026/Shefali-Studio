@@ -3,7 +3,6 @@
 
   window.SBTAdmin.requireSession(function () {
     var client = window.SBTAdmin.client;
-    var loadedDetail = {};
 
     document.getElementById('logout-link').addEventListener('click', function (e) {
       e.preventDefault();
@@ -103,7 +102,12 @@
 
         '<h4 style="margin:1rem 0 .5rem">Login data</h4>' +
         '<p class="admin-note">Email: ' + escapeHtml(member.email) + '</p>' +
-        '<button class="admin-btn admin-btn--ghost" data-reset-login="' + member.id + '">Reset login</button>' +
+        '<div class="admin-form-row"><label>Set a specific password</label>' +
+        '<div style="display:flex;gap:.5rem">' +
+        '<input type="text" data-new-password minlength="8" placeholder="At least 8 characters" style="flex:1">' +
+        '<button class="admin-btn admin-btn--ghost" type="button" data-set-password="' + member.id + '">Set</button>' +
+        '</div></div>' +
+        '<button class="admin-btn admin-btn--ghost" data-reset-login="' + member.id + '">Or reset to a random password</button>' +
         '<p class="admin-note" data-reset-result hidden></p>' +
         '</div>' +
 
@@ -159,6 +163,31 @@
         });
       });
 
+      detailEl.querySelector('[data-set-password]').addEventListener('click', function () {
+        var input = detailEl.querySelector('[data-new-password]');
+        var password = input.value;
+        var resultEl = detailEl.querySelector('[data-reset-result]');
+        if (password.length < 8) {
+          resultEl.textContent = 'Password must be at least 8 characters.';
+          resultEl.hidden = false;
+          return;
+        }
+        authedFetch('/api/admin/members?id=' + encodeURIComponent(member.id) + '&action=set-password', {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password: password }),
+        }).then(function (res) {
+          if (res.json.error) {
+            resultEl.textContent = res.json.error;
+            resultEl.hidden = false;
+            return;
+          }
+          input.value = '';
+          resultEl.textContent = 'Password set. Share it with them now — it will not be shown again.';
+          resultEl.hidden = false;
+        });
+      });
+
       detailEl.querySelector('[data-reset-login]').addEventListener('click', function () {
         if (!confirm('Reset this member\'s password? Their current password will stop working immediately.')) return;
         authedFetch('/api/admin/members?id=' + encodeURIComponent(member.id) + '&action=reset-login', {
@@ -177,9 +206,6 @@
     }
 
     function loadDetailData(member) {
-      if (loadedDetail[member.id]) return;
-      loadedDetail[member.id] = true;
-
       client
         .from('member_addresses')
         .select('*')
@@ -255,16 +281,29 @@
 
     document.getElementById('add-member-form').addEventListener('submit', function (e) {
       e.preventDefault();
+      var submitBtn = e.target.querySelector('button[type="submit"]');
+      if (submitBtn.disabled) return;
+
       var errorEl = document.getElementById('add-error');
       var successEl = document.getElementById('add-success');
       errorEl.hidden = true;
       successEl.hidden = true;
+
+      var password = document.getElementById('new-password').value;
+      if (password && password.length < 8) {
+        errorEl.textContent = 'Password must be at least 8 characters.';
+        errorEl.hidden = false;
+        return;
+      }
+
+      submitBtn.disabled = true;
 
       var body = {
         email: document.getElementById('new-email').value.trim(),
         display_name: document.getElementById('new-display-name').value.trim() || null,
         phone: document.getElementById('new-phone').value.trim() || null,
         plan: document.getElementById('new-plan').value,
+        password: password || undefined,
       };
 
       authedFetch('/api/admin/members', {
@@ -272,6 +311,7 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
       }).then(function (res) {
+        submitBtn.disabled = false;
         if (res.json.error) {
           errorEl.textContent = res.json.error;
           errorEl.hidden = false;
@@ -279,7 +319,7 @@
         }
         document.getElementById('add-member-form').reset();
         successEl.textContent = res.json.temporary_password
-          ? 'Created ' + res.json.member.email + '. Temporary password: ' + res.json.temporary_password + ' — share this with them now, it will not be shown again.'
+          ? 'Created ' + res.json.member.email + '. Password: ' + res.json.temporary_password + ' — share this with them now, it will not be shown again.'
           : 'Enrolled ' + res.json.member.email + ' (existing account, no new password).';
         successEl.hidden = false;
         loadMembers();

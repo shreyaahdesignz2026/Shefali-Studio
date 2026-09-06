@@ -58,14 +58,21 @@ module.exports = async (req, res) => {
       { path: `${productId}/${slug}.jpg`, buffer: jpgBuffer, contentType: 'image/jpeg' },
     ];
 
-    for (const u of uploads) {
-      const { error } = await supabase.storage.from(BUCKET).upload(u.path, u.buffer, {
-        contentType: u.contentType,
-        cacheControl: CACHE_MAX_AGE_SECONDS,
-        upsert: true,
-      });
+    // Three independent network round-trips -- run them concurrently
+    // rather than one after another, since none depends on another's
+    // result (each writes a different file path).
+    const uploadResults = await Promise.all(
+      uploads.map((u) =>
+        supabase.storage.from(BUCKET).upload(u.path, u.buffer, {
+          contentType: u.contentType,
+          cacheControl: CACHE_MAX_AGE_SECONDS,
+          upsert: true,
+        }).then((result) => ({ path: u.path, ...result }))
+      )
+    );
+    for (const { path, error } of uploadResults) {
       if (error) {
-        return res.status(500).json({ error: `Storage upload failed for ${u.path}: ${error.message}` });
+        return res.status(500).json({ error: `Storage upload failed for ${path}: ${error.message}` });
       }
     }
 

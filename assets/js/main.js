@@ -187,6 +187,11 @@
   function money(n) {
     return '₹' + n.toLocaleString('en-IN', { minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 });
   }
+  function escapeHtml(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
 
   /* Member-aware wishlist state. A logged-out visitor's wishlist is plain
      localStorage, unchanged. Once a member is signed in, any wishlist item
@@ -343,12 +348,12 @@
     return '<div class="line' + (kind === 'cart' ? '' : ' line--simple') + '">' +
       '<div class="line-media" aria-hidden="true"></div>' +
       '<div class="line-body">' +
-        (it.label ? '<p class="product-cat">' + it.label + '</p>' : '') +
-        '<h3 class="product-name">' + it.name + '</h3>' +
+        (it.label ? '<p class="product-cat">' + escapeHtml(it.label) + '</p>' : '') +
+        '<h3 class="product-name">' + escapeHtml(it.name) + '</h3>' +
         '<p class="price" style="font-size:1rem">' + priceTxt + '</p>' +
       '</div>' +
       qtyCell + lineTotal +
-      '<button type="button" class="line-remove" data-remove="' + idx + '" data-kind="' + kind + '" aria-label="Remove ' + it.name + '">' +
+      '<button type="button" class="line-remove" data-remove="' + idx + '" data-kind="' + kind + '" aria-label="Remove ' + escapeHtml(it.name) + '">' +
         '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>' +
       '</button>' +
     '</div>';
@@ -585,6 +590,11 @@
   $$('form[data-capture-form]').forEach(function (form) {
     form.addEventListener('submit', function (e) {
       e.preventDefault();
+
+      var submitBtn = form.querySelector('button[type="submit"]');
+      if (submitBtn && submitBtn.disabled) return; // already submitting -- ignore a double click/Enter
+      if (submitBtn) submitBtn.disabled = true;
+
       var formType = form.getAttribute('data-capture-form');
       var fields = {};
       Array.prototype.forEach.call(form.elements, function (el) {
@@ -595,27 +605,44 @@
 
       var note = form.querySelector('[data-form-note]');
 
-      fetch('/api/enquiries', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ form_type: formType, fields: fields }),
-      })
-        .then(function (r) { return r.json(); })
-        .then(function (json) {
-          if (json.error) {
-            toast("Something went wrong — please send your details on WhatsApp or email instead");
-            return;
-          }
-          form.reset();
-          if (note) {
-            note.hidden = false;
-            note.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          }
-          toast("Thank you — we've received your details");
+      function send(headers) {
+        return fetch('/api/enquiries', {
+          method: 'POST',
+          headers: headers,
+          body: JSON.stringify({ form_type: formType, fields: fields }),
         })
-        .catch(function () {
-          toast("Something went wrong — please send your details on WhatsApp or email instead");
+          .then(function (r) { return r.json(); })
+          .then(function (json) {
+            if (submitBtn) submitBtn.disabled = false;
+            if (json.error) {
+              toast("Something went wrong — please send your details on WhatsApp or email instead");
+              return;
+            }
+            form.reset();
+            if (note) {
+              note.hidden = false;
+              note.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+            toast("Thank you — we've received your details");
+          })
+          .catch(function () {
+            if (submitBtn) submitBtn.disabled = false;
+            toast("Something went wrong — please send your details on WhatsApp or email instead");
+          });
+      }
+
+      // Attach the member's session, if any, so this enquiry links to their
+      // account and shows up in their Bookings/Your Data -- guests keep
+      // working exactly as before, with no Authorization header at all.
+      if (window.SBTMember) {
+        window.SBTMember.getSession(function (session) {
+          var headers = { 'Content-Type': 'application/json' };
+          if (session) headers.Authorization = 'Bearer ' + session.access_token;
+          send(headers);
         });
+      } else {
+        send({ 'Content-Type': 'application/json' });
+      }
     });
   });
 

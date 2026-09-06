@@ -333,7 +333,51 @@
                 <div class="field"><label for="addr-phone">Phone <span class="req">*</span></label><input id="addr-phone" type="tel" required></div>
                 <div class="field"><label for="addr-line">Address <span class="req">*</span></label><textarea id="addr-line" required></textarea></div>
                 <div class="field"><label for="addr-city">City <span class="req">*</span></label><input id="addr-city" type="text" required></div>
-                <div class="field"><label for="addr-state">State <span class="req">*</span></label><input id="addr-state" type="text" required></div>
+                <div class="field"><label for="addr-state">State <span class="req">*</span></label>
+                  <select id="addr-state" required>
+                    <option value="" disabled selected>Select state</option>
+                    <optgroup label="States">
+                      <option>Andhra Pradesh</option>
+                      <option>Arunachal Pradesh</option>
+                      <option>Assam</option>
+                      <option>Bihar</option>
+                      <option>Chhattisgarh</option>
+                      <option>Goa</option>
+                      <option>Gujarat</option>
+                      <option>Haryana</option>
+                      <option>Himachal Pradesh</option>
+                      <option>Jharkhand</option>
+                      <option>Karnataka</option>
+                      <option>Kerala</option>
+                      <option>Madhya Pradesh</option>
+                      <option>Maharashtra</option>
+                      <option>Manipur</option>
+                      <option>Meghalaya</option>
+                      <option>Mizoram</option>
+                      <option>Nagaland</option>
+                      <option>Odisha</option>
+                      <option>Punjab</option>
+                      <option>Rajasthan</option>
+                      <option>Sikkim</option>
+                      <option>Tamil Nadu</option>
+                      <option>Telangana</option>
+                      <option>Tripura</option>
+                      <option>Uttar Pradesh</option>
+                      <option>Uttarakhand</option>
+                      <option>West Bengal</option>
+                    </optgroup>
+                    <optgroup label="Union Territories">
+                      <option>Andaman and Nicobar Islands</option>
+                      <option>Chandigarh</option>
+                      <option>Dadra and Nagar Haveli and Daman and Diu</option>
+                      <option>Delhi</option>
+                      <option>Jammu and Kashmir</option>
+                      <option>Ladakh</option>
+                      <option>Lakshadweep</option>
+                      <option>Puducherry</option>
+                    </optgroup>
+                  </select>
+                </div>
                 <div class="field"><label for="addr-pincode">Pincode <span class="req">*</span></label><input id="addr-pincode" type="text" required></div>
                 <button class="btn btn--primary btn--sm" type="submit">Save address</button>
                 <button class="btn btn--ghost btn--sm" type="button" id="address-form-cancel">Cancel</button>

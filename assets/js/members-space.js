@@ -188,10 +188,19 @@
       var when = row.happens_at
         ? new Date(row.happens_at).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })
         : 'Date to be confirmed';
+      var detailLines = Object.keys(row.details || {})
+        .map(function (k) {
+          return '<p class="small muted" style="margin:.15rem 0"><strong>' + humanize(k) + ':</strong> ' + withLineBreaks(String(row.details[k])) + '</p>';
+        })
+        .join('');
       return (
         '<div style="padding:.9rem 0;border-bottom:1px solid var(--rule-soft)">' +
         '<p style="margin:0 0 .2rem"><strong>' + escapeHtml(bookingLabel(row)) + '</strong></p>' +
-        '<p class="small muted" style="margin:0">' + escapeHtml(TYPE_LABELS[row.form_type] || row.form_type) + ' — ' + when + '</p>' +
+        '<p class="small muted" style="margin:0 0 .4rem">' + escapeHtml(TYPE_LABELS[row.form_type] || row.form_type) + ' — ' + when + '</p>' +
+        (row.phone ? '<p class="small muted" style="margin:.15rem 0"><strong>Phone:</strong> ' + escapeHtml(row.phone) + '</p>' : '') +
+        (row.email ? '<p class="small muted" style="margin:.15rem 0"><strong>Email:</strong> ' + escapeHtml(row.email) + '</p>' : '') +
+        detailLines +
+        (row.message ? '<p class="small muted" style="margin:.15rem 0"><strong>Message:</strong><br>' + withLineBreaks(row.message) + '</p>' : '') +
         '</div>'
       );
     }
@@ -244,16 +253,30 @@
             .join('');
           return (
             '<div class="member-card mb-2">' +
-            '<div class="flex items-center justify-between">' +
-            '<h4 style="margin:0">Order #' + o.order_number + '</h4>' + statusBadge(o.status) +
+            '<div class="flex items-center justify-between" style="cursor:pointer" data-toggle-order="' + o.id + '">' +
+            '<h4 style="margin:0">Order #' + o.order_number + '</h4>' +
+            '<div>' + statusBadge(o.status) + ' <strong>' + money(o.grand_total) + '</strong></div>' +
             '</div>' +
-            '<p class="small muted" style="margin:.4rem 0">' + new Date(o.created_at).toLocaleString('en-IN') + '</p>' +
-            '<ul style="margin:.5rem 0 .75rem;padding-left:1.1rem">' + itemLines + '</ul>' +
-            '<p class="small" style="margin:0">Subtotal ' + money(o.subtotal) + ' + delivery ' + money(o.shipping_fee) + ' = <strong>' + money(o.grand_total) + '</strong></p>' +
+            '<p class="small muted" style="margin:.4rem 0 0">' + new Date(o.created_at).toLocaleString('en-IN') + ' — click to view details</p>' +
+            '<div id="order-detail-' + o.id + '" hidden style="margin-top:.75rem;padding-top:.75rem;border-top:1px dashed var(--rule)">' +
+            '<ul style="margin:0 0 .75rem;padding-left:1.1rem">' + itemLines + '</ul>' +
+            '<p class="small" style="margin:0 0 .6rem">Subtotal ' + money(o.subtotal) + ' + delivery ' + money(o.shipping_fee) + ' = <strong>' + money(o.grand_total) + '</strong></p>' +
+            '<p class="small muted" style="margin:0"><strong>Delivered to:</strong><br>' +
+            escapeHtml(o.customer_name) + ', ' + escapeHtml(o.customer_phone) + (o.customer_email ? ', ' + escapeHtml(o.customer_email) : '') + '<br>' +
+            escapeHtml(o.address_line) + ', ' + escapeHtml(o.city) + ', ' + escapeHtml(o.state) + ' — ' + escapeHtml(o.pincode) +
+            '</p>' +
+            '</div>' +
             '</div>'
           );
         })
         .join('');
+
+      Array.prototype.forEach.call(el.querySelectorAll('[data-toggle-order]'), function (header) {
+        header.addEventListener('click', function () {
+          var detail = document.getElementById('order-detail-' + header.getAttribute('data-toggle-order'));
+          detail.hidden = !detail.hidden;
+        });
+      });
     }
 
     function loadOrders() {
@@ -384,6 +407,11 @@
 
     document.getElementById('address-form').addEventListener('submit', function (e) {
       e.preventDefault();
+      var addressForm = e.target;
+      var submitBtn = addressForm.querySelector('button[type="submit"]');
+      if (submitBtn.disabled) return;
+      submitBtn.disabled = true;
+
       var errorEl = document.getElementById('address-form-error');
       errorEl.hidden = true;
       var id = document.getElementById('addr-id').value;
@@ -401,6 +429,7 @@
         ? client.from('member_addresses').update(payload).eq('id', id)
         : client.from('member_addresses').insert(Object.assign({ member_id: session.user.id }, payload));
       query.then(function (res) {
+        submitBtn.disabled = false;
         if (res.error) { errorEl.textContent = res.error.message; errorEl.hidden = false; return; }
         closeAddressForm();
         loadAddresses();
