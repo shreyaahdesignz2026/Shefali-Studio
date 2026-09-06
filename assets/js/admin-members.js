@@ -115,7 +115,7 @@
       function renderGroup(title, list) {
         if (!list.length) return '<p class="admin-note"><strong>' + title + ':</strong> none</p>';
         var items = list
-          .map(function (row) {
+          .map(function (row, i) {
             var when = row.happens_at
               ? new Date(row.happens_at).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })
               : 'Date to be confirmed';
@@ -126,7 +126,7 @@
               .join('');
             return (
               '<div style="margin-bottom:.5rem">' +
-              '<p style="margin:0"><strong>' + escapeHtml(bookingLabel(row)) + '</strong> — ' + escapeHtml(BOOKING_TYPE_LABELS[row.form_type] || row.form_type) + ' — ' + when + '</p>' +
+              '<p style="margin:0"><strong>' + (i + 1) + '. ' + escapeHtml(bookingLabel(row)) + '</strong> — ' + escapeHtml(BOOKING_TYPE_LABELS[row.form_type] || row.form_type) + ' — ' + when + '</p>' +
               (row.phone ? '<p style="margin:.1rem 0"><strong>Phone:</strong> ' + escapeHtml(row.phone) + '</p>' : '') +
               (row.email ? '<p style="margin:.1rem 0"><strong>Email:</strong> ' + escapeHtml(row.email) + '</p>' : '') +
               detailLines +
