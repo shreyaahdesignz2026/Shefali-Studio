@@ -8,11 +8,12 @@
     "api/admin/upload-image.js": { "memory": 1024, "maxDuration": 30 },
     "api/members/request-otp.js": { "maxDuration": 30 },
     "api/members/me.js": { "maxDuration": 30 },
-    "api/members/change-email-request.js": { "maxDuration": 30 },
-    "api/members/change-email-confirm.js": { "maxDuration": 30 },
+    "api/members/change-email.js": { "maxDuration": 30 },
+    "api/members/register.js": { "maxDuration": 30 },
+    "api/img.js": { "maxDuration": 15 },
     "api/admin/publish.js": {
       "maxDuration": 60,
-      "includeFiles": "{index.html,about/**,admin/**,api/**,artisoul-tribe/**,assets/**,cart/**,checkout/**,contact/**,events/**,faq/**,gift-card/**,legal/**,members/**,notice-board/**,package*.json,products/**,services/**,special-offer/**,vercel.json,wishlist/**}"
+      "includeFiles": "{index.html,about/**,admin/**,api/**,artisoul-tribe/**,assets/**,cart/**,checkout/**,contact/**,events/**,faq/**,gift-card/**,legal/**,members/**,notice-board/**,package*.json,products/**,register/**,services/**,special-offer/**,vercel.json,wishlist/**}"
     }
   }
 }

@@ -61,6 +61,7 @@
       '<p class="tiny muted mt-1"><a href="#" data-login-resend>Use a different email</a></p>' +
       '<p class="form-error" data-login-error hidden></p>' +
       '</form>' +
+      '<p class="tiny muted mt-2" style="text-align:center">New here? <a href="/register/">Create an account</a></p>' +
       '</div>';
 
     var forms = {

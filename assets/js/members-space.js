@@ -126,7 +126,7 @@
       var errorEl = document.getElementById('change-email-error');
       errorEl.hidden = true;
       var newEmail = document.getElementById('new-email-input').value.trim();
-      authedFetch('/api/members/change-email-request', {
+      authedFetch('/api/members/change-email?action=request', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ new_email: newEmail }),
@@ -144,7 +144,7 @@
       errorEl.hidden = true;
       successEl.hidden = true;
       var code = document.getElementById('email-code-input').value.trim();
-      authedFetch('/api/members/change-email-confirm', {
+      authedFetch('/api/members/change-email?action=confirm', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ code: code }),
@@ -483,6 +483,19 @@
       dashboard.hidden = true;
       loginContainer.hidden = false;
       window.SBTMember.mountLoginPanel(loginContainer, { onSuccess: showDashboard });
+
+      var params = new URLSearchParams(window.location.search);
+      if (params.get('registered') === '1') {
+        var banner = document.createElement('div');
+        banner.className = 'form-success';
+        banner.style.maxWidth = '420px';
+        banner.style.margin = '0 auto 1.25rem';
+        banner.innerHTML =
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>' +
+          '<div><strong>Account created</strong><br>You can now log in with your registered email and password below.</div>';
+        loginContainer.insertBefore(banner, loginContainer.firstChild);
+        history.replaceState(null, '', window.location.pathname);
+      }
     }
 
     window.SBTMember.getSession(function (session) {
