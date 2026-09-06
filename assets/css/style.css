@@ -92,6 +92,7 @@ html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
    background and the illustration renders as a white block instead. That's
    why .wrap / .scenery / .wash below deliberately carry no z-index. */
 html {
+  overflow-x: hidden;
   background-color: var(--cream);
   background-image:
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.16'/%3E%3C/svg%3E"),
