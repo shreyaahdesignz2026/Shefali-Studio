@@ -141,17 +141,21 @@
       </div>
 
       <!-- filters -->
-      <div class="tabs reveal" data-filter-group="#catalogue" style="margin-bottom:2rem">
-        <button class="tab" type="button" id="all" data-filter="all" aria-selected="true">All</button>
-        <button class="tab" type="button" id="candles" data-filter="candles" aria-selected="false">Candles</button>
-        <button class="tab" type="button" id="notebooks" data-filter="notebooks" aria-selected="false">Notebooks</button>
-        <button class="tab" type="button" id="journals" data-filter="journals" aria-selected="false">Journals &amp; Kits</button>
-        <button class="tab" type="button" id="stationery" data-filter="stationery" aria-selected="false">Stationery</button>
-        <button class="tab" type="button" id="badges" data-filter="badges" aria-selected="false">Badges</button>
-        <button class="tab" type="button" id="bookmarks" data-filter="bookmarks" aria-selected="false">Bookmarks</button>
-        <button class="tab" type="button" id="desk" data-filter="desk" aria-selected="false">Desk</button>
-        <button class="tab" type="button" id="planters" data-filter="planters" aria-selected="false">Planters &amp; Decor</button>
-        <button class="tab" type="button" id="diy" data-filter="diy" aria-selected="false">DIY Kits</button>
+      <div class="category-scroll reveal" style="margin-bottom:2rem">
+        <button class="category-scroll-btn" type="button" data-scroll-cat="prev" aria-label="Scroll categories left"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+        <div class="tabs" data-filter-group="#catalogue">
+          <button class="tab" type="button" id="all" data-filter="all" aria-selected="true">All</button>
+          <button class="tab" type="button" id="candles" data-filter="candles" aria-selected="false">Candles</button>
+          <button class="tab" type="button" id="notebooks" data-filter="notebooks" aria-selected="false">Notebooks</button>
+          <button class="tab" type="button" id="journals" data-filter="journals" aria-selected="false">Journals &amp; Kits</button>
+          <button class="tab" type="button" id="stationery" data-filter="stationery" aria-selected="false">Stationery</button>
+          <button class="tab" type="button" id="badges" data-filter="badges" aria-selected="false">Badges</button>
+          <button class="tab" type="button" id="bookmarks" data-filter="bookmarks" aria-selected="false">Bookmarks</button>
+          <button class="tab" type="button" id="desk" data-filter="desk" aria-selected="false">Desk</button>
+          <button class="tab" type="button" id="planters" data-filter="planters" aria-selected="false">Planters &amp; Decor</button>
+          <button class="tab" type="button" id="diy" data-filter="diy" aria-selected="false">DIY Kits</button>
+        </div>
+        <button class="category-scroll-btn" type="button" data-scroll-cat="next" aria-label="Scroll categories right"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
       </div>
 
       <div class="draft reveal" data-editable style="max-width:820px">

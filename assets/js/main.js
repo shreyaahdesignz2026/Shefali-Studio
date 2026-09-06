@@ -278,7 +278,10 @@
     toastEl.querySelector('span').textContent = msg;
     toastEl.classList.add('is-on');
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(function () { toastEl.classList.remove('is-on'); }, 2600);
+    // Longer messages get more time on screen -- a short "Removed" needs
+    // less than a full sentence pointing someone at the Wishlist tab.
+    var duration = Math.max(2600, Math.min(5500, msg.length * 60));
+    toastTimer = setTimeout(function () { toastEl.classList.remove('is-on'); }, duration);
   }
 
   $$('[data-add-cart]').forEach(function (btn) {
@@ -299,10 +302,19 @@
     btn.addEventListener('click', function () {
       var wishItem = itemOf(btn, 'data-wish');
       var pressed = btn.getAttribute('aria-pressed') === 'true';
+
+      // Only members get a wishlist -- a guest can still remove an item
+      // saved locally before this restriction existed, but can't add new
+      // ones without logging in.
+      if (!pressed && !memberSession) {
+        toast('Log in or create an account to save items to your wishlist');
+        return;
+      }
+
       (pressed ? removeWish(wishItem) : addWish(wishItem)).then(function (res) {
         if (res.error) { toast('Something went wrong — please try again'); return; }
         btn.setAttribute('aria-pressed', String(!pressed));
-        toast(pressed ? 'Removed from wishlist' : 'Saved to your wishlist');
+        toast(pressed ? 'Removed from wishlist' : 'Added to your wishlist — see it in the Wishlist tab from your Members Space');
         paintCounts();
         renderWishlist();
       });
@@ -537,44 +549,148 @@
     });
   }
 
-  /* ---------- product filtering ---------- */
-  $$('[data-filter-group]').forEach(function (group) {
-    var btns = $$('[data-filter]', group);
-    var targetSel = group.getAttribute('data-filter-group');
-    btns.forEach(function (btn) {
+  /* ---------- mobile category scroll arrows ---------- */
+  $$('.category-scroll').forEach(function (wrap) {
+    var track = $('.tabs', wrap);
+    if (!track) return;
+    $$('[data-scroll-cat]', wrap).forEach(function (btn) {
       btn.addEventListener('click', function () {
-        var val = btn.getAttribute('data-filter');
-        btns.forEach(function (b) { b.setAttribute('aria-selected', String(b === btn)); });
-        $$(targetSel + ' [data-cat]').forEach(function (item) {
-          var show = val === 'all' || item.getAttribute('data-cat') === val;
-          item.hidden = !show;
-        });
-        var visible = $$(targetSel + ' [data-cat]').filter(function (i) { return !i.hidden; }).length;
-        var out = $('[data-filter-count]');
-        if (out) out.textContent = visible;
+        var dir = btn.getAttribute('data-scroll-cat') === 'prev' ? -1 : 1;
+        track.scrollBy({ left: dir * 160, behavior: 'smooth' });
       });
     });
   });
 
-  /* Arriving at /products#candles should open that category, not just jump. */
+  /* ---------- product filtering (category tabs + optional ?q= text search) ---------- */
   (function () {
     var group = $('[data-filter-group]');
     if (!group) return;
+    var btns = $$('[data-filter]', group);
+    var targetSel = group.getAttribute('data-filter-group');
+    var searchQuery = '';
+
+    function applyFilters() {
+      var activeBtn = btns.filter(function (b) { return b.getAttribute('aria-selected') === 'true'; })[0];
+      var cat = activeBtn ? activeBtn.getAttribute('data-filter') : 'all';
+      var q = searchQuery.trim().toLowerCase();
+      var items = $$(targetSel + ' [data-cat]');
+      var visible = 0;
+      items.forEach(function (item) {
+        var matchesCat = cat === 'all' || item.getAttribute('data-cat') === cat;
+        var matchesQuery = true;
+        if (q) {
+          var nameEl = item.querySelector('.product-name');
+          var descEl = item.querySelector('.product-desc');
+          var haystack = ((nameEl ? nameEl.textContent : '') + ' ' + (descEl ? descEl.textContent : '')).toLowerCase();
+          matchesQuery = haystack.indexOf(q) > -1;
+        }
+        var show = matchesCat && matchesQuery;
+        item.hidden = !show;
+        if (show) visible++;
+      });
+      var out = $('[data-filter-count]');
+      if (out) out.textContent = visible;
+    }
+
+    btns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        btns.forEach(function (b) { b.setAttribute('aria-selected', String(b === btn)); });
+        applyFilters();
+      });
+    });
+
+    // Arriving at /products/#candles should open that category, not just jump.
     var applyHash = function () {
       var id = location.hash.slice(1);
       if (!id) return;
       var btn = group.querySelector('#' + CSS.escape(id) + '[data-filter]');
       if (btn) btn.click();
     };
-    applyHash();
     window.addEventListener('hashchange', applyHash);
+
+    // Arriving at /products/?q=candle from the header search filters by that keyword.
+    var q = new URLSearchParams(window.location.search).get('q');
+    if (q) {
+      searchQuery = q;
+      var searchInput = $('.search-form input[name="q"]');
+      if (searchInput) searchInput.value = q;
+      var note = $('[data-filter-count]');
+      if (note && note.parentElement) {
+        var span = doc.createElement('span');
+        span.className = 'tiny muted';
+        span.style.display = 'block';
+        span.style.marginTop = '.3rem';
+        span.textContent = 'Showing results for "' + q + '"';
+        note.parentElement.appendChild(span);
+      }
+    }
+
+    applyHash();
+    applyFilters();
   })();
+
+  /* ---------- search: jump to a matching session/event, or filter products ---------- */
+  var SEARCH_INDEX = [
+    { url: '/services/#oracle', keywords: ['oracle', 'oracle card reading', 'oracle card reading based consultation'] },
+    { url: '/services/#intro', keywords: ['intro', 'introductory', 'introductory consultation', 'consultation introductory'] },
+    { url: '/services/#discussion', keywords: ['discussion', 'consultation & discussion', 'consultation and discussion'] },
+    { url: '/services/#collective', keywords: [
+      'collective circles', 'workshops', 'workshops & classes', 'dhyan sutras', 'b.f.f.', 'bff',
+      'books films fandoms', 'lessons from the animal kingdom', 'animal kingdom',
+      'meet & jam', 'jam & chill', 'moon circle', 'drum circle', 'craft therapy',
+      'journaling', 'vision board', 'mindful parenting dialogues', 'circles & sessions',
+    ] },
+    { url: '/services/#custom', keywords: ['custom collaborations', 'custom', 'corporate'] },
+    { url: '/services/#book', keywords: ['book a session', 'booking'] },
+    { url: '/services/#policy', keywords: ['cancellation policy', 'policy', 'reschedule'] },
+    { url: '/events/#alaap', keywords: ['alaap'] },
+    { url: '/events/#rotary', keywords: ['rotary', 'pay it forward'] },
+    { url: '/events/#upcoming', keywords: [
+      'upcoming events', 'upcoming', 'beyond the pages', 'geetu', 'kala bhava', 'kalā bhāva',
+      'art therapy', 'nada ananda', 'nāda ananda', 'sound healing', 'curious about',
+      'mindful parenting', 'yoga',
+    ] },
+    { url: '/events/#past', keywords: ['past events'] },
+    { url: '/events/#register', keywords: ['register your interest', 'event registration', 'register for an event'] },
+    { url: '/artisoul-tribe/', keywords: ['artisoul tribe', 'the artisoul tribe'] },
+  ];
+
+  function findSearchDestination(query) {
+    var q = query.trim().toLowerCase();
+    if (!q) return null;
+    var best = null;
+    SEARCH_INDEX.forEach(function (entry) {
+      entry.keywords.forEach(function (kw) {
+        if (kw.indexOf(q) > -1 || q.indexOf(kw) > -1) {
+          if (!best || kw.length > best.matchLen) best = { url: entry.url, matchLen: kw.length };
+        }
+      });
+    });
+    return best ? best.url : null;
+  }
+
+  $$('.search-form').forEach(function (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var input = form.querySelector('input[name="q"]');
+      var query = input ? input.value : '';
+      if (!query.trim()) return;
+
+      var destination = findSearchDestination(query);
+      if (destination) {
+        window.location.href = destination;
+        return;
+      }
+      // No session/event matched -- treat it as a product search.
+      window.location.href = '/products/?q=' + encodeURIComponent(query.trim());
+    });
+  });
 
   /* ---------- enquiry / booking forms with no backend ----------
      These still just confirm locally and point the visitor at WhatsApp
      or email. Forms with data-capture-form (below) are handled instead
      by their own handler, since those actually reach a backend now. */
-  $$('form[data-demo-form]:not([data-capture-form])').forEach(function (form) {
+  $$('form[data-demo-form]:not([data-capture-form]):not(.search-form)').forEach(function (form) {
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       var note = form.querySelector('[data-form-note]');
