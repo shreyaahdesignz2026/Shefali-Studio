@@ -60,6 +60,10 @@
       '<button class="btn btn--primary btn--block" type="submit">Verify &amp; log in</button>' +
       '<p class="tiny muted mt-1"><a href="#" data-login-resend>Use a different email</a></p>' +
       '<p class="form-error" data-login-error hidden></p>' +
+      '<p class="form-success" data-otp-success hidden>' +
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>' +
+      '<div>Success! Your code matched — redirecting you to your Members Space now…</div>' +
+      '</p>' +
       '</form>' +
       '<p class="tiny muted mt-2" style="text-align:center">New here? <a href="/register/">Create an account</a></p>' +
       '</div>';
@@ -145,7 +149,14 @@
           }).then(function (res) {
             submitBtn.disabled = false;
             if (res.error) { showError(forms.otpVerify, res.error.message); return; }
-            if (opts.onSuccess) opts.onSuccess(res.data.session);
+            // Brief, visible confirmation that the code matched before
+            // handing off to onSuccess (which usually swaps this whole
+            // panel out for the dashboard) -- otherwise a fast redirect
+            // can look like nothing happened.
+            forms.otpVerify.querySelector('[data-otp-success]').hidden = false;
+            setTimeout(function () {
+              if (opts.onSuccess) opts.onSuccess(res.data.session);
+            }, 900);
           });
         })
         .catch(function () {
