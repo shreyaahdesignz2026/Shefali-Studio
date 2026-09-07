@@ -129,7 +129,15 @@
       e.preventDefault();
       clearError(forms.otpVerify);
       var code = document.getElementById('login-otp-code').value.trim();
+      // Belt-and-braces on top of the input's own required/pattern
+      // attributes -- never let a request (let alone a "success") happen
+      // for anything that isn't actually a 6-digit code.
+      if (!/^\d{6}$/.test(code)) {
+        showError(forms.otpVerify, 'Enter the 6-digit code we emailed you.');
+        return;
+      }
       var submitBtn = forms.otpVerify.querySelector('button[type="submit"]');
+      if (submitBtn.disabled) return;
       submitBtn.disabled = true;
       fetch('/api/members/request-otp?action=verify', {
         method: 'POST',

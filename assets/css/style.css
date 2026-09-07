@@ -497,7 +497,7 @@ p:last-child { margin-bottom: 0; }
   background: rgba(240,231,213,.95);
 }
 .header-inner {
-  max-width: 1560px;
+  max-width: 1360px;
   margin-inline: auto;
   padding: .75rem var(--gutter);
   display: flex;
@@ -505,8 +505,8 @@ p:last-child { margin-bottom: 0; }
   gap: 1.25rem;
 }
 
-.brand { display: flex; align-items: center; gap: .7rem; text-decoration: none; flex-shrink: 0; }
-.brand img { width: 42px; height: 42px; flex-shrink: 0; }
+.brand { display: flex; align-items: center; gap: .55rem; text-decoration: none; flex-shrink: 0; }
+.brand img { width: 36px; height: 36px; flex-shrink: 0; }
 .brand-name {
   font-family: var(--serif);
   font-size: 1.045rem;
@@ -528,14 +528,14 @@ p:last-child { margin-bottom: 0; }
 @media (max-width: 400px) { .brand-name { font-size: .93rem; } .brand img { width: 36px; height: 36px; } }
 
 .nav { margin-left: auto; }
-.nav ul { display: flex; align-items: center; gap: clamp(.4rem, 1.2vw, 1.1rem); list-style: none; margin: 0; padding: 0; }
+.nav ul { display: flex; align-items: center; gap: clamp(.35rem, .8vw, .6rem); list-style: none; margin: 0; padding: 0; }
 .nav a {
   position: relative;
   display: block;
-  padding: .45rem .12rem;
-  font-size: .795rem;
+  padding: .4rem .06rem;
+  font-size: .68rem;
   font-weight: 500;
-  letter-spacing: .085em;
+  letter-spacing: .03em;
   text-transform: uppercase;
   text-decoration: none;
   color: var(--slate);
@@ -556,11 +556,11 @@ p:last-child { margin-bottom: 0; }
 .nav a:hover::after, .nav a[aria-current="page"]::after { transform: scaleX(1); }
 .nav a[aria-current="page"] { color: var(--brown); }
 
-.header-actions { display: flex; align-items: center; gap: .3rem; margin-left: .5rem; }
+.header-actions { display: flex; align-items: center; gap: .15rem; margin-left: .3rem; }
 .icon-btn {
   display: grid;
   place-items: center;
-  width: 38px; height: 38px;
+  width: 34px; height: 34px;
   border: 0;
   background: transparent;
   color: var(--slate);
@@ -586,11 +586,14 @@ p:last-child { margin-bottom: 0; }
   line-height: 16px;
   text-align: center;
 }
-.header-actions .btn { margin-left: .45rem; }
+.header-actions .btn { margin-left: .3rem; }
+/* Scoped to the header specifically -- .btn--sm is shared by ~190 buttons
+   sitewide, so it's tightened here rather than globally. */
+.header-actions .btn--primary.btn--sm { padding: .6em 1.1em; font-size: .72rem; }
 
 .menu-toggle { display: none; }
 
-@media (max-width: 1520px) {
+@media (max-width: 1330px) {
   .nav { display: none; }
   .menu-toggle { display: grid; }
   .nav { margin-left: 0; }
@@ -1204,6 +1207,21 @@ body.no-scroll { overflow: hidden; }
   font-size: .795rem;
   line-height: 1.62;
   color: var(--terracotta);
+}
+
+/* A softer, informational cousin of .form-error -- same shape, an actual
+   red rather than terracotta, for a disclaimer that isn't reporting a
+   problem (e.g. "this is where your confirmation email goes"). */
+.disclaimer-box {
+  display: block;
+  margin-top: .4rem;
+  padding: .6rem .8rem;
+  background: rgba(163,51,51,.08);
+  border: 1px solid rgba(163,51,51,.3);
+  border-radius: 2px;
+  font-size: .78rem;
+  line-height: 1.5;
+  color: #A33;
 }
 
 /* Quote / testimonial */
