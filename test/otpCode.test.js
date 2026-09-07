@@ -1,6 +1,6 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const { generateCode, hashCode, matches, isExpired } = require('../api/_lib/emailChangeOtp');
+const { generateCode, hashCode, matches, isExpired } = require('../api/_lib/otpCode');
 
 test('generateCode produces a 6-digit zero-padded string', () => {
   for (let i = 0; i < 20; i++) {

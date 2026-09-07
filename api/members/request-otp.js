@@ -1,26 +1,27 @@
+const { createClient } = require('@supabase/supabase-js');
 const { getSupabaseAdmin } = require('../_lib/supabaseAdmin');
 const { canRequestOtp } = require('../_lib/otpThrottle');
+const { generateCode, hashCode, matches, isExpired } = require('../_lib/otpCode');
 const { otpEmail } = require('../_lib/emailTemplates');
 const { sendEmail } = require('../_lib/email');
 
-// Supabase's own admin API is the bridge: generateLink with
-// shouldCreateUser silently creates the auth.users row if needed (no email
-// sent by Supabase) and returns a real 6-digit email_otp that GoTrue has
-// already stored, hashed, with its own expiry -- we just deliver it
-// ourselves via Resend instead of Supabase's mailer. The browser then calls
-// the ordinary public client.auth.verifyOtp(), which mints a real session.
-module.exports = async (req, res) => {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
+const CODE_TTL_MS = 10 * 60 * 1000;
 
+// The code itself is entirely ours (generated, hashed, and expiry-checked
+// here) rather than Supabase's built-in email-OTP, so its 10-minute expiry
+// and single-use enforcement don't depend on the project's Auth settings.
+// generateLink is still used, but only as the bridge to mint a real session
+// once our own code has been verified -- shouldCreateUser:true silently
+// creates the auth.users row on request (same as before), and a second,
+// fresh magic link at verify time is immediately redeemed server-side via
+// the anon client's verifyOtp, exactly what a browser would do with a real
+// magic-link click.
+async function handleRequest(req, res, supabase) {
   const { email } = req.body || {};
   if (!email || !String(email).trim()) {
     return res.status(400).json({ error: 'Missing email' });
   }
   const normalizedEmail = String(email).trim().toLowerCase();
-
-  const supabase = getSupabaseAdmin();
 
   const { data: recent, error: recentError } = await supabase
     .from('member_otp_requests')
@@ -35,17 +36,20 @@ module.exports = async (req, res) => {
     return res.status(429).json({ error: 'Too many requests, please try again shortly' });
   }
 
-  const { data: linkData, error: linkError } = await supabase.auth.admin.generateLink({
+  const { error: linkError } = await supabase.auth.admin.generateLink({
     type: 'magiclink',
     email: normalizedEmail,
     options: { shouldCreateUser: true },
   });
   if (linkError) return res.status(500).json({ error: linkError.message });
 
-  const code = linkData && linkData.properties && linkData.properties.email_otp;
-  if (!code) return res.status(500).json({ error: 'Could not generate a login code' });
-
-  await supabase.from('member_otp_requests').insert({ email: normalizedEmail });
+  const code = generateCode();
+  const { error: insertError } = await supabase.from('member_otp_requests').insert({
+    email: normalizedEmail,
+    code_hash: hashCode(code),
+    expires_at: new Date(Date.now() + CODE_TTL_MS).toISOString(),
+  });
+  if (insertError) return res.status(500).json({ error: insertError.message });
 
   try {
     const { subject, html } = otpEmail(code);
@@ -55,4 +59,67 @@ module.exports = async (req, res) => {
   }
 
   return res.status(200).json({ ok: true });
+}
+
+async function handleVerify(req, res, supabase) {
+  const { email, code } = req.body || {};
+  if (!email || !String(email).trim()) return res.status(400).json({ error: 'Missing email' });
+  if (!code) return res.status(400).json({ error: 'Missing code' });
+  const normalizedEmail = String(email).trim().toLowerCase();
+
+  const { data: candidates, error: candidatesError } = await supabase
+    .from('member_otp_requests')
+    .select('id, code_hash, expires_at')
+    .eq('email', normalizedEmail)
+    .is('consumed_at', null)
+    .order('created_at', { ascending: false })
+    .limit(5);
+  if (candidatesError) return res.status(500).json({ error: candidatesError.message });
+
+  const match = (candidates || []).find((row) => matches(code, row.code_hash) && !isExpired(row.expires_at));
+  if (!match) {
+    return res.status(400).json({ error: 'Invalid or expired code. Please request a new one.' });
+  }
+
+  // Atomically claim this specific row -- the consumed_at:null guard means
+  // a second, simultaneous verify attempt with the same code updates zero
+  // rows and is rejected, so the code can only ever be used once.
+  const { data: consumed, error: consumeError } = await supabase
+    .from('member_otp_requests')
+    .update({ consumed_at: new Date().toISOString() })
+    .eq('id', match.id)
+    .is('consumed_at', null)
+    .select();
+  if (consumeError) return res.status(500).json({ error: consumeError.message });
+  if (!consumed || consumed.length === 0) {
+    return res.status(400).json({ error: 'This code has already been used. Please request a new one.' });
+  }
+
+  const { data: linkData, error: linkError } = await supabase.auth.admin.generateLink({
+    type: 'magiclink',
+    email: normalizedEmail,
+  });
+  if (linkError) return res.status(500).json({ error: linkError.message });
+
+  const anonClient = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_ANON_KEY);
+  const { data: verifyData, error: verifyError } = await anonClient.auth.verifyOtp({
+    token_hash: linkData.properties.hashed_token,
+    type: 'magiclink',
+  });
+  if (verifyError) return res.status(500).json({ error: verifyError.message });
+
+  return res.status(200).json({ ok: true, session: verifyData.session });
+}
+
+module.exports = async (req, res) => {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  const supabase = getSupabaseAdmin();
+  const action = req.query.action || 'request';
+
+  if (action === 'request') return handleRequest(req, res, supabase);
+  if (action === 'verify') return handleVerify(req, res, supabase);
+  return res.status(400).json({ error: `Unknown action: ${action}` });
 };

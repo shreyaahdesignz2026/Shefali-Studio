@@ -125,10 +125,33 @@
       e.preventDefault();
       clearError(forms.otpVerify);
       var code = document.getElementById('login-otp-code').value.trim();
-      client.auth.verifyOtp({ email: pendingOtpEmail, token: code, type: 'email' }).then(function (res) {
-        if (res.error) { showError(forms.otpVerify, res.error.message); return; }
-        if (opts.onSuccess) opts.onSuccess(res.data.session);
-      });
+      var submitBtn = forms.otpVerify.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      fetch('/api/members/request-otp?action=verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: pendingOtpEmail, code: code }),
+      })
+        .then(function (r) { return r.json(); })
+        .then(function (json) {
+          if (json.error) {
+            submitBtn.disabled = false;
+            showError(forms.otpVerify, json.error);
+            return;
+          }
+          return client.auth.setSession({
+            access_token: json.session.access_token,
+            refresh_token: json.session.refresh_token,
+          }).then(function (res) {
+            submitBtn.disabled = false;
+            if (res.error) { showError(forms.otpVerify, res.error.message); return; }
+            if (opts.onSuccess) opts.onSuccess(res.data.session);
+          });
+        })
+        .catch(function () {
+          submitBtn.disabled = false;
+          showError(forms.otpVerify, 'Something went wrong — please try again.');
+        });
     });
 
     container.querySelector('[data-login-resend]').addEventListener('click', function (e) {

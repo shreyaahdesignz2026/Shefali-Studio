@@ -1,6 +1,6 @@
 const { requireMember } = require('../_lib/memberAuth');
 const { getSupabaseAdmin } = require('../_lib/supabaseAdmin');
-const { generateCode, hashCode, matches, isExpired } = require('../_lib/emailChangeOtp');
+const { generateCode, hashCode, matches, isExpired } = require('../_lib/otpCode');
 const { emailChangeCodeEmail } = require('../_lib/emailTemplates');
 const { sendEmail } = require('../_lib/email');
 
