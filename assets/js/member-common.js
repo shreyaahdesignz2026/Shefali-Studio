@@ -62,7 +62,7 @@
       '<p class="form-error" data-login-error hidden></p>' +
       '<p class="form-success" data-otp-success hidden>' +
       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>' +
-      '<div>Success! Your code matched — redirecting you to your Members Space now…</div>' +
+      '<span>Success! Your code matched — redirecting you to your Members Space now…</span>' +
       '</p>' +
       '</form>' +
       '<p class="tiny muted mt-2" style="text-align:center">New here? <a href="/register/">Create an account</a></p>' +
