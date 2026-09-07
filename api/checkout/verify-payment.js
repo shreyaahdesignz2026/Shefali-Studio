@@ -58,7 +58,7 @@ module.exports = async (req, res) => {
     use_wallet,
   } = req.body || {};
 
-  if (!customer || !customer.name || !customer.phone || !customer.address_line ||
+  if (!customer || !customer.name || !customer.phone || !customer.email || !customer.address_line ||
       !customer.city || !customer.state || !customer.pincode) {
     return res.status(400).json({ error: 'Missing customer details' });
   }
@@ -132,7 +132,7 @@ module.exports = async (req, res) => {
       wallet_amount_used: walletAmount,
       customer_name: customer.name,
       customer_phone: customer.phone,
-      customer_email: customer.email || null,
+      customer_email: customer.email,
       address_line: customer.address_line,
       city: customer.city,
       state: customer.state,

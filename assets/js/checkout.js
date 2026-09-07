@@ -284,6 +284,25 @@
       }));
   }
 
+  var processingOverlay = null;
+  function showProcessingWarning() {
+    if (processingOverlay) return;
+    processingOverlay = document.createElement('div');
+    processingOverlay.className = 'checkout-processing-overlay';
+    processingOverlay.innerHTML =
+      '<div class="checkout-processing-card">' +
+      '<div class="checkout-processing-spinner" aria-hidden="true"></div>' +
+      '<p class="checkout-processing-warning">DO NOT REFRESH THIS PAGE OR YOU WILL MISS YOUR ORDER CONFIRMATION</p>' +
+      '<p class="checkout-processing-note">Your payment was received — please wait a few seconds while we confirm your order.</p>' +
+      '</div>';
+    document.body.appendChild(processingOverlay);
+  }
+  function hideProcessingWarning() {
+    if (!processingOverlay) return;
+    processingOverlay.remove();
+    processingOverlay = null;
+  }
+
   function completeOrder(payload, payBtn, errorEl) {
     return window.SBTMember.client.auth.getSession().then(function (sessionRes) {
       var session = sessionRes.data && sessionRes.data.session;
@@ -297,6 +316,7 @@
     })
       .then(function (r) { return r.json(); })
       .then(function (result) {
+        hideProcessingWarning();
         payBtn.disabled = false;
         if (result.error) {
           errorEl.textContent = result.error;
@@ -309,6 +329,7 @@
         renderSuccess(result.order);
       })
       .catch(function (err) {
+        hideProcessingWarning();
         payBtn.disabled = false;
         errorEl.textContent = err.message;
         errorEl.hidden = false;
@@ -323,7 +344,7 @@
     var customer = {
       name: document.getElementById('cf-name').value.trim(),
       phone: document.getElementById('cf-phone').value.trim(),
-      email: document.getElementById('cf-email').value.trim() || null,
+      email: document.getElementById('cf-email').value.trim(),
       address_line: document.getElementById('cf-address').value.trim(),
       city: document.getElementById('cf-city').value.trim(),
       state: document.getElementById('cf-state').value.trim(),
@@ -351,7 +372,10 @@
         if (order.error) throw new Error(order.error);
 
         if (order.zero_amount) {
-          // Fully covered by the wallet -- no Razorpay step at all.
+          // Fully covered by the wallet -- no Razorpay step at all, but the
+          // confirmation is still a network round trip the shopper could
+          // interrupt by refreshing, so the same warning applies here.
+          showProcessingWarning();
           return completeOrder({ items: items, customer: customer, use_wallet: useWallet }, payBtn, errorEl);
         }
 
@@ -363,6 +387,7 @@
           order_id: order.razorpay_order_id,
           prefill: { name: customer.name, email: customer.email || '', contact: customer.phone },
           handler: function (response) {
+            showProcessingWarning();
             completeOrder({
               razorpay_order_id: response.razorpay_order_id,
               razorpay_payment_id: response.razorpay_payment_id,
