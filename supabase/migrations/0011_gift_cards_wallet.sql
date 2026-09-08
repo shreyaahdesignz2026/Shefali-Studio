@@ -1,23 +1,4 @@
--- E-Bliss Gift Cards + member wallet.
---
--- A gift card is purchased like a product (through the existing cart/
--- checkout flow -- see api/checkout/verify-payment.js), which is why
--- order_items gets an item_type column instead of a separate cart/order
--- system. Once payment is confirmed, one gift_cards row is created per
--- gift-card line item with a freshly generated 16-character code, and the
--- recipient is emailed that code. Redeeming the code credits the
--- redeeming member's wallet_balance -- it is not tied to the original
--- purchaser's account at all, since the whole point is gifting it to
--- someone else's inbox.
---
--- Both balance-changing operations (issuing a wallet debit at checkout,
--- crediting a wallet on redemption) go through security-definer functions
--- rather than plain UPDATEs, so concurrent requests can't double-spend or
--- double-redeem: the row lock taken by each UPDATE's WHERE clause (or the
--- explicit SELECT ... FOR UPDATE in redeem_gift_card) serialises competing
--- attempts. Neither function is granted to authenticated -- both are only
--- ever called with the service-role key from api/checkout/verify-payment.js
--- and api/members/me.js, which have already authenticated the caller.
+
 
 alter table members add column wallet_balance numeric(10,2) not null default 0;
 
@@ -49,15 +30,9 @@ create index gift_cards_order_id_idx on gift_cards (order_id);
 
 alter table gift_cards enable row level security;
 
--- Admin-only. Issuing (checkout) and redeeming both go through service-role
--- code paths, same lockdown shape as admin_users/members.
 create policy gift_cards_admin_select on gift_cards
   for select to authenticated using (is_admin());
 
--- Atomically redeem a gift card code into a member's wallet. Raises if the
--- code doesn't exist, is already redeemed, or the member row doesn't exist
--- yet (a members row is created lazily on first GET /api/members/me, so in
--- practice this can only happen if that hasn't run even once).
 create function redeem_gift_card(p_code text, p_member_id uuid)
 returns table(amount numeric, new_balance numeric)
 language plpgsql
@@ -94,9 +69,6 @@ $$;
 
 revoke all on function redeem_gift_card(text, uuid) from public, authenticated, anon;
 
--- Atomically deduct from a member's wallet at checkout. The WHERE clause's
--- balance check makes the deduction fail closed (0 rows updated) rather
--- than going negative if two checkouts race.
 create function deduct_wallet(p_member_id uuid, p_amount numeric)
 returns numeric
 language plpgsql

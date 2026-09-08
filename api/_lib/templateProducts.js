@@ -20,10 +20,7 @@ function escapeHtml(s) {
 }
 
 function slideMarkup(slug, product, isActive) {
-  // Served through /api/img rather than Supabase Storage's public URL
-  // directly -- Vercel's edge cache absorbs repeat requests for this
-  // immutable, content-addressed slug instead of every visitor's browser
-  // hitting Supabase's storage egress on every page view.
+
   const base = `/api/img?p=${product.id}&f=${slug}`;
   return (
     `<picture class="slide${isActive ? ' is-active' : ''}">` +

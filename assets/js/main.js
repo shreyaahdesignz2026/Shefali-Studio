@@ -1,4 +1,4 @@
-/* Shreyaah's Bliss Trails — shared behaviour */
+
 (function () {
   'use strict';
 
@@ -6,7 +6,6 @@
   var $  = function (s, c) { return (c || doc).querySelector(s); };
   var $$ = function (s, c) { return Array.prototype.slice.call((c || doc).querySelectorAll(s)); };
 
-  /* ---------- sticky header shadow ---------- */
   var header = $('.site-header');
   if (header) {
     var onScroll = function () { header.classList.toggle('is-stuck', window.scrollY > 8); };
@@ -14,7 +13,6 @@
     window.addEventListener('scroll', onScroll, { passive: true });
   }
 
-  /* ---------- mobile drawer ---------- */
   var drawer = $('#drawer');
   var scrim  = $('#scrim');
   var lastFocus = null;
@@ -41,7 +39,6 @@
   $$('[data-close-menu]').forEach(function (b) { b.addEventListener('click', closeDrawer); });
   if (scrim) scrim.addEventListener('click', function () { closeDrawer(); closeSearch(); });
 
-  /* ---------- search panel ---------- */
   var search = $('#search-panel');
   function openSearch() {
     if (!search) return;
@@ -66,7 +63,6 @@
     if (e.key === 'Escape') { closeDrawer(); closeSearch(); }
   });
 
-  /* ---------- accordions ---------- */
   $$('.acc-btn').forEach(function (btn) {
     btn.addEventListener('click', function () {
       var open = btn.getAttribute('aria-expanded') === 'true';
@@ -80,7 +76,6 @@
     });
   });
 
-  /* ---------- tabs ---------- */
   $$('[data-tabs]').forEach(function (group) {
     var tabs = $$('.tab', group);
     tabs.forEach(function (tab) {
@@ -104,7 +99,6 @@
     });
   });
 
-  /* ---------- reveal on scroll ---------- */
   var reveals = $$('.reveal');
   if (reveals.length) {
     if ('IntersectionObserver' in window) {
@@ -119,7 +113,6 @@
     }
   }
 
-  /* ---------- anchor nav active state ---------- */
   var anchorNav = $('.anchor-nav');
   if (anchorNav) {
     var links = $$('a[href^="#"]', anchorNav);
@@ -138,10 +131,6 @@
     }
   }
 
-  /* ==========================================================
-     Cart / wishlist — front-end demo state held in localStorage.
-     No checkout exists yet; these record intent only.
-     ========================================================== */
   var KEY_CART = 'sbt.cart';
   var KEY_WISH = 'sbt.wishlist';
 
@@ -152,8 +141,7 @@
   function write(key, val) {
     try { localStorage.setItem(key, JSON.stringify(val)); } catch (e) {}
   }
-  /* Entries are {name, price, label, qty}. Anything saved by an older version
-     was a bare name string, so normalise on read rather than discarding it. */
+
   function normalise(list) {
     return (list || []).map(function (it) {
       if (typeof it === 'string') return { name: it, price: null, label: '', qty: 1 };
@@ -193,12 +181,6 @@
     });
   }
 
-  /* Member-aware wishlist state. A logged-out visitor's wishlist is plain
-     localStorage, unchanged. Once a member is signed in, any wishlist item
-     with a real product id reads/writes through member_wishlist (direct
-     RLS) instead -- items with no id (a couple of hardcoded homepage
-     picks that predate product ids existing at all) simply stay local
-     forever, since there's no product to link them to server-side. */
   var memberSession = null;
   var memberWishCache = null;
 
@@ -278,8 +260,7 @@
     toastEl.querySelector('span').textContent = msg;
     toastEl.classList.add('is-on');
     clearTimeout(toastTimer);
-    // Longer messages get more time on screen -- a short "Removed" needs
-    // less than a full sentence pointing someone at the Wishlist tab.
+
     var duration = Math.max(2600, Math.min(5500, msg.length * 60));
     toastTimer = setTimeout(function () { toastEl.classList.remove('is-on'); }, duration);
   }
@@ -303,9 +284,6 @@
       var wishItem = itemOf(btn, 'data-wish');
       var pressed = btn.getAttribute('aria-pressed') === 'true';
 
-      // Only members get a wishlist -- a guest can still remove an item
-      // saved locally before this restriction existed, but can't add new
-      // ones without logging in.
       if (!pressed && !memberSession) {
         toast('Log in or create an account to save items to your wishlist');
         return;
@@ -321,7 +299,6 @@
     });
   });
 
-  /* ---------- product photo slider ---------- */
   $$('[data-slide-nav]').forEach(function (btn) {
     btn.addEventListener('click', function () {
       var slider = btn.closest('[data-slider]');
@@ -338,15 +315,11 @@
     });
   });
 
-  /* ==========================================================
-     Cart and wishlist pages. Both render from the same
-     localStorage the header badges count, so they always agree.
-     ========================================================== */
   function lineRow(it, idx, kind) {
     var priceTxt = it.price == null
       ? '<span class="muted small">Price on request</span>'
       : money(it.price) + (it.provisional ? ' <em class="tiny" style="color:var(--brown);font-style:normal">to confirm</em>' : '');
-    // A gift card is one card for one recipient -- quantity doesn't apply.
+
     var qtyCell = kind === 'cart' && it.item_type !== 'gift_card'
       ? '<div class="qty">' +
           '<button type="button" class="qty-btn" data-qty="-1" data-i="' + idx + '" aria-label="Decrease quantity">&minus;</button>' +
@@ -436,8 +409,6 @@
     var sub = $('[data-subtotal]');
     if (sub) sub.textContent = money(subtotal);
 
-    // ₹555 is a placeholder for lines with no price on record — never let it
-    // read as a confirmed figure just because it lands in a subtotal.
     var note = $('[data-subtotal-note]');
     if (note) {
       var msgs = [];
@@ -469,7 +440,6 @@
     root.innerHTML = list.map(function (it, i) { return lineRow(it, i, 'wish'); }).join('');
     bindLineActions(root, 'wish');
 
-    // "move to cart" on the wishlist page
     $$('[data-move-cart]', root.parentNode).forEach(function (b) {
       b.addEventListener('click', function () {
         var wish = getWish(), cart = readCart();
@@ -490,11 +460,6 @@
   renderCart();
   renderWishlist();
 
-  /* Once a member session is found, switch the wishlist over to
-     member_wishlist. The first time this happens in a browser, any
-     id-bearing localStorage wishlist entries are merged in (on conflict
-     do nothing) and then cleared locally, tracked by a per-user flag so
-     it only ever runs once. */
   if (window.SBTMember) {
     window.SBTMember.getSession(function (session) {
       if (!session) return;
@@ -550,7 +515,6 @@
     });
   }
 
-  /* ---------- mobile category scroll arrows ---------- */
   $$('.category-scroll').forEach(function (wrap) {
     var track = $('.tabs', wrap);
     if (!track) return;
@@ -562,10 +526,6 @@
     });
   });
 
-  /* ---------- product filtering (category tabs + name-only text search) ----------
-     The search bar only appears on services/events/products (see each
-     page's own <head>), and each page's search is scoped to just that
-     page's own content -- no cross-page navigation from a search. */
   var runProductSearch = null;
 
   (function () {
@@ -585,7 +545,7 @@
         var matchesCat = cat === 'all' || item.getAttribute('data-cat') === cat;
         var matchesQuery = true;
         if (q) {
-          // Name only -- not the description -- per how this is meant to work.
+
           var nameEl = item.querySelector('.product-name');
           var haystack = (nameEl ? nameEl.textContent : '').toLowerCase();
           matchesQuery = haystack.indexOf(q) > -1;
@@ -628,7 +588,6 @@
       });
     });
 
-    // Arriving at /products/#candles should open that category, not just jump.
     var applyHash = function () {
       var id = location.hash.slice(1);
       if (!id) return;
@@ -652,7 +611,6 @@
     };
   })();
 
-  /* ---------- search: scoped to whichever of services/events/products it's on ---------- */
   var SERVICE_SEARCH_INDEX = [
     { anchor: '#oracle', keywords: ['oracle', 'oracle card reading', 'oracle card reading based consultation'] },
     { anchor: '#intro', keywords: ['intro', 'introductory', 'introductory consultation', 'consultation — introductory'] },
@@ -737,10 +695,6 @@
     });
   });
 
-  /* ---------- enquiry / booking forms with no backend ----------
-     These still just confirm locally and point the visitor at WhatsApp
-     or email. Forms with data-capture-form (below) are handled instead
-     by their own handler, since those actually reach a backend now. */
   $$('form[data-demo-form]:not([data-capture-form]):not(.search-form)').forEach(function (form) {
     form.addEventListener('submit', function (e) {
       e.preventDefault();
@@ -753,13 +707,12 @@
     });
   });
 
-  /* ---------- booking/enquiry/registration forms — sent to the admin panel ---------- */
   $$('form[data-capture-form]').forEach(function (form) {
     form.addEventListener('submit', function (e) {
       e.preventDefault();
 
       var submitBtn = form.querySelector('button[type="submit"]');
-      if (submitBtn && submitBtn.disabled) return; // already submitting -- ignore a double click/Enter
+      if (submitBtn && submitBtn.disabled) return;
       if (submitBtn) submitBtn.disabled = true;
 
       var formType = form.getAttribute('data-capture-form');
@@ -798,9 +751,6 @@
           });
       }
 
-      // Attach the member's session, if any, so this enquiry links to their
-      // account and shows up in their Bookings/Your Data -- guests keep
-      // working exactly as before, with no Authorization header at all.
       if (window.SBTMember) {
         window.SBTMember.getSession(function (session) {
           var headers = { 'Content-Type': 'application/json' };
@@ -813,7 +763,6 @@
     });
   });
 
-  /* ---------- gift card amount picker ---------- */
   var giftOther = $('#gift-other');
   if (giftOther) {
     $$('input[name="gift-amount"]').forEach(function (r) {
@@ -824,7 +773,6 @@
     });
   }
 
-  /* ---------- members space section switching ---------- */
   $$('[data-member-nav]').forEach(function (link) {
     link.addEventListener('click', function (e) {
       e.preventDefault();
@@ -838,15 +786,12 @@
     });
   });
 
-  /* ---------- current year ---------- */
   $$('[data-year]').forEach(function (el) { el.textContent = new Date().getFullYear(); });
 
   window.SBTCart = {
     readCart: readCart,
     KEY_CART: KEY_CART,
-    // Used by the gift-card page to add a gift-card line -- it has no
-    // product id, so it can't go through the [data-add-cart] button flow
-    // above, but shares the same cart array and localStorage key.
+
     addItem: function (item) {
       var cart = readCart();
       cart.push(item);

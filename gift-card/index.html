@@ -76,7 +76,7 @@
 </aside>
 
 <main id="main">
-  <!-- PAGE HEAD -->
+
   <section class="page-head">
     <div class="wash wash--gold" style="width:min(500px,52vw);height:300px;right:2%;top:-8%"></div>
     <div class="wrap">
@@ -94,7 +94,6 @@
     <div class="wrap">
       <div class="split" style="align-items:start;gap:clamp(2rem,5vw,4rem)">
 
-        <!-- LEFT: card + info -->
         <div class="reveal">
           <div class="giftcard">
             <div class="gc-brand">
@@ -136,7 +135,6 @@
           </div>
         </div>
 
-        <!-- RIGHT: form -->
         <form class="card reveal" data-d="1" id="gift-card-form">
           <h3 style="font-size:1.25rem">Choose an amount</h3>
 
@@ -341,7 +339,6 @@
     return Number(sel.value);
   }
 
-  /* ---------- add gift card to cart ---------- */
   var form = document.getElementById('gift-card-form');
   var errorEl = document.querySelector('[data-gc-error]');
   form.addEventListener('submit', function (e) {

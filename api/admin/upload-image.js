@@ -5,7 +5,7 @@ const { getSupabaseAdmin } = require('../_lib/supabaseAdmin');
 
 const MAX_WIDTH = 1200;
 const BUCKET = 'product-images';
-const CACHE_MAX_AGE_SECONDS = String(60 * 60 * 24 * 365); // 1 year — each slug is unique and immutable, so this is safe
+const CACHE_MAX_AGE_SECONDS = String(60 * 60 * 24 * 365);
 
 function readRawBody(req) {
   return new Promise((resolve, reject) => {
@@ -58,9 +58,6 @@ module.exports = async (req, res) => {
       { path: `${productId}/${slug}.jpg`, buffer: jpgBuffer, contentType: 'image/jpeg' },
     ];
 
-    // Three independent network round-trips -- run them concurrently
-    // rather than one after another, since none depends on another's
-    // result (each writes a different file path).
     const uploadResults = await Promise.all(
       uploads.map((u) =>
         supabase.storage.from(BUCKET).upload(u.path, u.buffer, {

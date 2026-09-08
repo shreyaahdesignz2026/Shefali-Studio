@@ -1,8 +1,5 @@
-// Regenerates the CATALOGUE:START/END section of a copy's products/index.html
-// from the live database — the same logic api/admin/publish.js runs at
-// request time. Used before a manual full-repo deploy so it doesn't clobber
-// whatever an admin last published with the static, pre-database catalog
-// that still lives in source control.
+
+
 const fs = require('fs');
 const path = require('path');
 const { getSupabaseAdmin } = require('../api/_lib/supabaseAdmin');

@@ -19,9 +19,6 @@ module.exports = async (req, res) => {
       .maybeSingle();
     if (error) return res.status(500).json({ error: error.message });
 
-    // First time this auth.users row has ever reached us -- true for a
-    // brand-new OTP login (generateLink/verifyOtp created the auth user
-    // silently, but never touches our members table).
     if (!member) {
       const { data: created, error: createError } = await supabase
         .from('members')

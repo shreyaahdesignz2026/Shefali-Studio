@@ -5,10 +5,6 @@
   var SUPABASE_ANON_KEY =
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxla3R1Znl0bWhhdW1zbHR5ZnhmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg2MDU4ODcsImV4cCI6MjEwNDE4MTg4N30.NjFKO-hgk5PrdM-di5lOGbFYVXLWJtKpl24ye3GKAmk';
 
-  // A distinct storageKey keeps a member's session separate from an admin
-  // session in the same browser (different localStorage key), so a site
-  // owner who is signed into /admin/ never has their admin session picked
-  // up here (or vice versa) just because both clients share an origin.
   var client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
     auth: { storageKey: 'sbt-member-auth' },
   });
@@ -129,9 +125,7 @@
       e.preventDefault();
       clearError(forms.otpVerify);
       var code = document.getElementById('login-otp-code').value.trim();
-      // Belt-and-braces on top of the input's own required/pattern
-      // attributes -- never let a request (let alone a "success") happen
-      // for anything that isn't actually a 6-digit code.
+
       if (!/^\d{6}$/.test(code)) {
         showError(forms.otpVerify, 'Enter the 6-digit code we emailed you.');
         return;
@@ -157,10 +151,7 @@
           }).then(function (res) {
             submitBtn.disabled = false;
             if (res.error) { showError(forms.otpVerify, res.error.message); return; }
-            // Brief, visible confirmation that the code matched before
-            // handing off to onSuccess (which usually swaps this whole
-            // panel out for the dashboard) -- otherwise a fast redirect
-            // can look like nothing happened.
+
             forms.otpVerify.querySelector('[data-otp-success]').hidden = false;
             setTimeout(function () {
               if (opts.onSuccess) opts.onSuccess(res.data.session);

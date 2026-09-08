@@ -1,13 +1,9 @@
--- Human-facing, sequential order numbers, starting at 150500001. Distinct
--- from orders.id (the internal uuid primary key) — this is what customers
--- and admins actually see and refer to an order by.
+
+
 create sequence orders_order_number_seq start 150500001;
 
 alter table orders add column order_number bigint;
 
--- Backfill any orders that already exist, in the order they were placed,
--- so the very first real order becomes #150500001 regardless of when this
--- migration runs.
 with ordered as (
   select id, row_number() over (order by created_at) as rn
   from orders
@@ -17,7 +13,6 @@ set order_number = 150500000 + ordered.rn
 from ordered
 where o.id = ordered.id;
 
--- Make sure the sequence continues right after whatever was just backfilled.
 select setval('orders_order_number_seq', coalesce((select max(order_number) from orders), 150500000));
 
 alter table orders alter column order_number set default nextval('orders_order_number_seq');

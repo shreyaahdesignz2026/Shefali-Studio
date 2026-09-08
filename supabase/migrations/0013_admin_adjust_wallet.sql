@@ -1,10 +1,5 @@
--- Lets an admin add or subtract an arbitrary amount from a member's
--- E-Bliss Wallet balance (api/admin/members.js, ?action=adjust-wallet).
--- Atomic for the same reason redeem_gift_card/deduct_wallet are: the
--- UPDATE's WHERE clause serialises against a concurrent redemption or
--- checkout deduction on the same row, and the balance is never allowed to
--- go negative. Not granted to authenticated -- service-role only, called
--- after api/_lib/auth.js's requireAdmin has already checked the caller.
+
+
 create function admin_adjust_wallet(p_member_id uuid, p_delta numeric)
 returns numeric
 language plpgsql

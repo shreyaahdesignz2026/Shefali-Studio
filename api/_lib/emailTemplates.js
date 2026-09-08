@@ -1,6 +1,4 @@
-// Pure HTML-builders for every transactional email Resend sends. No I/O
-// here on purpose -- api/_lib/email.js does the actual sending, these
-// functions just turn plain data into {subject, html}.
+
 
 function escapeHtml(s) {
   return String(s == null ? '' : s).replace(/[&<>"']/g, (c) => (

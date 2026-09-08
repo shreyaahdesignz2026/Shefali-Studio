@@ -4,7 +4,7 @@
   var SUPABASE_URL = 'https://lektufytmhaumsltyfxf.supabase.co';
   var SUPABASE_ANON_KEY =
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxla3R1Znl0bWhhdW1zbHR5ZnhmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg2MDU4ODcsImV4cCI6MjEwNDE4MTg4N30.NjFKO-hgk5PrdM-di5lOGbFYVXLWJtKpl24ye3GKAmk';
-  var SHIPPING_FEE = 300; // display only — the server (api/_lib/pricing.js) is authoritative
+  var SHIPPING_FEE = 300;
 
   var client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -36,8 +36,6 @@
 
   var walletBalance = 0;
   var savedAddresses = [];
-
-  /* ---------- optional login: saved-address checkout + wallet ---------- */
 
   function fillFormFromAddress(addr) {
     document.getElementById('cf-name').value = addr ? addr.name : '';
@@ -88,8 +86,7 @@
       .maybeSingle()
       .then(function (res) {
         walletBalance = res.data ? Number(res.data.wallet_balance) : 0;
-        // Always show the balance once a member is logged in, even at ₹0 —
-        // it's useful to see there's nothing to apply, not just when there is.
+
         document.getElementById('checkout-wallet-balance').textContent = money(walletBalance);
         document.getElementById('checkout-wallet-wrap').hidden = false;
         document.getElementById('co-summary-wallet-balance').textContent = money(walletBalance);
@@ -185,7 +182,7 @@
       escapeHtml(c.address_line) + ', ' + escapeHtml(c.city) + ', ' + escapeHtml(c.state) + ' — ' + escapeHtml(c.pincode);
   }
 
-  var productPrices = {}; // filled once products load
+  var productPrices = {};
 
   function renderLines() {
     var linesHtml = productCart
@@ -372,9 +369,7 @@
         if (order.error) throw new Error(order.error);
 
         if (order.zero_amount) {
-          // Fully covered by the wallet -- no Razorpay step at all, but the
-          // confirmation is still a network round trip the shopper could
-          // interrupt by refreshing, so the same warning applies here.
+
           showProcessingWarning();
           return completeOrder({ items: items, customer: customer, use_wallet: useWallet }, payBtn, errorEl);
         }

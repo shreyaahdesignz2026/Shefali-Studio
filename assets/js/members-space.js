@@ -59,8 +59,6 @@
       return '<span class="pill ' + statusPillClass(status) + '">' + escapeHtml(status) + '</span>';
     }
 
-    /* ---------- profile ---------- */
-
     function renderPlan(m) {
       document.getElementById('plan-name').textContent = PLAN_LABEL[m.plan] || m.plan;
       var benefits = PLAN_BENEFITS[m.plan] || [];
@@ -115,8 +113,6 @@
       });
     });
 
-    /* ---------- redeem a gift card ---------- */
-
     document.getElementById('gc-redeem-form').addEventListener('submit', function (e) {
       e.preventDefault();
       var codeInput = document.getElementById('gc-code');
@@ -147,8 +143,6 @@
         successEl.hidden = false;
       });
     });
-
-    /* ---------- email change ---------- */
 
     document.getElementById('change-email-toggle').addEventListener('click', function (e) {
       e.preventDefault();
@@ -191,8 +185,6 @@
       });
     });
 
-    /* ---------- password change ---------- */
-
     document.getElementById('password-form').addEventListener('submit', function (e) {
       e.preventDefault();
       var errorEl = document.getElementById('password-error');
@@ -209,8 +201,6 @@
         successEl.hidden = false;
       });
     });
-
-    /* ---------- bookings & calendar ---------- */
 
     function bookingLabel(row) {
       if (row.form_type === 'service_booking') return (row.details && row.details.service) || 'Session';
@@ -265,8 +255,6 @@
             : '<div class="empty"><h3>Nothing here yet</h3><p>Sessions you have attended will be listed here once they have taken place.</p></div>';
         });
     }
-
-    /* ---------- orders ---------- */
 
     function renderOrders(orders, itemsByOrder) {
       var el = document.getElementById('orders-list');
@@ -337,8 +325,6 @@
             });
         });
     }
-
-    /* ---------- saved addresses ---------- */
 
     function openAddressForm(address) {
       var card = document.getElementById('address-form-card');
@@ -474,8 +460,6 @@
       closeAddressForm();
     });
 
-    /* ---------- your data ---------- */
-
     function renderYourData(rows) {
       var el = document.getElementById('your-data-list');
       if (!rows.length) {
@@ -515,8 +499,6 @@
           renderYourData(res.data);
         });
     }
-
-    /* ---------- logout ---------- */
 
     document.getElementById('member-logout-link').addEventListener('click', function (e) {
       e.preventDefault();

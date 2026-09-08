@@ -42,9 +42,6 @@ function validateSubmission(formType, fields) {
 
 const TIME_BUCKET_HOUR = { Morning: 9, Afternoon: 14, Evening: 18 };
 
-// Only service_booking carries a real calendar date -- event_registration's
-// date only exists as free text inside the event-name option, so every
-// other form type is "date to be confirmed" (null).
 function computeHappensAt(formType, fields) {
   if (formType !== 'service_booking') return null;
   const date = fields.date;

@@ -222,17 +222,12 @@
           formError.hidden = false;
           return;
         }
-        // Keep the form open with the (now-known) id populated so a brand
-        // new product's image-upload button works immediately, instead of
-        // requiring a separate Edit click to pick the id back up.
+
         idField.value = res.data.id;
         formHeading.textContent = 'Edit product';
         cancelBtn.hidden = false;
         document.getElementById('upload-image-btn').disabled = false;
 
-        // If image file(s) were already chosen before hitting Save/Create,
-        // upload them right now as part of the same action instead of
-        // making the admin click a separate Upload button afterward.
         var fileInput = document.getElementById('image-file');
         var files = Array.prototype.slice.call(fileInput.files);
         uploadFiles(res.data.id, files).then(function () {

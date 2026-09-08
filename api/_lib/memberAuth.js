@@ -1,11 +1,6 @@
 const { createClient } = require('@supabase/supabase-js');
 const { getSupabaseAdmin } = require('./supabaseAdmin');
 
-// Verifies the bearer token against Supabase Auth and returns the raw
-// auth.users record -- no members-table lookup. Used by routes that need
-// to know *which* authenticated visitor this is before a `members` row
-// necessarily exists yet (api/members/me.js creates it on first GET, which
-// is how a brand-new OTP login gets its row).
 function makeGetAuthenticatedUser(getAuthClient) {
   return async function getAuthenticatedUser(authHeader) {
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -45,13 +40,6 @@ function makeRequireMember(getAuthenticatedUser, getMembersClient) {
   };
 }
 
-// Never throws -- checkout and enquiries must work identically whether or
-// not the visitor is logged in, so callers just get null back for a
-// missing/invalid session instead of having to catch. Deliberately built on
-// getAuthenticatedUser rather than requireMember: an order or enquiry must
-// still link to a brand-new OTP login's account even before that visitor
-// has ever hit /api/members/me (which is what lazily creates their
-// `members` row) -- callers here only ever need `.id` to set member_id.
 function makeGetOptionalMember(getAuthenticatedUser) {
   return async function getOptionalMember(authHeader) {
     if (!authHeader) return null;

@@ -1,7 +1,5 @@
-// Plain fetch() to Resend's HTTP API -- no `resend` npm package, since this
-// is a ~10-line POST and pulling in a dependency for it would repeat the
-// sharp-native-binary class of deploy risk for no real benefit. Node 24's
-// runtime has global fetch.
+
+
 async function sendEmail({ to, subject, html, replyTo }) {
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {

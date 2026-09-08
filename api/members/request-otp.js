@@ -7,15 +7,6 @@ const { sendEmail } = require('../_lib/email');
 
 const CODE_TTL_MS = 10 * 60 * 1000;
 
-// The code itself is entirely ours (generated, hashed, and expiry-checked
-// here) rather than Supabase's built-in email-OTP, so its 10-minute expiry
-// and single-use enforcement don't depend on the project's Auth settings.
-// generateLink is still used, but only as the bridge to mint a real session
-// once our own code has been verified -- shouldCreateUser:true silently
-// creates the auth.users row on request (same as before), and a second,
-// fresh magic link at verify time is immediately redeemed server-side via
-// the anon client's verifyOtp, exactly what a browser would do with a real
-// magic-link click.
 async function handleRequest(req, res, supabase) {
   const { email } = req.body || {};
   if (!email || !String(email).trim()) {
@@ -81,9 +72,6 @@ async function handleVerify(req, res, supabase) {
     return res.status(400).json({ error: 'Invalid or expired code. Please request a new one.' });
   }
 
-  // Atomically claim this specific row -- the consumed_at:null guard means
-  // a second, simultaneous verify attempt with the same code updates zero
-  // rows and is rejected, so the code can only ever be used once.
   const { data: consumed, error: consumeError } = await supabase
     .from('member_otp_requests')
     .update({ consumed_at: new Date().toISOString() })

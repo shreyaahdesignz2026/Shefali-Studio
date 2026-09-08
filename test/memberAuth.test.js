@@ -78,9 +78,7 @@ test('getOptionalMember returns null when the session is invalid rather than thr
 });
 
 test('getOptionalMember returns the authenticated user even with no members row yet', async () => {
-  // A brand-new OTP login has an auth.users row but no `members` row until
-  // it first hits /api/members/me -- an order or enquiry placed in that
-  // window must still link via .id, so this must not come back null.
+
   const getAuthenticatedUser = makeGetAuthenticatedUser(
     fakeAuthClient({ data: { user: { id: 'u2', email: 'x@example.com' } }, error: null })
   );

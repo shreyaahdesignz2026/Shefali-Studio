@@ -187,7 +187,6 @@ module.exports = async (req, res) => {
 
     const { error: deleteError } = await supabase.auth.admin.deleteUser(targetId);
     if (deleteError) return res.status(500).json({ error: deleteError.message });
-    // The admin_users row is removed automatically via ON DELETE CASCADE from auth.users.
 
     return res.status(200).json({ ok: true });
   }

@@ -35,7 +35,6 @@ module.exports = async (req, res) => {
     .single();
   if (error) return res.status(500).json({ error: error.message });
 
-  // Non-fatal: a Resend failure must never fail an already-saved enquiry.
   try {
     const { subject, html } = adminNotificationEmail('enquiry', { submission });
     await sendEmail({ to: ADMIN_NOTIFICATION_EMAIL, subject, html });

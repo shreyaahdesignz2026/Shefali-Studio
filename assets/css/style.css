@@ -1,44 +1,33 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Raleway:wght@300;400;500;600;700&family=Caveat:wght@400;500;600&display=swap');
 
-/* ==========================================================================
-   Shreyaah's Bliss Trails — shared design system
-   Watercolour + handmade paper + illustrated journal
-   ========================================================================== */
-
 :root {
-  /* Base papers */
+
   --cream:        #EDE2CD;
   --cream-soft:   #FDDEC0;
   --paper:        #FBF5E9;
   --paper-warm:   #F7EEDC;
 
-  /* Ink */
   --slate:        #2B3A44;
   --charcoal:     #11222B;
   --slate-soft:   #3F4F5C;
 
-  /* Secondary */
   --blue-muted:   #769EB0;
   --blue-soft:    #5A8CA1;
   --blue-deep:    #2B4F61;
 
-  /* Earth */
   --terracotta:   #DA8A67;
   --brown:        #A36551;
   --ochre:        #8F6213;
   --ochre-light:  #C79A3E;
 
-  /* Nature */
   --green-deep:   #1F481E;
   --sage:         #A7D29F;
   --sage-deep:    #6B8F63;
 
-  /* Soft + rare */
   --peach:        #FFCECF;
   --indigo:       #6E91EA;
   --purple:       #280033;
 
-  /* Semantic */
   --bg:           var(--cream);
   --card:         var(--paper);
   --text:         var(--slate);
@@ -47,13 +36,11 @@
   --rule:         rgba(43, 58, 68, .16);
   --rule-soft:    rgba(43, 58, 68, .09);
 
-  /* Type */
   --serif:  'Playfair Display', 'Cormorant Garamond', Georgia, serif;
   --serif2: 'Cormorant Garamond', Georgia, serif;
   --sans:   'Raleway', 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --hand:   'Caveat', 'Segoe Script', cursive;
 
-  /* Rhythm */
   --measure: 1180px;
   --measure-narrow: 760px;
   --gutter: clamp(1.25rem, 5vw, 4rem);
@@ -65,16 +52,9 @@
   --ease: cubic-bezier(.22,.61,.36,1);
 }
 
-/* ---------- reset ---------- */
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
 
-/* ---------- themed scrollbar ----------
-   Firefox reads scrollbar-color off any element; Chrome/Edge/Safari need
-   the ::-webkit-scrollbar pseudo-elements repeated per scrollable element
-   (they don't inherit), so this is applied universally with `*` to also
-   cover the mobile drawer, admin tables, and anywhere else that scrolls
-   internally, not just the page itself. */
 * {
   scrollbar-width: thin;
   scrollbar-color: var(--terracotta) var(--cream);
@@ -92,25 +72,7 @@ html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
-/* Handmade paper ground: warm wash + fibre texture + fine grain.
-   This lives on <html> as a real background (not a position:fixed
-   pseudo-element) — a fixed pseudo-element paints in its own layer that
-   sticky/positioned descendants can wall off from, so mix-blend-mode:multiply
-   on illustrations further down the tree ends up blending against nothing
-   (plain white) instead of the paper. A background on the root element is
-   the document canvas per spec, and every blend-mode element composites
-   against it correctly regardless of intervening stacking contexts. */
-/* Handmade paper ground — painted exactly ONCE, here on the root element.
-   Nothing else in the page repaints it. Two separately painted copies of the
-   same background (previously on .wrap as well) meet at a boundary, and even
-   with identical CSS those two paints don't land identically — which showed
-   as a faint but hard-edged box wherever a decorative illustration bled
-   across .wrap's edge. One paint for the whole page = no boundary to see.
 
-   For this to work, nothing between an illustration and <html> may create a
-   stacking context, or mix-blend-mode:multiply gets walled off from this
-   background and the illustration renders as a white block instead. That's
-   why .wrap / .scenery / .wash below deliberately carry no z-index. */
 html {
   overflow-x: hidden;
   background-color: var(--cream);
@@ -139,10 +101,9 @@ body {
 
 img { max-width: 100%; height: auto; display: block; }
 a { color: inherit; }
-/* Several components set an explicit display, which would otherwise beat [hidden]. */
+
 [hidden] { display: none !important; }
 
-/* ---------- type ---------- */
 h1, h2, h3, h4 {
   font-family: var(--serif);
   font-weight: 500;
@@ -168,7 +129,6 @@ p:last-child { margin-bottom: 0; }
   letter-spacing: .002em;
 }
 
-/* Small caps eyebrow */
 .eyebrow {
   display: inline-flex;
   align-items: center;
@@ -205,7 +165,6 @@ p:last-child { margin-bottom: 0; }
 .small { font-size: .875rem; line-height: 1.62; }
 .tiny  { font-size: .785rem; line-height: 1.6; letter-spacing: .01em; }
 
-/* ---------- layout ---------- */
 .wrap { width: 100%; max-width: var(--measure); margin-inline: auto; padding-inline: var(--gutter); }
 .wrap--narrow { max-width: var(--measure-narrow); }
 .wrap--wide { max-width: 1360px; }
@@ -219,7 +178,6 @@ p:last-child { margin-bottom: 0; }
 .section-head--center { margin-inline: auto; text-align: center; }
 .section-head p { color: var(--text-soft); }
 
-/* Torn-paper divider between sections */
 .tear {
   position: relative;
   height: 1px;
@@ -238,7 +196,6 @@ p:last-child { margin-bottom: 0; }
   opacity: .55;
 }
 
-/* ---------- buttons ---------- */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -289,7 +246,6 @@ p:last-child { margin-bottom: 0; }
 .btn--sm { padding: .7em 1.35em; font-size: .76rem; }
 .btn--block { width: 100%; }
 
-/* Text link with a hand-drawn underline */
 .link {
   display: inline-flex;
   align-items: center;
@@ -312,7 +268,6 @@ p:last-child { margin-bottom: 0; }
 .link .arw { transition: transform .3s var(--ease); }
 .link:hover .arw { transform: translateX(3px); }
 
-/* Inline prose link */
 .a-inline {
   color: var(--brown);
   text-decoration: none;
@@ -321,7 +276,6 @@ p:last-child { margin-bottom: 0; }
 }
 .a-inline:hover { color: var(--terracotta); border-color: var(--terracotta); }
 
-/* ---------- paper card ---------- */
 .card {
   position: relative;
   background: var(--card);
@@ -338,21 +292,17 @@ p:last-child { margin-bottom: 0; }
 }
 .card--soft { background: var(--paper-warm); }
 
-/* Slight paper skew — each card sits a touch differently, like pasted-in pages */
 .card--tilt-l { transform: rotate(-.32deg); }
 .card--tilt-r { transform: rotate(.28deg); }
 .card--tilt-l:hover, .card--tilt-r:hover { transform: translateY(-4px) rotate(0deg); }
 
-/* ---------- grids ---------- */
 .grid { display: grid; gap: clamp(1.25rem, 2.4vw, 2rem); }
 .grid-2 { grid-template-columns: repeat(2, 1fr); }
 .grid-3 { grid-template-columns: repeat(3, 1fr); }
 .grid-4 { grid-template-columns: repeat(4, 1fr); }
 .grid-auto { grid-template-columns: repeat(auto-fill, minmax(min(270px, 100%), 1fr)); }
 .grid-auto-lg { grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr)); }
-/* The 270px minimum column leaves room for only one column on a phone --
-   the product catalogue keeps two, snugger, rather than falling back to
-   one large card per row. */
+
 @media (max-width: 700px) {
   #catalogue.grid-auto { grid-template-columns: repeat(2, 1fr); gap: .6rem; }
 }
@@ -364,7 +314,6 @@ p:last-child { margin-bottom: 0; }
   .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
 }
 
-/* Split: text + illustration */
 .split {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -374,11 +323,6 @@ p:last-child { margin-bottom: 0; }
 .split--narrow-img { grid-template-columns: 1.15fr .85fr; }
 @media (max-width: 860px) { .split, .split--narrow-img { grid-template-columns: 1fr; } }
 
-/* Where an illustration sits beside a long text column, let it ride along
-   rather than float in the middle of its own empty half. position:sticky
-   always creates its own stacking context (same issue as .wrap's z-index
-   above), so this needs its own copy of the paper background too, or the
-   blend-mode image inside loses sight of the page and shows as a white box. */
 @media (min-width: 861px) {
   .split--sticky > .illus {
     position: sticky;
@@ -397,14 +341,6 @@ p:last-child { margin-bottom: 0; }
   }
 }
 
-/* ==========================================================================
-   Illustration treatments — washed edges, never overpowering text
-   ========================================================================== */
-
-/* Illustration, painted directly onto the page: each source image has its own
-   paper tone stretched to pure white and its edge dissolved into an irregular
-   watercolour bleed at the pixel level (see scratchpad/pdftools/paint.mjs),
-   so mix-blend-mode: multiply makes the white vanish and only pigment remains. */
 .illus {
   position: relative;
   display: block;
@@ -414,15 +350,6 @@ p:last-child { margin-bottom: 0; }
   mix-blend-mode: multiply;
 }
 
-/* Homepage hero illustration. Deliberately wider than its own column and
-   pulled left, so it bleeds into the gap and reads at full presence without
-   running off the right edge of the window. The percentages ease back on
-   narrower windows, where there is less room either side to bleed into, and
-   reset entirely once the hero stacks to a single column.
-
-   Must sit after .illus img — same specificity, so source order decides.
-   Kept as a class rather than an inline style so the breakpoints below can
-   actually take effect; an inline width would outrank a media query. */
 .hero-illus img {
   width: 125%;
   max-width: none;
@@ -435,10 +362,6 @@ p:last-child { margin-bottom: 0; }
   .hero-illus img { width: 100%; margin-left: 0; }
 }
 
-/* Faint scenery layer sitting behind a section. No z-index on purpose — see
-   the note on html's background above: an explicit z-index here would make
-   this its own stacking context and wall its mix-blend-mode off from the
-   page background. Document order already puts it behind .wrap's content. */
 .scenery {
   position: absolute;
   pointer-events: none;
@@ -455,13 +378,8 @@ p:last-child { margin-bottom: 0; }
 .scenery--c  { left: 50%; top: 50%; transform: translate(-50%,-50%); width: min(760px, 78vw); opacity: .07; }
 @media (max-width: 760px) { .scenery { opacity: .07 !important; } }
 
-/* No z-index: .scenery/.wash are written before .wrap in the markup, and
-   positioned elements without a z-index paint in document order, so .wrap
-   still sits above them — without becoming a stacking context that would
-   cut its illustrations off from the page background. */
 .section > .wrap { position: relative; }
 
-/* Watercolour wash blob behind a block */
 .wash {
   position: absolute;
   pointer-events: none;
@@ -475,13 +393,9 @@ p:last-child { margin-bottom: 0; }
 .wash--gold  { background: radial-gradient(circle, rgba(199,154,62,.38), transparent 70%); }
 .wash--peach { background: radial-gradient(circle, rgba(255,206,207,.55), transparent 70%); }
 
-/* Tiny recurring micro-motifs (winding line / circle / hand / sprout / doorway) */
 .motif { display: inline-block; vertical-align: middle; color: var(--ochre-light); opacity: .85; }
 .motif svg { display: block; }
 
-/* ==========================================================================
-   Header
-   ========================================================================== */
 .site-header {
   position: sticky;
   top: 0;
@@ -502,13 +416,7 @@ p:last-child { margin-bottom: 0; }
   padding: .75rem var(--gutter);
   display: flex;
   align-items: center;
-  /* .nav's own margin-left:auto already pushes it (and .header-actions
-     after it) to the right on desktop, consuming all free space in the
-     main axis -- so this has no effect there. On mobile, .nav is
-     display:none and contributes no auto-margin, so without this,
-     .header-actions was left stranded wherever it naturally fell after
-     .brand instead of anchored to the right edge like the desktop nav
-     icons are. */
+
   justify-content: space-between;
   gap: 1.25rem;
 }
@@ -595,8 +503,7 @@ p:last-child { margin-bottom: 0; }
   text-align: center;
 }
 .header-actions .btn { margin-left: .3rem; }
-/* Scoped to the header specifically -- .btn--sm is shared by ~190 buttons
-   sitewide, so it's tightened here rather than globally. */
+
 .header-actions .btn--primary.btn--sm { padding: .6em 1.1em; font-size: .72rem; }
 
 .menu-toggle { display: none; }
@@ -606,8 +513,7 @@ p:last-child { margin-bottom: 0; }
   .menu-toggle { display: grid; }
   .nav { margin-left: 0; }
 }
-/* Below the desktop nav breakpoint the drawer carries everything, so the header
-   sheds icons rather than pushing the menu button off-screen. */
+
 @media (max-width: 820px) {
   .header-actions .btn { display: none; }
 }
@@ -623,7 +529,6 @@ p:last-child { margin-bottom: 0; }
   .icon-btn { width: 34px; height: 34px; }
 }
 
-/* Mobile drawer */
 .drawer {
   position: fixed;
   inset: 0 0 0 auto;
@@ -669,7 +574,6 @@ p:last-child { margin-bottom: 0; }
 .scrim.is-open { opacity: 1; visibility: visible; }
 body.no-scroll { overflow: hidden; }
 
-/* Search overlay */
 .search-panel {
   position: fixed;
   inset: 0 0 auto 0;
@@ -722,16 +626,10 @@ body.no-scroll { overflow: hidden; }
 }
 .chip:hover { border-color: var(--terracotta); color: var(--brown); background: #fff; }
 
-/* ==========================================================================
-   Page banner (inner pages)
-   ========================================================================== */
 .page-head {
   position: relative;
   padding-block: clamp(3.25rem, 8vw, 6rem) clamp(2.5rem, 5vw, 4rem);
-  /* No overflow:hidden here — it was hard-clipping the scenery illustration's
-     own organic fade at this container's edge, showing as a straight corner
-     cutting across it. body already has overflow-x:hidden globally, so this
-     isn't needed to prevent a horizontal scrollbar. */
+
 }
 .page-head .wrap { position: relative; }
 .page-head h1 { margin-bottom: .35em; }
@@ -752,9 +650,6 @@ body.no-scroll { overflow: hidden; }
 .crumbs a:hover { color: var(--brown); }
 .crumbs span { opacity: .5; }
 
-/* ==========================================================================
-   Footer
-   ========================================================================== */
 .site-footer {
   position: relative;
   background: var(--charcoal);
@@ -841,16 +736,11 @@ body.no-scroll { overflow: hidden; }
   max-width: 92ch;
 }
 
-/* Footer botanical sprigs */
 .footer-sprig { position: absolute; color: rgba(199,154,62,.16); pointer-events: none; }
 .footer-sprig--l { left: -10px; bottom: 40px; width: 130px; transform: rotate(-8deg); }
 .footer-sprig--r { right: -14px; top: 26px; width: 150px; transform: scaleX(-1) rotate(-6deg); }
 @media (max-width: 800px) { .footer-sprig { display: none; } }
 
-/* ==========================================================================
-   Reveal on scroll
-   ========================================================================== */
-/* Only hide when scripting is available, so a JS failure never blanks the page. */
 .js .reveal { opacity: 0; transform: translateY(20px); transition: opacity .85s var(--ease), transform .85s var(--ease); }
 .js .reveal.is-in { opacity: 1; transform: none; }
 .reveal[data-d="1"] { transition-delay: .09s; }
@@ -860,11 +750,6 @@ body.no-scroll { overflow: hidden; }
 .reveal[data-d="5"] { transition-delay: .45s; }
 @media (prefers-reduced-motion: reduce) { .js .reveal { opacity: 1; transform: none; } }
 
-/* ==========================================================================
-   Shared components
-   ========================================================================== */
-
-/* Pathway card (three offerings) */
 .pathway {
   position: relative;
   display: flex;
@@ -901,7 +786,6 @@ body.no-scroll { overflow: hidden; }
 }
 .pathway-who strong { color: var(--slate); font-weight: 600; }
 
-/* Service / listing item */
 .entry {
   display: grid;
   grid-template-columns: auto 1fr auto;
@@ -929,7 +813,6 @@ body.no-scroll { overflow: hidden; }
   .entry-cta { grid-column: 2; justify-self: start; padding-top: .5rem; }
 }
 
-/* Detail grid inside expandable service */
 .detail-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(200px,100%), 1fr));
@@ -949,7 +832,6 @@ body.no-scroll { overflow: hidden; }
 }
 .detail-grid dd { margin: 0; font-size: .89rem; color: var(--text-soft); line-height: 1.62; }
 
-/* Accordion (FAQ + expandable services) */
 .acc { border-bottom: 1px solid var(--rule-soft); }
 .acc:first-of-type { border-top: 1px solid var(--rule-soft); }
 .acc-btn {
@@ -994,7 +876,6 @@ body.no-scroll { overflow: hidden; }
 .acc-body { padding-bottom: 1.6rem; color: var(--text-soft); font-size: .95rem; max-width: 70ch; }
 .acc-body > * + * { margin-top: .9rem; }
 
-/* Product card */
 .product {
   position: relative;
   display: flex;
@@ -1018,8 +899,6 @@ body.no-scroll { overflow: hidden; }
 .product-media img { width: 100%; height: 100%; object-fit: contain; mix-blend-mode: multiply; transition: transform .8s var(--ease); }
 .product:hover .product-media img { transform: scale(1.045); }
 
-/* No product photography has been supplied yet, so an empty .product-media
-   paints a watercolour wash + botanical sprig instead of a broken frame. */
 .product-media::before {
   content: '';
   position: absolute;
@@ -1046,7 +925,6 @@ body.no-scroll { overflow: hidden; }
 .product-media.has-photo::before,
 .product-media.has-photo::after { display: none; }
 
-/* Multi-image slider */
 .product-slider { position: absolute; inset: 0; z-index: 1; }
 .product-slider .slide { position: absolute; inset: 0; opacity: 0; transition: opacity .35s var(--ease); }
 .product-slider .slide.is-active { opacity: 1; z-index: 1; }
@@ -1100,10 +978,7 @@ body.no-scroll { overflow: hidden; }
 .product-desc { font-size: .84rem; color: var(--text-soft); line-height: 1.6; margin-bottom: .9rem; }
 .product-foot { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: .75rem; padding-top: .5rem; }
 @media (max-width: 700px) {
-  /* object-fit: contain letterboxes any photo that isn't itself already
-     3:4, so the card's own 3:4 box (set on .product-media) doesn't
-     actually look filled/consistent from card to card. cover crops
-     instead of letterboxing, so every card reads as a clean 3:4 rectangle. */
+
   .product-media img { object-fit: cover; }
   .product-body { padding: .75rem .85rem 1rem; }
   .product-name { font-size: .92rem; }
@@ -1115,7 +990,6 @@ body.no-scroll { overflow: hidden; }
 .price s { font-size: .8rem; font-weight: 400; color: var(--text-muted); margin-right: .4rem; }
 .price em { font-style: normal; font-size: .72rem; color: var(--sage-deep); font-family: var(--sans); font-weight: 600; letter-spacing: .06em; display: block; margin-top: 1px; }
 
-/* Event card */
 .event {
   display: grid;
   grid-template-columns: 108px 1fr;
@@ -1152,7 +1026,6 @@ body.no-scroll { overflow: hidden; }
   .event-date { justify-self: start; min-width: 96px; }
 }
 
-/* Meta pill row */
 .pills { display: flex; flex-wrap: wrap; gap: .45rem; margin: .85rem 0; }
 .pill {
   display: inline-flex;
@@ -1172,7 +1045,6 @@ body.no-scroll { overflow: hidden; }
 .pill--terra { border-color: rgba(218,138,103,.45); color: var(--brown); background: rgba(218,138,103,.09); }
 .pill--blue  { border-color: rgba(118,158,176,.45); color: var(--blue-deep); background: rgba(118,158,176,.1); }
 
-/* Editable / draft flag — content the source marks as DRAFT or TBD */
 .draft {
   display: flex;
   align-items: flex-start;
@@ -1217,9 +1089,6 @@ body.no-scroll { overflow: hidden; }
   color: var(--terracotta);
 }
 
-/* A softer, informational cousin of .form-error -- same shape, an actual
-   red rather than terracotta, for a disclaimer that isn't reporting a
-   problem (e.g. "this is where your confirmation email goes"). */
 .disclaimer-box {
   display: block;
   margin-top: .4rem;
@@ -1232,7 +1101,6 @@ body.no-scroll { overflow: hidden; }
   color: #A33;
 }
 
-/* Quote / testimonial */
 .quote {
   position: relative;
   font-family: var(--serif2);
@@ -1256,7 +1124,6 @@ body.no-scroll { overflow: hidden; }
   color: var(--text-muted);
 }
 
-/* Empty / placeholder state */
 .empty {
   padding: clamp(2rem, 5vw, 3.5rem);
   text-align: center;
@@ -1268,7 +1135,6 @@ body.no-scroll { overflow: hidden; }
 .empty h3 { font-size: 1.24rem; margin-bottom: .5rem; }
 .empty p { color: var(--text-soft); font-size: .92rem; max-width: 46ch; margin-inline: auto; }
 
-/* Callout band */
 .callout {
   position: relative;
   padding: clamp(2rem, 4.5vw, 3.25rem);
@@ -1283,7 +1149,6 @@ body.no-scroll { overflow: hidden; }
 .callout--slate .btn--ghost { color: #F4EAD6; border-color: rgba(244,234,214,.4); }
 .callout--slate .btn--ghost:hover { background: rgba(244,234,214,.1); border-color: var(--ochre-light); color: var(--ochre-light); }
 
-/* Forms */
 .field { display: grid; gap: .42rem; margin-bottom: 1.1rem; }
 .field label {
   font-size: .72rem;
@@ -1335,7 +1200,6 @@ body.no-scroll { overflow: hidden; }
 .radio-row label:has(input:checked) { border-color: var(--terracotta); color: var(--brown); background: rgba(218,138,103,.08); }
 .radio-row input { accent-color: var(--terracotta); }
 
-/* Tabs */
 .tabs {
   display: flex;
   flex-wrap: wrap;
@@ -1371,10 +1235,6 @@ body.no-scroll { overflow: hidden; }
 .tab[aria-selected="true"]::after { transform: scaleX(1); }
 .tab-panel[hidden] { display: none; }
 
-/* Category scroll (mobile) -- the product category tabs wrap onto several
-   rows on a phone; this scrolls them in one row instead, with two arrow
-   buttons either side. Desktop is untouched (arrows hidden, tabs unwrapped
-   as before). */
 .category-scroll { position: relative; display: flex; align-items: center; gap: .4rem; }
 .category-scroll-btn { display: none; }
 @media (max-width: 700px) {
@@ -1402,7 +1262,6 @@ body.no-scroll { overflow: hidden; }
   .category-scroll-btn svg { width: 16px; height: 16px; }
 }
 
-/* Anchor nav (sticky in-page nav) */
 .anchor-nav {
   position: sticky;
   top: 74px;
@@ -1434,7 +1293,6 @@ body.no-scroll { overflow: hidden; }
 }
 .anchor-nav a:hover, .anchor-nav a.is-active { color: var(--brown); background: rgba(255,255,255,.6); }
 
-/* Stat / info row */
 .info-row {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(180px,100%),1fr));
@@ -1445,7 +1303,6 @@ body.no-scroll { overflow: hidden; }
 .info-row .k { font-size: .68rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--ochre); margin-bottom: .38rem; }
 .info-row .v { font-family: var(--serif2); font-size: 1.1rem; color: var(--slate); line-height: 1.45; }
 
-/* Utility */
 .mt-0 { margin-top: 0; }
 .mt-1 { margin-top: .75rem; }
 .mt-2 { margin-top: 1.5rem; }
@@ -1480,9 +1337,6 @@ body.no-scroll { overflow: hidden; }
 }
 .skip-link:focus { top: 1rem; }
 
-/* ==========================================================================
-   Members Space dashboard
-   ========================================================================== */
 .member-grid {
   display: grid;
   grid-template-columns: 290px 1fr;
@@ -1629,7 +1483,6 @@ body.no-scroll { overflow: hidden; }
   .thread .cnt { grid-column: 2; }
 }
 
-/* Gift card visual */
 .giftcard {
   position: relative;
   aspect-ratio: 1.6;
@@ -1684,7 +1537,6 @@ body.no-scroll { overflow: hidden; }
 .amount-grid label:has(input:checked) { border-color: var(--terracotta); background: rgba(218,138,103,.1); color: var(--brown); }
 .amount-grid input { position: absolute; opacity: 0; pointer-events: none; }
 
-/* Offer / QR page */
 .offer-ticket {
   position: relative;
   background: var(--paper);
@@ -1729,9 +1581,6 @@ body.no-scroll { overflow: hidden; }
   text-transform: uppercase;
 }
 
-/* ==========================================================================
-   Cart & wishlist lines
-   ========================================================================== */
 .line {
   display: grid;
   grid-template-columns: 92px 1fr auto auto auto;
@@ -1741,7 +1590,7 @@ body.no-scroll { overflow: hidden; }
   border-bottom: 1px solid var(--rule-soft);
 }
 .line:first-child { border-top: 1px solid var(--rule-soft); }
-/* Wishlist rows have no quantity or line total, so they don't need those columns. */
+
 .line--simple { grid-template-columns: 92px 1fr auto; }
 .line-media {
   width: 92px;
@@ -1804,10 +1653,6 @@ body.no-scroll { overflow: hidden; }
   .line-total { grid-column: 3; text-align: right; }
 }
 
-/* Cart lines beside the summary. Defined here rather than as an inline style
-   so the .split stacking breakpoint can still override it on narrow screens —
-   an inline grid-template-columns would win over the media query and leave
-   the summary jammed alongside the lines on mobile. */
 .split--cart {
   grid-template-columns: 1.6fr .9fr;
   align-items: start;
@@ -1838,18 +1683,6 @@ body.no-scroll { overflow: hidden; }
 .summary-row .k { color: var(--text-soft); font-size: .9rem; }
 .summary-row .v { font-family: var(--serif2); font-size: 1.3rem; font-weight: 600; color: var(--slate); }
 
-/* Toast — anchored near the top rather than the bottom, so it can never
-   end up partly hidden behind a taskbar, mobile browser toolbar, or other
-   OS/browser chrome that eats into the bottom of the viewport.
-
-   The hidden state uses a fixed top: -200px (comfortably off-screen above,
-   regardless of the toast's own rendered height) rather than a
-   translateY() percentage — a percentage is relative to the element's
-   OWN height, which is only ~50px here, so translateY(-150%) only moved
-   it up ~75px total. With top already close to 0 (positioned just below
-   a short header), that left it still fully inside the viewport instead
-   of hidden. JS sets --toast-top to place it under the actual header
-   height when shown. */
 .toast {
   position: fixed;
   left: 50%;
@@ -1871,11 +1704,6 @@ body.no-scroll { overflow: hidden; }
 .toast.is-on { top: var(--toast-top, 4.5rem); }
 .toast svg { width: 16px; height: 16px; color: var(--sage); flex-shrink: 0; }
 
-/* Blocking warning shown the instant Razorpay signals a successful payment,
-   while we're still confirming it with the server -- refreshing here would
-   strand the shopper on a blank checkout with no way back to their
-   confirmation, so this is deliberately harder to miss than .toast and
-   stays up for the whole wait instead of auto-hiding. */
 .checkout-processing-overlay {
   position: fixed;
   inset: 0;

@@ -65,8 +65,7 @@ function computeTotals(cartItems, products) {
   );
 
   const subtotal = Math.round(lineItems.reduce((sum, li) => sum + li.line_total, 0) * 100) / 100;
-  // A gift card is delivered by email -- only charge shipping when the cart
-  // also has at least one physical product in it.
+
   const hasPhysicalItem = lineItems.some((li) => li.item_type === 'product');
   const shippingFee = hasPhysicalItem ? SHIPPING_FEE : 0;
   const grandTotal = Math.round((subtotal + shippingFee) * 100) / 100;

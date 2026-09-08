@@ -1,7 +1,5 @@
-// Pure throttle check for the login-OTP request route: a short cooldown
-// between any two requests, plus a cap on requests within a longer window,
-// so one inbox can't be used to spam the OTP-request endpoint (each
-// request also sends a real email via Resend).
+
+
 function canRequestOtp(recentTimestamps, now, opts) {
   const { windowMs = 15 * 60 * 1000, maxRequests = 3, cooldownMs = 60 * 1000 } = opts || {};
 

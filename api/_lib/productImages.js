@@ -1,7 +1,5 @@
-// Fetches every product_images row for the given products and attaches
-// them as `images` (ordered by position) on each product object in place.
-// Shared by api/admin/publish.js and scripts/render-catalogue-into.js so
-// both regenerate the catalogue the same way.
+
+
 async function attachImages(supabase, products) {
   if (!products.length) return products;
 

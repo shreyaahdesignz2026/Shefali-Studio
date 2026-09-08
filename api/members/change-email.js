@@ -6,11 +6,6 @@ const { sendEmail } = require('../_lib/email');
 
 const CODE_TTL_MS = 15 * 60 * 1000;
 
-// Two steps of one flow, kept in one file (dispatched by ?action=) rather
-// than two separate serverless functions -- Vercel's Hobby plan caps a
-// deployment at 12 functions total, same reason api/admin/members.js
-// dispatches its own reset-login action by query param instead of a
-// separate route.
 async function handleRequest(req, res, member, supabase) {
   const { new_email: newEmail } = req.body || {};
   if (!newEmail || !String(newEmail).trim()) {

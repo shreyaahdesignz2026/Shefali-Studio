@@ -27,9 +27,6 @@ module.exports = async (req, res) => {
     return res.status(400).json({ error: e.message });
   }
 
-  // Wallet is only ever applied for a logged-in member, and only up to
-  // their real balance -- read fresh from the DB rather than trusting
-  // anything the client sends about how much is available.
   let walletAmount = 0;
   if (use_wallet) {
     const member = await getOptionalMember(req.headers.authorization);
@@ -47,9 +44,6 @@ module.exports = async (req, res) => {
 
   const remainder = Math.round((totals.grandTotal - walletAmount) * 100) / 100;
 
-  // Fully covered by the wallet -- no Razorpay order at all (Razorpay
-  // doesn't support a zero-amount order), the client goes straight to
-  // verify-payment which recomputes and re-checks all of this itself.
   if (remainder <= 0) {
     return res.status(200).json({
       zero_amount: true,

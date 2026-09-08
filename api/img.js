@@ -1,19 +1,5 @@
-// Proxies product images from Supabase Storage through Vercel's own edge
-// cache instead of every visitor's browser hitting Supabase directly. Each
-// image is content-addressed (a random UUID slug minted once per upload,
-// never reused or overwritten in place -- see api/admin/upload-image.js),
-// so it's safe to cache "immutable" for a year: once Vercel's CDN has a
-// copy for a given querystring, it never needs to ask Supabase again for
-// it, which is what actually drives Supabase egress down (this route's own
-// handler only ever runs again on a genuine cache miss).
-//
-// Query params rather than /api/img/<id>/<file> path segments: Vercel's
-// zero-config build for a plain (non-framework) api/ directory only
-// generates a single-path-segment route for a [...catchAll].js file (it
-// does not expand to a true multi-segment regex the way Next.js's router
-// does), so a two-segment path 404s at Vercel's own routing layer before
-// this function ever runs. A flat file with a query string sidesteps that
-// limitation entirely.
+
+
 const CACHE_CONTROL = 'public, max-age=31536000, immutable';
 const CONTENT_TYPES = { avif: 'image/avif', webp: 'image/webp', jpg: 'image/jpeg' };
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;

@@ -39,10 +39,6 @@
         errorEl.hidden = false;
       }
 
-      // A valid Supabase login only proves the email/password is correct
-      // for *some* account -- members authenticate against the exact same
-      // user pool, so a session existing here doesn't mean it's an admin.
-      // Verify before treating "already logged in" as "already an admin".
       window.SBTAdmin.client.auth.getSession().then(function (res) {
         var session = res.data && res.data.session;
         if (!session) return;

@@ -55,9 +55,7 @@ module.exports = async (req, res) => {
       if (!/already been registered|already exists/i.test(createError.message)) {
         return res.status(500).json({ error: `Could not create account: ${createError.message}` });
       }
-      // Account already exists (e.g. they logged in via OTP before an admin
-      // ever set them up) -- enroll/update the existing account instead of
-      // failing, same fallback admin-users.js uses for admins.
+
       temporaryPassword = null;
       try {
         authUser = await findAuthUserByEmail(supabase, normalizedEmail);
@@ -150,7 +148,6 @@ module.exports = async (req, res) => {
 
     const { error: deleteError } = await supabase.auth.admin.deleteUser(targetId);
     if (deleteError) return res.status(500).json({ error: deleteError.message });
-    // The members row is removed automatically via ON DELETE CASCADE from auth.users.
 
     return res.status(200).json({ ok: true });
   }

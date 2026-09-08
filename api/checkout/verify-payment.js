@@ -14,9 +14,7 @@ function isTestKey() {
 }
 
 async function insertGiftCard(supabase, { orderId, orderItemId, memberId, giftCardData, createdAt }) {
-  // The 16-character code is unique-constrained; a collision is astronomically
-  // unlikely (32^16 possibilities) but retry a few times rather than fail
-  // an already-paid-for order over it.
+
   let lastError;
   for (let attempt = 0; attempt < MAX_CODE_ATTEMPTS; attempt++) {
     const code = generateGiftCardCode();
@@ -39,7 +37,7 @@ async function insertGiftCard(supabase, { orderId, orderItemId, memberId, giftCa
       .single();
     if (!error) return { ...data, created_at: data.created_at || createdAt };
     lastError = error;
-    if (error.code !== '23505') break; // not a unique-violation -- don't retry
+    if (error.code !== '23505') break;
   }
   throw new Error(`Could not issue gift card code: ${lastError.message}`);
 }
@@ -79,8 +77,6 @@ module.exports = async (req, res) => {
     return res.status(400).json({ error: e.message });
   }
 
-  // Recompute the wallet contribution independently, server-side, exactly
-  // as create-order.js did -- never trust a client-sent amount.
   let walletAmount = 0;
   if (use_wallet && member) {
     const { data: row, error: memberError } = await supabase
@@ -106,9 +102,7 @@ module.exports = async (req, res) => {
       return res.status(400).json({ error: 'Payment signature verification failed' });
     }
   } else if (walletAmount > 0) {
-    // Fully covered by the wallet, nothing charged to Razorpay -- deduct
-    // first, since a failure here (a genuine balance race) must block the
-    // order rather than hand out a free one.
+
     const { error: deductError } = await supabase.rpc('deduct_wallet', {
       p_member_id: member.id,
       p_amount: walletAmount,
@@ -158,9 +152,6 @@ module.exports = async (req, res) => {
     .select();
   if (itemsError) return res.status(500).json({ error: itemsError.message });
 
-  // Partial wallet use alongside a real Razorpay charge -- the charge is
-  // already captured, so the order must stand regardless; log rather than
-  // fail if this specific deduction has trouble.
   if (walletAmount > 0 && remainder > 0) {
     const { error: deductError } = await supabase.rpc('deduct_wallet', {
       p_member_id: member.id,
@@ -169,9 +160,6 @@ module.exports = async (req, res) => {
     if (deductError) console.error('Wallet deduction after paid order failed:', deductError.message);
   }
 
-  // Issue a gift_cards row (with its own redeemable code) for every
-  // gift-card line item, matched back to its order_item by array position --
-  // a single-statement multi-row INSERT ... RETURNING preserves input order.
   const issuedGiftCards = [];
   for (let i = 0; i < totals.lineItems.length; i++) {
     const li = totals.lineItems[i];
@@ -210,8 +198,6 @@ module.exports = async (req, res) => {
     grand_total: totals.grandTotal,
   };
 
-  // All sends below are non-fatal: a Resend failure must never fail an
-  // already-completed, already-paid-for order.
   if (responseOrder.customer.email) {
     try {
       const { subject, html } = orderConfirmationEmail(responseOrder);
