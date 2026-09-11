@@ -786,6 +786,16 @@
     });
   });
 
+  $$('[data-events-nav]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var id = btn.getAttribute('data-events-nav');
+      $$('[data-events-nav]').forEach(function (b) { b.classList.toggle('is-active', b === btn); });
+      $$('[data-events-panel]').forEach(function (p) {
+        p.hidden = p.getAttribute('data-events-panel') !== id;
+      });
+    });
+  });
+
   $$('[data-year]').forEach(function (el) { el.textContent = new Date().getFullYear(); });
 
   window.SBTCart = {
