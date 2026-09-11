@@ -113,6 +113,54 @@
     }
   }
 
+  var canTilt = $('.hero-illus') && window.matchMedia
+    && window.matchMedia('(pointer: fine)').matches
+    && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (canTilt) {
+    var initTilt = function (selector, opts) {
+      opts = opts || {};
+      var max = opts.max || 14;
+      var scale = opts.scale || 1.045;
+      var perspective = opts.perspective || 900;
+      var layerSel = opts.layer;
+      var layerAmount = opts.layerAmount || 16;
+
+      $$(selector).forEach(function (el) {
+        var layer = layerSel ? el.querySelector(layerSel) : null;
+
+        el.addEventListener('mousemove', function (e) {
+          var r = el.getBoundingClientRect();
+          var px = (e.clientX - r.left) / r.width;
+          var py = (e.clientY - r.top) / r.height;
+          var rx = (0.5 - py) * max * 2;
+          var ry = (px - 0.5) * max * 2;
+          el.style.transition = 'transform .06s linear';
+          el.style.transform = 'perspective(' + perspective + 'px) rotateX(' + rx.toFixed(2) + 'deg) rotateY(' + ry.toFixed(2) + 'deg) scale(' + scale + ')';
+          if (layer) {
+            var lx = (px - 0.5) * layerAmount;
+            var ly = (py - 0.5) * layerAmount;
+            layer.style.transition = 'transform .06s linear';
+            layer.style.transform = 'translate(' + lx.toFixed(1) + 'px,' + ly.toFixed(1) + 'px) scale(1.08)';
+          }
+        });
+
+        el.addEventListener('mouseleave', function () {
+          el.style.transition = 'transform .5s cubic-bezier(.22,1,.36,1)';
+          el.style.transform = '';
+          if (layer) {
+            layer.style.transition = 'transform .5s cubic-bezier(.22,1,.36,1)';
+            layer.style.transform = '';
+          }
+        });
+      });
+    };
+
+    initTilt('.pathway', { layer: '.n', max: 14, layerAmount: 12 });
+    initTilt('.product', { layer: '.product-media img', max: 12, layerAmount: 14, scale: 1.035 });
+    initTilt('.card--lift', { max: 14 });
+    initTilt('.event', { layer: '.event-date', max: 10, layerAmount: 10 });
+  }
+
   var anchorNav = $('.anchor-nav');
   if (anchorNav) {
     var links = $$('a[href^="#"]', anchorNav);
