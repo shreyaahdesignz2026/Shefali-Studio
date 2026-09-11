@@ -344,10 +344,12 @@ p:last-child { margin-bottom: 0; }
 .illus {
   position: relative;
   display: block;
+  background-color: var(--cream);
 }
 .illus img {
   width: 100%;
   mix-blend-mode: multiply;
+  background-color: var(--cream);
 }
 
 .hero-illus img {
@@ -367,9 +369,11 @@ p:last-child { margin-bottom: 0; }
   pointer-events: none;
   user-select: none;
   mix-blend-mode: multiply;
+  background-color: var(--cream);
 }
 .scenery img {
   width: 100%;
+  background-color: var(--cream);
 }
 .scenery--r  { right: -6%;  top: 6%;   width: min(430px, 42vw); opacity: .13; }
 .scenery--l  { left: -7%;   top: 12%;  width: min(400px, 40vw); opacity: .12; }
