@@ -25,6 +25,55 @@
     setTimeout(hideLoader, 5500);
   }
 
+  var canCursor = $('.hero-illus') && window.matchMedia
+    && window.matchMedia('(pointer: fine)').matches
+    && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (canCursor) {
+    doc.documentElement.classList.add('has-custom-cursor');
+    var cursorDot = doc.createElement('div');
+    cursorDot.className = 'cursor-dot';
+    var cursorRing = doc.createElement('div');
+    cursorRing.className = 'cursor-ring';
+    doc.body.appendChild(cursorDot);
+    doc.body.appendChild(cursorRing);
+
+    var mouseX = 0, mouseY = 0, ringX = 0, ringY = 0, cursorSeen = false;
+    var cursorInteractiveSel = 'a, button, .pathway, .product, .card--lift, .event, .chip, .trail-tab, input, textarea, select, [role="button"]';
+
+    doc.addEventListener('mousemove', function (e) {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      cursorDot.style.left = mouseX + 'px';
+      cursorDot.style.top = mouseY + 'px';
+      if (!cursorSeen) {
+        cursorSeen = true;
+        ringX = mouseX;
+        ringY = mouseY;
+        cursorDot.classList.add('is-visible');
+        cursorRing.classList.add('is-visible');
+      }
+    });
+    doc.addEventListener('mouseleave', function () {
+      cursorDot.classList.remove('is-visible');
+      cursorRing.classList.remove('is-visible');
+    });
+    doc.addEventListener('mouseover', function (e) {
+      if (e.target.closest && e.target.closest(cursorInteractiveSel)) cursorRing.classList.add('is-active');
+    });
+    doc.addEventListener('mouseout', function (e) {
+      if (e.target.closest && e.target.closest(cursorInteractiveSel)) cursorRing.classList.remove('is-active');
+    });
+
+    var tickCursor = function () {
+      ringX += (mouseX - ringX) * .18;
+      ringY += (mouseY - ringY) * .18;
+      cursorRing.style.left = ringX + 'px';
+      cursorRing.style.top = ringY + 'px';
+      requestAnimationFrame(tickCursor);
+    };
+    requestAnimationFrame(tickCursor);
+  }
+
   var header = $('.site-header');
   if (header) {
     var onScroll = function () { header.classList.toggle('is-stuck', window.scrollY > 8); };
