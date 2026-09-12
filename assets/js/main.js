@@ -18,11 +18,11 @@
       setTimeout(function () { loader.classList.add('is-hidden'); }, 1150);
     };
     if (doc.readyState === 'complete') {
-      setTimeout(hideLoader, 2500);
+      setTimeout(hideLoader, 2000);
     } else {
-      window.addEventListener('load', function () { setTimeout(hideLoader, 2500); });
+      window.addEventListener('load', function () { setTimeout(hideLoader, 2000); });
     }
-    setTimeout(hideLoader, 6000);
+    setTimeout(hideLoader, 5500);
   }
 
   var header = $('.site-header');
