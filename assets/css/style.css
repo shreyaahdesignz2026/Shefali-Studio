@@ -379,6 +379,8 @@ p:last-child { margin-bottom: 0; }
   .hero-illus { width: 100%; margin-left: 0; }
 }
 
+.map-parallax { overflow: hidden; border-radius: 2px; }
+
 .scenery {
   position: absolute;
   pointer-events: none;
