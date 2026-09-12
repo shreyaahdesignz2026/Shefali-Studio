@@ -15,14 +15,14 @@
       loaderHidden = true;
       loader.classList.add('is-leaving');
       doc.body.classList.remove('is-loading');
-      setTimeout(function () { loader.classList.add('is-hidden'); }, 1000);
+      setTimeout(function () { loader.classList.add('is-hidden'); }, 1150);
     };
     if (doc.readyState === 'complete') {
-      setTimeout(hideLoader, 500);
+      setTimeout(hideLoader, 2500);
     } else {
-      window.addEventListener('load', function () { setTimeout(hideLoader, 500); });
+      window.addEventListener('load', function () { setTimeout(hideLoader, 2500); });
     }
-    setTimeout(hideLoader, 3500);
+    setTimeout(hideLoader, 6000);
   }
 
   var header = $('.site-header');
