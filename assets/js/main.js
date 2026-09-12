@@ -159,7 +159,7 @@
     initTilt('.product', { layer: '.product-media img', max: 12, layerAmount: 14, scale: 1.035 });
     initTilt('.card--lift', { max: 14 });
     initTilt('.event', { layer: '.event-date', max: 10, layerAmount: 10 });
-    initTilt('.map-parallax', { layer: 'img', max: 10, layerAmount: 18, scale: 1.02 });
+    initTilt('.map-parallax', { layer: 'img', max: 5, layerAmount: 8, scale: 1.015 });
   }
 
   var anchorNav = $('.anchor-nav');
