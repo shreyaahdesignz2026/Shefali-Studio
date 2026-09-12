@@ -6,6 +6,25 @@
   var $  = function (s, c) { return (c || doc).querySelector(s); };
   var $$ = function (s, c) { return Array.prototype.slice.call((c || doc).querySelectorAll(s)); };
 
+  var loader = $('#loader');
+  if (loader) {
+    doc.body.classList.add('is-loading');
+    var loaderHidden = false;
+    var hideLoader = function () {
+      if (loaderHidden) return;
+      loaderHidden = true;
+      loader.classList.add('is-leaving');
+      doc.body.classList.remove('is-loading');
+      setTimeout(function () { loader.classList.add('is-hidden'); }, 1000);
+    };
+    if (doc.readyState === 'complete') {
+      setTimeout(hideLoader, 500);
+    } else {
+      window.addEventListener('load', function () { setTimeout(hideLoader, 500); });
+    }
+    setTimeout(hideLoader, 3500);
+  }
+
   var header = $('.site-header');
   if (header) {
     var onScroll = function () { header.classList.toggle('is-stuck', window.scrollY > 8); };

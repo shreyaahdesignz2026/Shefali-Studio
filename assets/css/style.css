@@ -102,6 +102,63 @@ body {
 img { max-width: 100%; height: auto; display: block; }
 a { color: inherit; }
 
+.loader { display: none; }
+.js .loader {
+  display: block;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+}
+body.is-loading { overflow: hidden; }
+.loader-panel {
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  background-color: var(--cream);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.16'/%3E%3C/svg%3E"),
+    radial-gradient(ellipse 70% 50% at 15% 0%,   rgba(253,222,192,.55), transparent 60%),
+    radial-gradient(ellipse 60% 45% at 88% 12%,  rgba(118,158,176,.13), transparent 62%),
+    radial-gradient(ellipse 55% 40% at 50% 100%, rgba(218,138,103,.10), transparent 65%),
+    url('../img/paper-texture.jpg');
+  background-repeat: repeat, no-repeat, no-repeat, no-repeat, repeat;
+  background-size: 220px 220px, auto, auto, auto, 700px 700px;
+  background-attachment: fixed, fixed, fixed, fixed, fixed;
+  background-blend-mode: normal, multiply, multiply, multiply, normal;
+  transition: transform 1s cubic-bezier(.76,0,.24,1);
+}
+.loader-panel--l { left: 0; }
+.loader-panel--r { right: 0; }
+.loader.is-leaving .loader-panel--l { transform: translateX(-100%); }
+.loader.is-leaving .loader-panel--r { transform: translateX(100%); }
+.loader-logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: clamp(88px, 13vw, 160px);
+  height: clamp(88px, 13vw, 160px);
+  transform: translate(-50%, -50%);
+  transition: opacity .5s ease, transform .8s cubic-bezier(.22,1,.36,1);
+}
+.loader.is-leaving .loader-logo { opacity: 0; transform: translate(-50%, -50%) scale(.7); }
+.loader-logo img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  box-shadow: 0 12px 44px rgba(17,34,43,.28);
+  animation: loader-pulse 1.7s ease-in-out infinite;
+}
+.loader.is-hidden { display: none; }
+@keyframes loader-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .loader-panel, .loader-logo { transition: none; }
+  .loader-logo img { animation: none; }
+}
+
 [hidden] { display: none !important; }
 
 h1, h2, h3, h4 {
