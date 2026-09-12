@@ -95,12 +95,135 @@ body {
   line-height: 1.72;
   color: var(--text);
   background: transparent;
-  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
 img { max-width: 100%; height: auto; display: block; }
 a { color: inherit; }
+
+.loader { display: none; }
+.js .loader {
+  display: block;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+}
+/* NOTE on the header-disappears-on-scroll bug: this full-viewport `position: fixed`
+   loader, sitting alongside .site-header's `position: sticky`, is what triggers it —
+   but only because `body` used to also declare `overflow-x: hidden` (redundant with
+   the same rule on `html`). That redundant pair puts html and body in an ambiguous
+   dual-scroll-container state; combined with a fixed, inset:0 sibling anywhere in the
+   page, it permanently breaks the header's stickiness for the rest of that page load.
+   Removing `overflow-x: hidden` from `body` (kept on `html`, which alone already
+   clips horizontal overflow) fixes it — confirmed with an isolated minimal repro.
+   Production's `body.is-loading { overflow: hidden; }` rule is also left out here:
+   toggling `overflow` on <body> is a second way to reach the same ambiguous state,
+   and the loader already covers the full viewport, so nothing is visible behind it
+   anyway — scroll can stay free while it's up. */
+.loader-panel {
+  position: absolute;
+  inset: 0;
+  background-color: var(--cream);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.16'/%3E%3C/svg%3E"),
+    radial-gradient(ellipse 70% 50% at 15% 0%,   rgba(253,222,192,.55), transparent 60%),
+    radial-gradient(ellipse 60% 45% at 88% 12%,  rgba(118,158,176,.13), transparent 62%),
+    radial-gradient(ellipse 55% 40% at 50% 100%, rgba(218,138,103,.10), transparent 65%),
+    url('../img/paper-texture.jpg');
+  background-repeat: repeat, no-repeat, no-repeat, no-repeat, repeat;
+  background-size: 220px 220px, auto, auto, auto, 700px 700px;
+  background-attachment: fixed, fixed, fixed, fixed, fixed;
+  background-blend-mode: normal, multiply, multiply, multiply, normal;
+  transition: transform 1.1s cubic-bezier(.76,0,.24,1);
+}
+.loader.is-leaving .loader-panel { transform: translateY(-100%); }
+.loader-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transform: translate(-50%, -50%);
+  transition: opacity .5s ease, transform .8s cubic-bezier(.22,1,.36,1);
+}
+.loader.is-leaving .loader-content { opacity: 0; transform: translate(-50%, -50%) scale(.85); }
+.loader-logo {
+  width: clamp(88px, 13vw, 160px);
+  height: clamp(88px, 13vw, 160px);
+  flex-shrink: 0;
+}
+.loader-logo img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  box-shadow: 0 12px 44px rgba(17,34,43,.28);
+  animation: loader-spin 7s linear infinite;
+}
+.loader-text {
+  opacity: 0;
+  filter: blur(14px);
+  transform: translateY(8px);
+  animation: loader-name-in 1.3s cubic-bezier(.22,1,.36,1) .5s forwards;
+}
+.loader-name {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(1.3rem, 3vw, 2rem);
+  font-weight: 500;
+  line-height: 1.16;
+  letter-spacing: .004em;
+  color: var(--slate);
+}
+.loader-location {
+  margin: .3rem 0 0;
+  font-family: var(--sans);
+  font-size: clamp(.7rem, 1.3vw, .82rem);
+  font-weight: 600;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--blue-soft);
+}
+.loader.is-hidden { display: none; }
+@keyframes loader-spin { to { transform: rotate(360deg); } }
+@keyframes loader-name-in { to { opacity: 1; filter: blur(0); transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) {
+  .loader-panel, .loader-content { transition: none; }
+  .loader-logo img { animation: none; }
+  .loader-text { animation: none; opacity: 1; filter: none; transform: none; }
+}
+
+html.has-custom-cursor, html.has-custom-cursor * { cursor: none !important; }
+.cursor-dot, .cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10000;
+  opacity: 0;
+  transition: opacity .25s ease;
+}
+.cursor-dot {
+  width: 7px;
+  height: 7px;
+  margin: -3.5px 0 0 -3.5px;
+  background: var(--terracotta);
+}
+.cursor-ring {
+  width: 34px;
+  height: 34px;
+  margin: -17px 0 0 -17px;
+  border: 1.5px solid var(--terracotta);
+  transition: width .25s var(--ease), height .25s var(--ease), margin .25s var(--ease), background-color .25s var(--ease), opacity .25s ease;
+}
+.cursor-dot.is-visible, .cursor-ring.is-visible { opacity: .8; }
+.cursor-ring.is-active {
+  width: 52px;
+  height: 52px;
+  margin: -26px 0 0 -26px;
+  background: rgba(218,138,103,.14);
+}
 
 [hidden] { display: none !important; }
 
@@ -897,6 +1020,7 @@ body.no-scroll { overflow: hidden; }
   border-bottom: 1px solid var(--rule-soft);
 }
 .product-media img { width: 100%; height: 100%; object-fit: contain; mix-blend-mode: multiply; transition: transform .8s var(--ease); }
+.product-media img.cover { object-fit: cover; }
 .product:hover .product-media img { transform: scale(1.045); }
 
 .product-media::before {
@@ -924,6 +1048,29 @@ body.no-scroll { overflow: hidden; }
 .product:hover .product-media::after { transform: translate(-50%,-50%) scale(1.06); opacity: .38; }
 .product-media.has-photo::before,
 .product-media.has-photo::after { display: none; }
+
+.product--glass .product-media {
+  aspect-ratio: auto;
+  flex: 1;
+  background-image: url('../img/illus-little-treasures.jpg');
+  background-size: cover;
+  background-position: center;
+}
+.product--glass .glass-panel {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: .9rem;
+  text-align: center;
+  padding: 1.5rem;
+  background: rgba(237,226,205,.4);
+  backdrop-filter: blur(7px) saturate(1.2);
+  -webkit-backdrop-filter: blur(7px) saturate(1.2);
+}
+.glass-eyebrow { font-family: var(--serif); font-style: italic; font-size: 1.1rem; color: var(--slate); }
 
 .product-slider { position: absolute; inset: 0; z-index: 1; }
 .product-slider .slide { position: absolute; inset: 0; opacity: 0; transition: opacity .35s var(--ease); }

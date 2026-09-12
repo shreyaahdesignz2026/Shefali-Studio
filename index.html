@@ -10,6 +10,19 @@
 <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-panel"></div>
+  <div class="loader-content">
+    <div class="loader-logo">
+      <img src="assets/img/logo-loader.png" alt="" width="160" height="160">
+    </div>
+    <div class="loader-text">
+      <p class="loader-name">Shreyaah's Bliss Trails</p>
+      <p class="loader-location">Kolkata</p>
+    </div>
+  </div>
+</div>
+
 <a class="skip-link" href="#main">Skip to content</a>
 
 <header class="site-header">
@@ -300,7 +313,8 @@
 
       <div class="grid grid-4">
         <article class="product reveal">
-          <div class="product-media">
+          <div class="product-media has-photo">
+            <img class="cover" src="assets/img/product-lavender-haze.jpg" alt="Lavender Haze soy wax candle" loading="lazy" width="1145" height="1374">
             <span class="product-tag">Ambrosial</span>
             <button class="wish" type="button" data-wish="Lavender Haze — Soy Wax Candle" data-price="175" data-label="Soy Wax Candles" aria-label="Save Lavender Haze to wishlist">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
@@ -318,124 +332,97 @@
         </article>
 
         <article class="product reveal" data-d="1">
-          <div class="product-media">
-            <span class="product-tag">Planters</span>
-            <button class="wish" type="button" data-wish="Hexa Planter" data-price="2,000" data-label="The Green Alchemy" aria-label="Save Hexa Planter to wishlist">
+          <div class="product-media has-photo">
+            <img src="assets/img/illus-journal-icon.svg" alt="Line illustration of an open journal with a bookmark ribbon" loading="lazy" width="200" height="200">
+            <span class="product-tag">Journals</span>
+            <button class="wish" type="button" data-wish="Journal" data-price="555" data-label="Journals" data-provisional="1" aria-label="Save Journal to wishlist">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
             </button>
           </div>
           <div class="product-body">
-            <p class="product-cat">The Green Alchemy</p>
-            <h3 class="product-name">Hexa Planter</h3>
-            <p class="product-desc">Handcrafted hexagonal terracotta planter wrapped in lace.</p>
+            <p class="product-cat">Journals</p>
+            <h3 class="product-name">Journal</h3>
+            <p class="product-desc">A journal line in the studio catalogue — materials and finishes are being finalised.</p>
             <div class="product-foot">
-              <span class="price">₹2,000</span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Hexa Planter" data-price="2,000" data-label="The Green Alchemy">Add</button>
+              <span class="price">₹555<em style="color:var(--brown)">price to confirm</em></span>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Journal" data-price="555" data-label="Journals" data-provisional="1">Add</button>
             </div>
           </div>
         </article>
 
         <article class="product reveal" data-d="2">
-          <div class="product-media">
-            <span class="product-tag">SNB1</span>
-            <button class="wish" type="button" data-wish="Wanderthirst — Spiral Notebook" data-price="128.65" data-label="Spiral Notebooks" aria-label="Save Wanderthirst to wishlist">
+          <div class="product-media has-photo">
+            <img src="assets/img/illus-message-jar-icon.svg" alt="Line illustration of a jar filled with rolled written messages" loading="lazy" width="200" height="200">
+            <span class="product-tag">Message Jar</span>
+            <button class="wish" type="button" data-wish="Message Jar" data-price="555" data-label="Message Jar" data-provisional="1" aria-label="Save Message Jar to wishlist">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
             </button>
           </div>
           <div class="product-body">
-            <p class="product-cat">Spiral Notebooks</p>
-            <h3 class="product-name">Wanderthirst</h3>
-            <p class="product-desc">“Your travel journal.” Blank, ~100 pages, 14 × 21 cm.</p>
+            <p class="product-cat">Message Jar</p>
+            <h3 class="product-name">Message Jar</h3>
+            <p class="product-desc">A jar of written messages, to be drawn one at a time — contents and size are being finalised.</p>
             <div class="product-foot">
-              <span class="price"><s>₹155</s>₹128.65<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Wanderthirst — Spiral Notebook" data-price="128.65" data-label="Spiral Notebooks">Add</button>
+              <span class="price">₹555<em style="color:var(--brown)">price to confirm</em></span>
+              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Message Jar" data-price="555" data-label="Message Jar" data-provisional="1">Add</button>
             </div>
           </div>
         </article>
 
-        <article class="product reveal" data-d="3">
-          <div class="product-media">
-            <span class="product-tag">BKM1</span>
-            <button class="wish" type="button" data-wish="Magic — Metal Bookmark" data-price="83.60" data-label="Metal Bookmarks" aria-label="Save Magic bookmark to wishlist">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
-            </button>
-          </div>
-          <div class="product-body">
-            <p class="product-cat">Metal Bookmarks</p>
-            <h3 class="product-name">Magic</h3>
-            <p class="product-desc">Steel bookmark with a charm — tear and spill proof.</p>
-            <div class="product-foot">
-              <span class="price"><s>₹110</s>₹83.60<em>Sale</em></span>
-              <button class="btn btn--ghost btn--sm" type="button" data-add-cart="Magic — Metal Bookmark" data-price="83.60" data-label="Metal Bookmarks">Add</button>
+        <article class="product product--glass reveal" data-d="3">
+          <div class="product-media has-photo">
+            <div class="glass-panel">
+              <p class="glass-eyebrow">More to discover</p>
+              <a class="btn btn--primary btn--sm" href="products/">See more</a>
             </div>
           </div>
         </article>
       </div>
-
-      <p class="mt-3 center reveal"><a class="link" href="products/">See the whole collection <span class="arw">→</span></a></p>
     </div>
   </section>
 
   <section class="section" style="position:relative">
     <div class="scenery scenery--r"><img src="assets/img/illus-ecosystem.jpg" alt=""></div>
     <div class="wrap">
-      <div class="section-head reveal">
-        <p class="eyebrow">What Makes This Different</p>
-        <h2>One source, many mindful offerings</h2>
+      <div class="section-head section-head--center reveal">
+        <p class="eyebrow eyebrow--center">What Makes This Different</p>
+        <h2>A purchase becomes an experience</h2>
       </div>
 
-      <div class="grid grid-2" style="gap:clamp(1.5rem,3vw,2.5rem)">
+      <div class="grid grid-3" style="gap:clamp(1.5rem,3vw,2.5rem)">
         <div class="card card--lift reveal">
-          <h4>Craft and inner work under one roof</h4>
-          <p class="muted small mt-1">Most studios do one or the other. Here, the handmade
-             products and the holistic sessions come from the same place and the same
-             thinking — which is why a journal, a candle and a consultation can belong to
-             the same conversation.</p>
+          <h4>Original design</h4>
+          <p class="muted small mt-1">A distinct, signature aesthetic — low-volume and
+             exclusive.</p>
         </div>
 
         <div class="card card--lift reveal" data-d="1">
-          <h4>Made by a mother–daughter studio</h4>
-          <p class="muted small mt-1">The studio is co-created by two people, not
-             assembled by a committee. What gets made, and what gets offered, reflects
-             that directly.</p>
+          <h4>Limited edition collections</h4>
+          <p class="muted small mt-1">Small-batch collections that celebrate exclusivity
+             and the beauty of consciously made creations.</p>
         </div>
 
         <div class="card card--lift reveal" data-d="2">
-          <h4>Handcrafted in small batches</h4>
-          <p class="muted small mt-1">Candles are hand-poured in small batches; the
-             terracotta, jute and handcrafted collections are made with local artisans and
-             crafters across Bengal, whose heritage skills shape the work.</p>
+          <h4>Founder connection</h4>
+          <p class="muted small mt-1">Direct interaction builds trust and personal
+             resonance.</p>
         </div>
 
         <div class="card card--lift reveal" data-d="3">
-          <h4>Sessions led by trained facilitators</h4>
-          <p class="muted small mt-1">Group classes and workshops are guided by certified
-             practitioners, therapists and experts in their fields — chosen for expertise
-             and for how they hold a room.</p>
+          <h4>Conscious sourcing</h4>
+          <p class="muted small mt-1">Materials chosen with care for people and planet.</p>
+        </div>
+
+        <div class="card card--lift reveal" data-d="4">
+          <h4>Cross-disciplinary depth</h4>
+          <p class="muted small mt-1">Design expertise and holistic understanding in one
+             brand.</p>
         </div>
       </div>
-    </div>
-  </section>
 
-  <section class="section" style="position:relative">
-    <div class="wrap">
-      <div class="section-head section-head--center reveal">
-        <p class="eyebrow eyebrow--center">Explore Your Way</p>
-        <h2>The whole landscape, on one page</h2>
-        <p>Many paths. One intention. Countless ways to grow.</p>
-      </div>
-      <div class="illus reveal" data-d="1" style="max-width:1000px;margin-inline:auto">
-        <img src="assets/img/illus-designz-map.jpg" alt="Hand-painted watercolour map of the Shreyaah's Bliss Trails landscape, with trails leading to Personal Journeys, Collective Circles, Custom Collaborations, Products, Events, the Studio Diary and The Artisoul Tribe" loading="lazy" width="1536" height="1024">
-      </div>
-      <div class="flex flex-wrap gap-1 mt-3 reveal" data-d="2" style="justify-content:center">
-        <a class="chip" href="services/#personal">Personal Journeys</a>
-        <a class="chip" href="services/#collective">Collective Circles</a>
-        <a class="chip" href="services/#custom">Custom Collaborations</a>
-        <a class="chip" href="products/">Products</a>
-        <a class="chip" href="events/">Events</a>
-        <a class="chip" href="notice-board/#blog">Studio Diary</a>
-        <a class="chip" href="artisoul-tribe/">The Artisoul Tribe</a>
-      </div>
+      <p class="mt-3 center reveal" style="font-style:italic;max-width:56ch;margin-inline:auto">
+        Not just products. Not just services. We curate experiences that invite people to
+        pause, reflect and reconnect.</p>
     </div>
   </section>
 
@@ -466,16 +453,39 @@
       <div class="callout callout--slate reveal" style="text-align:center">
         <div class="wash wash--terra" style="width:400px;height:260px;left:-4%;top:-20%;opacity:.28"></div>
         <div style="position:relative;z-index:1;max-width:620px;margin-inline:auto">
-          <p class="eyebrow eyebrow--center" style="color:var(--ochre-light)">Where To Next</p>
-          <h2>Come and find your path</h2>
+          <p class="eyebrow eyebrow--center" style="color:var(--ochre-light)">Ready when you are</p>
+          <h2>Start your blissful journey</h2>
           <p class="mt-1">Whether that means a quiet consultation, an evening of songs with
              strangers who won't stay strangers, or a candle that makes a room feel like
-             yours — start wherever you like.</p>
+             yours.</p>
+          <p class="mt-1">However you begin, begin in your own way.</p>
           <div class="flex flex-wrap gap-1 mt-3" style="justify-content:center">
             <a class="btn btn--primary" href="services/#book" style="background:var(--ochre-light);color:var(--charcoal)">Book a Session</a>
             <a class="btn btn--ghost" href="contact/">Connect With Us</a>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="position:relative">
+    <div class="wrap">
+      <div class="section-head section-head--center reveal">
+        <p class="eyebrow eyebrow--center">Explore Your Way</p>
+        <h2>The whole landscape, on one page</h2>
+        <p>Many paths. One intention. Countless ways to grow.</p>
+      </div>
+      <div class="illus reveal" data-d="1" style="max-width:1000px;margin-inline:auto">
+        <img src="assets/img/illus-designz-map.jpg" alt="Hand-painted watercolour map of the Shreyaah's Bliss Trails landscape, with trails leading to Personal Journeys, Collective Circles, Custom Collaborations, Products, Events, the Studio Diary and The Artisoul Tribe" loading="lazy" width="1536" height="1024">
+      </div>
+      <div class="flex flex-wrap gap-1 mt-3 reveal" data-d="2" style="justify-content:center">
+        <a class="chip" href="services/#personal">Personal Journeys</a>
+        <a class="chip" href="services/#collective">Collective Circles</a>
+        <a class="chip" href="services/#custom">Custom Collaborations</a>
+        <a class="chip" href="products/">Products</a>
+        <a class="chip" href="events/">Events</a>
+        <a class="chip" href="notice-board/#blog">Studio Diary</a>
+        <a class="chip" href="artisoul-tribe/">The Artisoul Tribe</a>
       </div>
     </div>
   </section>
@@ -512,9 +522,6 @@
           </a>
           <a href="https://www.threads.net/@designzlife8" aria-label="Threads" target="_blank" rel="noopener">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M16 8.5c-.8-2-2.4-3-4.4-3C8.4 5.5 6.5 8 6.5 12s1.9 6.5 5.1 6.5c2.6 0 4.4-1.5 4.4-3.4 0-1.7-1.4-2.8-3.6-2.8-1.6 0-2.7.7-2.7 1.7 0 .8.6 1.3 1.5 1.3 1.4 0 2.3-1.2 2.3-3.1"/></svg>
-          </a>
-          <a href="https://x.com/DesignzLife8" aria-label="X" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 4h2.6l-5.7 6.5L21 20h-5.2l-4.1-5.4L6.9 20H4.3l6.1-7L3.5 4h5.4l3.7 4.9zm-.9 14.4h1.4L8.4 5.5H6.9z"/></svg>
           </a>
           <a href="https://wa.me/919836783088" aria-label="WhatsApp" target="_blank" rel="noopener">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2m0 2a8 8 0 1 1-4.1 14.9l-.3-.2-2.6.7.7-2.5-.2-.3A8 8 0 0 1 12 4m-3 4c-.2 0-.5.1-.7.3-.3.3-.8.8-.8 1.8s.8 2 .9 2.2c.1.1 1.5 2.4 3.7 3.3 1.9.7 2.3.6 2.7.6.5 0 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1l-.6-.3-1.4-.7c-.2-.1-.4-.1-.5.1l-.7.9c-.1.2-.3.2-.5.1a6 6 0 0 1-1.8-1.1 7 7 0 0 1-1.2-1.6c-.1-.2 0-.3.1-.4l.4-.5.2-.4v-.4L9.6 8.4C9.4 8 9.2 8 9 8"/></svg>
@@ -557,8 +564,8 @@
           <li><a href="contact/#corporate">Corporate &amp; collaboration</a></li>
         </ul>
         <p class="tiny" style="color:rgba(232,223,207,.42);margin-top:1rem;max-width:30ch">
-          Designz Life Studio, Santoshpur Avenue, opposite Modern View Apartments,
-          Rani Rashmoni Bagan, Santoshpur, Kolkata, West Bengal.
+          Shefali Studio, 97, Santoshpur Avenue,<br>
+          Kolkata, 700075, West Bengal, India.
         </p>
       </div>
     </div>
