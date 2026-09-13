@@ -1,0 +1,18 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <g fill="none" stroke="#2B3A44" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <!-- jar body -->
+    <path d="M68 88 C64 88 60 92 60 97 L60 158 C60 168 70 176 100 176 C130 176 140 168 140 158 L140 97 C140 92 136 88 132 88 Z" fill="#FBF5E9"/>
+    <!-- jar lid -->
+    <path d="M64 88 L136 88 L136 76 C136 72 132 70 128 70 L72 70 C68 70 64 72 64 76 Z" fill="#F1E4CE"/>
+    <path d="M62 82 L138 82" stroke="#2B3A44" stroke-width="1.6"/>
+    <!-- rolled notes peeking out -->
+    <rect x="78" y="46" width="10" height="30" rx="4" fill="#FBF5E9" transform="rotate(-8 83 61)"/>
+    <rect x="96" y="40" width="10" height="34" rx="4" fill="#FBF5E9" transform="rotate(4 101 57)"/>
+    <rect x="114" y="48" width="10" height="28" rx="4" fill="#FBF5E9" transform="rotate(12 119 62)"/>
+  </g>
+  <!-- ribbon tie -->
+  <path d="M78 108 C90 100 110 100 122 108" stroke="#DA8A67" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M96 106 L92 118 L100 114 L108 118 L104 106" fill="#DA8A67" stroke="#DA8A67" stroke-width="1"/>
+  <!-- little heart charm on ribbon -->
+  <path d="M100 130 c-3 -4 -9 -4 -9 1 c0 4 5 7 9 10 c4 -3 9 -6 9 -10 c0 -5 -6 -5 -9 -1z" fill="#C79A3E"/>
+</svg>

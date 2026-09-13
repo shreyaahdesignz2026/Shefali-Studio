@@ -1,0 +1,22 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <g fill="none" stroke="#2B3A44" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <!-- open journal -->
+    <path d="M100 62 C86 52 62 48 40 52 L40 148 C62 144 86 148 100 158 C114 148 138 144 160 148 L160 52 C138 48 114 52 100 62 Z" fill="#FBF5E9"/>
+    <path d="M100 62 L100 158" stroke-dasharray="1 6"/>
+    <path d="M50 68 C64 65 78 66 88 72" stroke="#5A8CA1" stroke-width="1.6"/>
+    <path d="M50 84 C64 81 78 82 88 88" stroke="#5A8CA1" stroke-width="1.6"/>
+    <path d="M50 100 C64 97 78 98 84 103" stroke="#5A8CA1" stroke-width="1.6"/>
+    <path d="M112 72 C122 66 136 65 150 68" stroke="#5A8CA1" stroke-width="1.6"/>
+    <path d="M112 88 C122 82 136 81 150 84" stroke="#5A8CA1" stroke-width="1.6"/>
+    <path d="M116 103 C124 98 136 97 150 100" stroke="#5A8CA1" stroke-width="1.6"/>
+  </g>
+  <!-- ribbon bookmark -->
+  <path d="M96 48 L96 76 L100 70 L104 76 L104 48 Z" fill="#DA8A67" stroke="#DA8A67" stroke-width="1"/>
+  <!-- little sprig flourish -->
+  <g fill="none" stroke="#C79A3E" stroke-width="1.6" stroke-linecap="round">
+    <path d="M150 150 C154 138 152 128 144 120"/>
+    <path d="M144 120 C148 126 148 132 144 136"/>
+    <path d="M144 120 C140 126 140 130 143 134"/>
+    <circle cx="144" cy="118" r="2" fill="#C79A3E"/>
+  </g>
+</svg>

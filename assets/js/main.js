@@ -8,13 +8,11 @@
 
   var loader = $('#loader');
   if (loader) {
-    doc.body.classList.add('is-loading');
     var loaderHidden = false;
     var hideLoader = function () {
       if (loaderHidden) return;
       loaderHidden = true;
       loader.classList.add('is-leaving');
-      doc.body.classList.remove('is-loading');
       setTimeout(function () { loader.classList.add('is-hidden'); }, 1150);
     };
     if (doc.readyState === 'complete') {

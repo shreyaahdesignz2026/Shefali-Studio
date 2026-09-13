@@ -95,7 +95,6 @@ body {
   line-height: 1.72;
   color: var(--text);
   background: transparent;
-  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -109,7 +108,16 @@ a { color: inherit; }
   inset: 0;
   z-index: 9999;
 }
-body.is-loading { overflow: hidden; }
+/* NOTE on the header-disappears-on-scroll bug: this full-viewport `position: fixed`
+   loader, sitting alongside .site-header's `position: sticky`, is what triggers it —
+   but only because `body` used to also declare `overflow-x: hidden` (redundant with
+   the same rule on `html`) and toggle `overflow: hidden` on it while the loader is
+   up. Either one puts html and body in an ambiguous dual-scroll-container state;
+   combined with a fixed, inset:0 sibling anywhere in the page, it permanently breaks
+   the header's stickiness for the rest of that page load. Removing `overflow-x:
+   hidden` from `body` (kept on `html`, which alone already clips horizontal
+   overflow) and not toggling `overflow` on body during loading fixes it — the loader
+   already covers the full viewport, so scroll can stay free while it's up. */
 .loader-panel {
   position: absolute;
   inset: 0;
@@ -1057,6 +1065,29 @@ body.no-scroll { overflow: hidden; }
 .product:hover .product-media::after { transform: translate(-50%,-50%) scale(1.06); opacity: .38; }
 .product-media.has-photo::before,
 .product-media.has-photo::after { display: none; }
+
+.product--glass .product-media {
+  aspect-ratio: auto;
+  flex: 1;
+  background-image: url('../img/illus-little-treasures.jpg');
+  background-size: cover;
+  background-position: center;
+}
+.product--glass .glass-panel {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: .9rem;
+  text-align: center;
+  padding: 1.5rem;
+  background: rgba(237,226,205,.4);
+  backdrop-filter: blur(7px) saturate(1.2);
+  -webkit-backdrop-filter: blur(7px) saturate(1.2);
+}
+.glass-eyebrow { font-family: var(--serif); font-style: italic; font-size: 1.1rem; color: var(--slate); }
 
 .product-slider { position: absolute; inset: 0; z-index: 1; }
 .product-slider .slide { position: absolute; inset: 0; opacity: 0; transition: opacity .35s var(--ease); }
