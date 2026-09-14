@@ -450,7 +450,7 @@ p:last-child { margin-bottom: 0; }
   color: var(--ochre-light);
   opacity: .6;
 }
-.grid-cross-motif svg { width: clamp(28px, 3vw, 40px); height: auto; }
+.grid-cross-motif svg { width: clamp(56px, 6vw, 80px); height: auto; }
 @media (min-width: 601px) {
   .grid-cross > :nth-child(1) { grid-column: 1; grid-row: 1; }
   .grid-cross > :nth-child(2) { grid-column: 3; grid-row: 1; }
