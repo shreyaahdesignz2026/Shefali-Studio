@@ -491,8 +491,14 @@ p:last-child { margin-bottom: 0; }
   mix-blend-mode: multiply;
 }
 .illus--soft-edge img {
-  -webkit-mask-image: radial-gradient(ellipse 78% 82% at 50% 50%, #000 58%, transparent 100%);
-  mask-image: radial-gradient(ellipse 78% 82% at 50% 50%, #000 58%, transparent 100%);
+  -webkit-mask-image:
+    linear-gradient(to right, transparent, #000 12%, #000 88%, transparent),
+    linear-gradient(to bottom, transparent, #000 12%, #000 88%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to right, transparent, #000 12%, #000 88%, transparent),
+    linear-gradient(to bottom, transparent, #000 12%, #000 88%, transparent);
+  mask-composite: intersect;
 }
 .illus--enlarged { width: 150%; }
 
