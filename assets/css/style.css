@@ -417,6 +417,26 @@ p:last-child { margin-bottom: 0; }
 .card--tilt-r { transform: rotate(.28deg); }
 .card--tilt-l:hover, .card--tilt-r:hover { transform: translateY(-4px) rotate(0deg); }
 
+.testimonial-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 1rem;
+}
+.testimonial-quote {
+  font-family: var(--serif2);
+  font-style: italic;
+  color: var(--text-soft);
+  margin-bottom: .9rem;
+}
+.testimonial-name {
+  font-size: .84rem;
+  font-weight: 600;
+  letter-spacing: .04em;
+  color: var(--slate);
+}
+
 .grid { display: grid; gap: clamp(1.25rem, 2.4vw, 2rem); }
 .grid-2 { grid-template-columns: repeat(2, 1fr); }
 .grid-3 { grid-template-columns: repeat(3, 1fr); }
